@@ -1,0 +1,7 @@
+_build/
+buildOut/
+*.install
+.merlin
+
+.vscode
+*.code-workspace
