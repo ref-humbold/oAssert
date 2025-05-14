@@ -1,4 +1,4 @@
-open Internals.Assert
+open Internals.Common
 module F = Stdlib.Float
 
 let nan =

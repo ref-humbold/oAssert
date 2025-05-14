@@ -1,4 +1,4 @@
-open Internals.Assert
+open Internals.Common
 module I = Stdlib.Int
 
 let zero =
@@ -23,8 +23,7 @@ let equal_to expected =
   Assertion
     (fun actual ->
        { is_success = expected = actual;
-         message =
-           Equality {expected_str = Printf.sprintf "%d" expected; actual_str = string_of_int actual}
+         message = Equality {expected_str = string_of_int expected; actual_str = string_of_int actual}
        } )
 
 let greater_than expected =

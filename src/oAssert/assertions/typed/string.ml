@@ -1,4 +1,4 @@
-open Internals.Assert
+open Internals.Common
 module S = Stdlib.String
 
 let empty =
