@@ -1,0 +1,11 @@
+(library
+ (name oAssert)
+ (public_name oAssert)
+ (modes native byte))
+
+(env
+ (dev
+  (flags
+   (:standard -warn-error -A -w +A-70))))
+
+(include_subdirs qualified)
