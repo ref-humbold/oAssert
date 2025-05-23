@@ -5,6 +5,7 @@ module Is = struct
   include Assertions.Specific
 end
 
+module Satisfies = Assertions.Satisfies
 module Type = Type
 
 exception Assertion_failed of string
