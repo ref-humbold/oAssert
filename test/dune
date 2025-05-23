@@ -1,0 +1,8 @@
+(tests
+ (names assert_fail_test bool_test exceptions_test)
+ (libraries oUnit oAssert))
+
+(env
+ (dev
+  (flags
+   (:standard -warn-error -A -w +A-70))))
