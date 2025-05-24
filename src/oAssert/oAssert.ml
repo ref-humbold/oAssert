@@ -1,7 +1,8 @@
 open Internals
 
 module Is = struct
-  include Assertions.General
+  include Assertions.Common
+  include Assertions.Generic
   include Assertions.Specific
 end
 

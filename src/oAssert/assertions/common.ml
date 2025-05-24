@@ -1,5 +1,4 @@
 open Internals
-open Type_assert
 
 let true_ =
   Assertion
@@ -35,16 +34,3 @@ let raising_nothing =
     (fun action ->
        let raised = get_raised_exception action in
        build_assertion (Option.is_none raised) (Raising {expected = Nothing; actual = raised}) )
-
-module Type (T : TYPE) : TYPE_ASSERT with type t = T.t = struct
-  type t = T.t
-
-  let equal_to expected =
-    Assertion
-      (fun actual ->
-         build_assertion
-           (expected = actual)
-           (Equality
-              {expected_str = T.to_string expected; actual_str = T.to_string actual; negated = false}
-           ) )
-end

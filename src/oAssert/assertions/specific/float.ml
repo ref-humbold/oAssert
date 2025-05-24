@@ -16,7 +16,7 @@ let zero =
   Assertion
     (fun actual ->
        build_assertion
-         (actual = 0.0)
+         (FT.equal 0.0 actual)
          (Equality {expected_str = "zero"; actual_str = FT.to_string actual; negated = false}) )
 
 let positive =

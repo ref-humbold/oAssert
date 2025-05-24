@@ -1,11 +1,10 @@
 open Internals
-open Type_assert
 
 open struct
   module Opt = Stdlib.Option
 end
 
-module Of (T : TYPE) : Helpers.OPTION_ASSERT with type elem = T.t = struct
+module Of (T : Type.TYPE) : Helpers.OPTION_ASSERT with type elem = T.t = struct
   type elem = T.t
 
   let none =
@@ -23,7 +22,7 @@ module Of (T : TYPE) : Helpers.OPTION_ASSERT with type elem = T.t = struct
       (fun actual ->
          build_assertion
            ( match actual with
-             | Some a -> a = value
+             | Some x -> x = value
              | None -> false )
            (Equality
               { expected_str = Helpers.string_of T.to_string (Some value);

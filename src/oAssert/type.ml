@@ -4,22 +4,18 @@ module type TYPE = sig
   val to_string : t -> string
 end
 
-module Int : TYPE with type t = int = struct
-  type t = int
+module type EQUATABLE_TYPE = sig
+  include TYPE
 
-  let to_string = string_of_int
+  val equal : t -> t -> bool
 end
 
-module Float : TYPE with type t = float = struct
-  type t = float
+module Int : EQUATABLE_TYPE with type t = int = Stdlib.Int
 
-  let to_string = string_of_float
-end
+module Float : EQUATABLE_TYPE with type t = float = Stdlib.Float
 
-module String : TYPE with type t = string = struct
-  open Stdlib.String
+module String : EQUATABLE_TYPE with type t = string = struct
+  include Stdlib.String
 
-  type t = string
-
-  let to_string s = Printf.sprintf "\"%s\"" @@ escaped s
+  let to_string s = Printf.sprintf "\"%s\"" @@ Stdlib.String.escaped s
 end

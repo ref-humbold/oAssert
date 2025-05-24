@@ -8,7 +8,7 @@ let zero =
   Assertion
     (fun actual ->
        build_assertion
-         (actual = 0)
+         (IT.equal 0 actual)
          (Equality {expected_str = "zero"; actual_str = IT.to_string actual; negated = false}) )
 
 let positive =
@@ -29,7 +29,7 @@ let equal_to expected =
   Assertion
     (fun actual ->
        build_assertion
-         (expected = actual)
+         (IT.equal expected actual)
          (Equality
             {expected_str = IT.to_string expected; actual_str = IT.to_string actual; negated = false}
          ) )

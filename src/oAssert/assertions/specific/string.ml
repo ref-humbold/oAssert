@@ -9,7 +9,7 @@ let empty =
   Assertion
     (fun actual ->
        build_assertion
-         (S.equal actual "")
+         (ST.equal actual "")
          (Equality {expected_str = "empty string"; actual_str = ST.to_string actual; negated = false}) )
 
 let of_length length =
@@ -27,7 +27,7 @@ let equal expected =
   Assertion
     (fun actual ->
        build_assertion
-         (S.equal expected actual)
+         (ST.equal expected actual)
          (Equality
             {expected_str = ST.to_string expected; actual_str = ST.to_string actual; negated = false}
          ) )

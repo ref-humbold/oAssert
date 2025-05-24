@@ -1,11 +1,10 @@
 open Internals
-open Type_assert
 
 open struct
   module L = Stdlib.List
 end
 
-module Of (T : TYPE) : Helpers.LIST_ASSERT with type elem = T.t = struct
+module Of (T : Type.TYPE) : Helpers.LIST_ASSERT with type elem = T.t = struct
   type elem = T.t
 
   let empty =
