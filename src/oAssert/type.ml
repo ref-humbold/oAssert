@@ -10,12 +10,32 @@ module type EQUATABLE_TYPE = sig
   val equal : t -> t -> bool
 end
 
-module Int : EQUATABLE_TYPE with type t = int = Stdlib.Int
+module type COMPARABLE_TYPE = sig
+  include EQUATABLE_TYPE
 
-module Float : EQUATABLE_TYPE with type t = float = Stdlib.Float
+  val compare : t -> t -> int
+end
 
-module String : EQUATABLE_TYPE with type t = string = struct
+module AsEquatable (T : TYPE) : EQUATABLE_TYPE with type t = T.t = struct
+  include T
+
+  let equal = ( = )
+end
+
+module AsComparable (T : TYPE) : COMPARABLE_TYPE with type t = T.t = struct
+  include T
+
+  let equal = ( = )
+
+  let compare = Stdlib.compare
+end
+
+module Int : COMPARABLE_TYPE with type t = int = Stdlib.Int
+
+module Float : COMPARABLE_TYPE with type t = float = Stdlib.Float
+
+module String : COMPARABLE_TYPE with type t = string = struct
   include Stdlib.String
 
-  let to_string s = Printf.sprintf "\"%s\"" @@ Stdlib.String.escaped s
+  let to_string s = s
 end

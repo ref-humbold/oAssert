@@ -6,6 +6,7 @@ module Is = struct
   include Assertions.Specific
 end
 
+include Assertions.Constants
 module Satisfies = Assertions.Satisfies
 module Type = Type
 

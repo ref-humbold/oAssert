@@ -1,4 +1,5 @@
 open Internals
+open Constants
 
 open struct
   module IT = Type.Int
@@ -74,23 +75,27 @@ let less_than_or_equal_to expected =
               description = Printf.sprintf "be less than or equal to %d" expected;
               negated = false } ) )
 
-let between start_inclusive end_inclusive =
+let between ?(mode = ClosedClosed) minimum maximum =
+  let min_mode, max_mode =
+    match mode with
+    | ClosedClosed -> ("inclusive", "inclusive")
+    | OpenOpen -> ("exclusive", "exclusive")
+    | OpenClosed -> ("exclusive", "inclusive")
+    | ClosedOpen -> ("inclusive", "exclusive")
+  in
+  let comparison actual =
+    match mode with
+    | ClosedClosed -> minimum <= actual && actual <= maximum
+    | OpenOpen -> minimum < actual && actual < maximum
+    | OpenClosed -> minimum < actual && actual <= maximum
+    | ClosedOpen -> minimum <= actual && actual < maximum
+  in
   Assertion
     (fun actual ->
        build_assertion
-         (start_inclusive <= actual && actual <= end_inclusive)
-         (Condition
-            { actual_str = IT.to_string actual;
-              description = Printf.sprintf "be between %d and %d" start_inclusive end_inclusive;
-              negated = false } ) )
-
-let strictly_between start_exclusive end_exclusive =
-  Assertion
-    (fun actual ->
-       build_assertion
-         (start_exclusive < actual && actual < end_exclusive)
+         (comparison actual)
          (Condition
             { actual_str = IT.to_string actual;
               description =
-                Printf.sprintf "be strictly between %d and %d" start_exclusive end_exclusive;
+                Printf.sprintf "be between %d (%s) and %d (%s)" minimum min_mode maximum max_mode;
               negated = false } ) )
