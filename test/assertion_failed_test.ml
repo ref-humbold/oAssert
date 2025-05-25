@@ -3,7 +3,7 @@ open OUnit2
 open OAssert
 
 let assertion_failed__then_failed =
-  "assertion_failed__then_failed" >:: fun _ ->
+  __FUNCTION__ >:: fun _ ->
     (* given *)
     let message = "Custom failure message" in
     (* when *)

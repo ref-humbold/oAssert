@@ -5,14 +5,14 @@ open OAssert
 (* is_true_Test_list *)
 
 let is_true__when_actual_is_true__then_passed =
-  "is_true__when_actual_is_true__then_passed" >:: fun _ ->
+  __FUNCTION__ >:: fun _ ->
     (* when *)
     let action () = assert_that true Is.true_ in
     (* then *)
     assert_that action Is.raising_nothing
 
 let is_true__when_actual_is_false__then_failed =
-  "is_true__when_actual_is_false__then_failed" >:: fun _ ->
+  __FUNCTION__ >:: fun _ ->
     (* when *)
     let action () = assert_that false Is.true_ in
     (* then *)
@@ -24,14 +24,14 @@ let is_true_Test_list =
 (* not_is_true_Test_list *)
 
 let not_is_true__when_actual_is_true__then_failed =
-  "not_is_true__when_actual_is_true__then_failed" >:: fun _ ->
+  __FUNCTION__ >:: fun _ ->
     (* when *)
     let action () = assert_that true @@ Satisfies.not Is.true_ in
     (* then *)
     assert_that action @@ Is.raising (Assertion_failed "Expected value different than true")
 
 let not_is_true__when_actual_is_false__then_passed =
-  "not_is_true__when_actual_is_false__then_passed" >:: fun _ ->
+  __FUNCTION__ >:: fun _ ->
     (* when *)
     let action () = assert_that false @@ Satisfies.not Is.true_ in
     (* then *)
@@ -44,14 +44,14 @@ let not_is_true_Test_list =
 (* is_false_Test_list *)
 
 let is_false__when_actual_is_false__then_passed =
-  "is_false__when_actual_is_false__then_passed" >:: fun _ ->
+  __FUNCTION__ >:: fun _ ->
     (* when *)
     let action () = assert_that false Is.false_ in
     (* then *)
     assert_that action Is.raising_nothing
 
 let is_false__when_actual_is_true__then_failed =
-  "is_false__when_actual_is_true__then_failed" >:: fun _ ->
+  __FUNCTION__ >:: fun _ ->
     (* when *)
     let action () = assert_that true Is.false_ in
     (* then *)
@@ -63,14 +63,14 @@ let is_false_Test_list =
 (* not_is_false_Test_list *)
 
 let not_is_false__when_actual_is_false__then_failed =
-  "not_is_false__when_actual_is_false__then_passed" >:: fun _ ->
+  __FUNCTION__ >:: fun _ ->
     (* when *)
     let action () = assert_that false @@ Satisfies.not Is.false_ in
     (* then *)
     assert_that action @@ Is.raising (Assertion_failed "Expected value different than false")
 
 let not_is_false__when_actual_is_true__then_passed =
-  "not_is_false__when_actual_is_true__then_failed" >:: fun _ ->
+  __FUNCTION__ >:: fun _ ->
     (* when *)
     let action () = assert_that true @@ Satisfies.not Is.false_ in
     (* then *)
