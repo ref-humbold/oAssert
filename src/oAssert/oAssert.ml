@@ -8,7 +8,7 @@ end
 
 include Assertions.Constants
 module Satisfies = Assertions.Satisfies
-module Type = Type
+module Values = Values
 
 exception Assertion_failed of string
 

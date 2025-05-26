@@ -4,8 +4,8 @@ open struct
   module L = Stdlib.List
 end
 
-module Of (T : Type.TYPE) : Helpers.LIST_ASSERT with type elem = T.t = struct
-  type elem = T.t
+module Of (V : Values.VALUE) : Helpers.LIST_ASSERT with type elem = V.t = struct
+  type elem = V.t
 
   let empty =
     Assertion
@@ -16,7 +16,7 @@ module Of (T : Type.TYPE) : Helpers.LIST_ASSERT with type elem = T.t = struct
              | _ -> false )
            (Equality
               { expected_str = "empty list";
-                actual_str = Helpers.string_of T.to_string actual;
+                actual_str = Helpers.string_of V.to_string actual;
                 negated = false } ) )
 
   let of_length length =
@@ -36,8 +36,8 @@ module Of (T : Type.TYPE) : Helpers.LIST_ASSERT with type elem = T.t = struct
          build_assertion
            (expected = actual)
            (Equality
-              { expected_str = Helpers.string_of T.to_string expected;
-                actual_str = Helpers.string_of T.to_string actual;
+              { expected_str = Helpers.string_of V.to_string expected;
+                actual_str = Helpers.string_of V.to_string actual;
                 negated = false } ) )
 
   let containing element =
@@ -46,7 +46,7 @@ module Of (T : Type.TYPE) : Helpers.LIST_ASSERT with type elem = T.t = struct
          build_assertion
            (L.mem element actual)
            (Condition
-              { actual_str = Helpers.string_of T.to_string actual;
-                description = Printf.sprintf "contain %s" @@ T.to_string element;
+              { actual_str = Helpers.string_of V.to_string actual;
+                description = Printf.sprintf "contain %s" @@ V.to_string element;
                 negated = false } ) )
 end

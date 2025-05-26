@@ -3,7 +3,7 @@ open Constants
 
 open struct
   module F = Stdlib.Float
-  module FT = Type.Float
+  module FT = Values.Float
 end
 
 let nan =

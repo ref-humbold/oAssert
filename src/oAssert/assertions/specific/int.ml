@@ -2,7 +2,7 @@ open Internals
 open Constants
 
 open struct
-  module IT = Type.Int
+  module IT = Values.Int
 end
 
 let zero =

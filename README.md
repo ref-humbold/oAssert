@@ -1,2 +1,2 @@
 # oAssert
-Assertions library for OCaml
+Fluent assertions library for OCaml

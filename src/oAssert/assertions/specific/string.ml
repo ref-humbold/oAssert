@@ -2,7 +2,7 @@ open Internals
 
 open struct
   module S = Stdlib.String
-  module ST = Type.String
+  module ST = Values.String
 end
 
 let empty =

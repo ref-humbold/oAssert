@@ -4,8 +4,9 @@ open struct
   module Opt = Stdlib.Option
 end
 
-module Of (T : Type.TYPE) : Helpers.OPTION_ASSERT with type elem = T.t = struct
-  type elem = T.t
+module OfEquatable (V : Values.EQUATABLE_VALUE) : Helpers.OPTION_ASSERT with type elem = V.t =
+struct
+  type elem = V.t
 
   let none =
     Assertion
@@ -14,7 +15,7 @@ module Of (T : Type.TYPE) : Helpers.OPTION_ASSERT with type elem = T.t = struct
            (Opt.is_none actual)
            (Equality
               { expected_str = "None";
-                actual_str = Helpers.string_of T.to_string actual;
+                actual_str = Helpers.string_of V.to_string actual;
                 negated = false } ) )
 
   let some value =
@@ -22,10 +23,13 @@ module Of (T : Type.TYPE) : Helpers.OPTION_ASSERT with type elem = T.t = struct
       (fun actual ->
          build_assertion
            ( match actual with
-             | Some x -> x = value
+             | Some x -> V.equal x value
              | None -> false )
            (Equality
-              { expected_str = Helpers.string_of T.to_string (Some value);
-                actual_str = Helpers.string_of T.to_string actual;
+              { expected_str = Helpers.string_of V.to_string (Some value);
+                actual_str = Helpers.string_of V.to_string actual;
                 negated = false } ) )
 end
+
+module Of (V : Values.VALUE) : Helpers.OPTION_ASSERT with type elem = V.t =
+  OfEquatable (Values.AsEquatable (V))
