@@ -1,5 +1,10 @@
 (tests
- (names assertion_failed_test bool_test exceptions_test option_test)
+ (names
+  assertion_failed_test
+  bool_test
+  exceptions_test
+  option_test
+  string_test)
  (libraries oUnit oAssert))
 
 (env
