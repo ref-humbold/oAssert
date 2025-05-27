@@ -15,6 +15,6 @@ let assertion_failed_Test_list = test_list [assertion_failed__then_failed]
 
 (* assertion_failed_Test *)
 
-let assertion_failed_Test = "Tests: Assertion failed" >::: [assertion_failed_Test_list]
+let assertion_failed_Test = __MODULE__ >::: [assertion_failed_Test_list]
 
 let _ = run_test_tt_main assertion_failed_Test

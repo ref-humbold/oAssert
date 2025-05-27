@@ -234,7 +234,7 @@ let not_is_some_Test_list =
 (* option_Test *)
 
 let option_Test =
-  "Tests: Option assertions"
+  __MODULE__
   >::: [is_none_Test_list; not_is_none_Test_list; is_some_Test_list; not_is_some_Test_list]
 
 let _ = run_test_tt_main option_Test

@@ -178,7 +178,7 @@ let not_is_raising_Test_list =
 (* exception_Test *)
 
 let exceptions_Test =
-  "Tests: Exceptions assertions"
+  __MODULE__
   >::: [ is_raising_nothing_Test_list;
          not_is_raising_nothing_Test_list;
          is_raising_Test_list;

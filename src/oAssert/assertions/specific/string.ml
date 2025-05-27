@@ -15,11 +15,10 @@ let empty =
 let of_length length =
   Assertion
     (fun actual ->
-       let actual_length = S.length actual in
        build_assertion
-         (actual_length = length)
+         (length = S.length actual)
          (Condition
-            { actual_str = string_of_int actual_length;
+            { actual_str = ST.to_string actual;
               description = Printf.sprintf "have length %d" length;
               negated = false } ) )
 
