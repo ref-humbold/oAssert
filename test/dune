@@ -3,6 +3,8 @@
   assertion_failed_test
   bool_test
   exceptions_test
+  float_test
+  int_test
   option_test
   string_test)
  (libraries oUnit oAssert))

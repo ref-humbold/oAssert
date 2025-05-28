@@ -10,7 +10,7 @@ let zero =
     (fun actual ->
        build_assertion
          (IT.equal 0 actual)
-         (Equality {expected_str = "zero"; actual_str = IT.to_string actual; negated = false}) )
+         (Equality {expected_str = IT.to_string 0; actual_str = IT.to_string actual; negated = false}) )
 
 let positive =
   Assertion
@@ -42,7 +42,7 @@ let greater_than expected =
          (actual > expected)
          (Condition
             { actual_str = IT.to_string actual;
-              description = Printf.sprintf "be greater than %d" expected;
+              description = Printf.sprintf "be greater than %s" (IT.to_string expected);
               negated = false } ) )
 
 let greater_than_or_equal_to expected =
@@ -52,7 +52,7 @@ let greater_than_or_equal_to expected =
          (actual >= expected)
          (Condition
             { actual_str = IT.to_string actual;
-              description = Printf.sprintf "be greater than or equal to %d" expected;
+              description = Printf.sprintf "be greater than or equal to %s" (IT.to_string expected);
               negated = false } ) )
 
 let less_than expected =
@@ -62,7 +62,7 @@ let less_than expected =
          (actual < expected)
          (Condition
             { actual_str = IT.to_string actual;
-              description = Printf.sprintf "be less than %d" expected;
+              description = Printf.sprintf "be less than %s" (IT.to_string expected);
               negated = false } ) )
 
 let less_than_or_equal_to expected =
@@ -72,7 +72,7 @@ let less_than_or_equal_to expected =
          (actual <= expected)
          (Condition
             { actual_str = IT.to_string actual;
-              description = Printf.sprintf "be less than or equal to %d" expected;
+              description = Printf.sprintf "be less than or equal to %s" (IT.to_string expected);
               negated = false } ) )
 
 let between ?(mode = ClosedClosed) minimum maximum =
@@ -97,5 +97,10 @@ let between ?(mode = ClosedClosed) minimum maximum =
          (Condition
             { actual_str = IT.to_string actual;
               description =
-                Printf.sprintf "be between %d (%s) and %d (%s)" minimum min_mode maximum max_mode;
+                Printf.sprintf
+                  "be between %s (%s) and %s (%s)"
+                  (IT.to_string minimum)
+                  min_mode
+                  (IT.to_string maximum)
+                  max_mode;
               negated = false } ) )

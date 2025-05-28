@@ -11,14 +11,16 @@ let nan =
     (fun actual ->
        build_assertion
          (F.is_nan actual)
-         (Equality {expected_str = "NaN"; actual_str = FT.to_string actual; negated = false}) )
+         (Equality
+            {expected_str = FT.to_string nan; actual_str = FT.to_string actual; negated = false} ) )
 
 let zero =
   Assertion
     (fun actual ->
        build_assertion
          (FT.equal 0.0 actual)
-         (Equality {expected_str = "zero"; actual_str = FT.to_string actual; negated = false}) )
+         (Equality
+            {expected_str = FT.to_string 0.0; actual_str = FT.to_string actual; negated = false} ) )
 
 let positive =
   Assertion
@@ -53,7 +55,11 @@ let close_to expected ~diff =
            (abs_float (expected -. actual) <= diff)
            (Condition
               { actual_str = FT.to_string actual;
-                description = Printf.sprintf "be close to %.12g with a margin of %.12g" expected diff;
+                description =
+                  Printf.sprintf
+                    "be close to %s with difference %s"
+                    (FT.to_string expected)
+                    (FT.to_string diff);
                 negated = false } ) )
 
 let greater_than expected =
@@ -63,7 +69,7 @@ let greater_than expected =
          (actual > expected)
          (Condition
             { actual_str = FT.to_string actual;
-              description = Printf.sprintf "be greater than %.12g" expected;
+              description = Printf.sprintf "be greater than %s" (FT.to_string expected);
               negated = false } ) )
 
 let greater_than_or_equal_to expected =
@@ -73,7 +79,7 @@ let greater_than_or_equal_to expected =
          (actual >= expected)
          (Condition
             { actual_str = FT.to_string actual;
-              description = Printf.sprintf "be greater than or equal to %.12g" expected;
+              description = Printf.sprintf "be greater than or equal to %s" (FT.to_string expected);
               negated = false } ) )
 
 let less_than expected =
@@ -83,7 +89,7 @@ let less_than expected =
          (actual < expected)
          (Condition
             { actual_str = FT.to_string actual;
-              description = Printf.sprintf "be less than %.12g" expected;
+              description = Printf.sprintf "be less than %s" (FT.to_string expected);
               negated = false } ) )
 
 let less_than_or_equal_to expected =
@@ -93,7 +99,7 @@ let less_than_or_equal_to expected =
          (actual <= expected)
          (Condition
             { actual_str = FT.to_string actual;
-              description = Printf.sprintf "be less than or equal to %.12g" expected;
+              description = Printf.sprintf "be less than or equal to %s" (FT.to_string expected);
               negated = false } ) )
 
 let between ?(mode = ClosedClosed) minimum maximum =
@@ -119,9 +125,9 @@ let between ?(mode = ClosedClosed) minimum maximum =
             { actual_str = FT.to_string actual;
               description =
                 Printf.sprintf
-                  "be between %.12g (%s) and %.12g (%s)"
-                  minimum
+                  "be between %s (%s) and %s (%s)"
+                  (FT.to_string minimum)
                   min_mode
-                  maximum
+                  (FT.to_string maximum)
                   max_mode;
               negated = false } ) )
