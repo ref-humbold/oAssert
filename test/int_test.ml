@@ -233,6 +233,320 @@ let not_is_equal_to_Test_list =
     [ not_is_equal_to__when_actual_is_same__then_failed;
       not_is_equal_to__when_actual_is_different__then_passed ]
 
+(* is_greater_than_Test_list *)
+
+let is_greater_than__when_actual_greater__then_passed =
+  __FUNCTION__ >:: fun _ ->
+    (* given *)
+    let value1 = 10 and value2 = 123 in
+    (* when *)
+    let exec () = assert_that value2 @@ Is.Int.greater_than value1 in
+    (* then *)
+    assert_that exec @@ Is.raising_nothing
+
+let is_greater_than__when_actual_equal__then_failed =
+  __FUNCTION__ >:: fun _ ->
+    (* given *)
+    let value = 10 in
+    (* when *)
+    let exec () = assert_that value @@ Is.Int.greater_than value in
+    (* then *)
+    let expected =
+      Assertion_failed (Printf.sprintf "Expected %d to be greater than %d" value value)
+    in
+    assert_that exec @@ Is.raising expected
+
+let is_greater_than__when_actual_less__then_failed =
+  __FUNCTION__ >:: fun _ ->
+    (* given *)
+    let value1 = 10 and value2 = 123 in
+    (* when *)
+    let exec () = assert_that value1 @@ Is.Int.greater_than value2 in
+    (* then *)
+    let expected =
+      Assertion_failed (Printf.sprintf "Expected %d to be greater than %d" value1 value2)
+    in
+    assert_that exec @@ Is.raising expected
+
+let is_greater_than_Test_list =
+  test_list
+    [ is_greater_than__when_actual_greater__then_passed;
+      is_greater_than__when_actual_equal__then_failed;
+      is_greater_than__when_actual_less__then_failed ]
+
+(* not_is_greater_than_Test_list *)
+
+let not_is_greater_than__when_actual_greater__then_failed =
+  __FUNCTION__ >:: fun _ ->
+    (* given *)
+    let value1 = 10 and value2 = 123 in
+    (* when *)
+    let exec () = assert_that value2 @@ Satisfies.not @@ Is.Int.greater_than value1 in
+    (* then *)
+    let expected =
+      Assertion_failed (Printf.sprintf "Expected %d not to be greater than %d" value2 value1)
+    in
+    assert_that exec @@ Is.raising expected
+
+let not_is_greater_than__when_actual_equal__then_passed =
+  __FUNCTION__ >:: fun _ ->
+    (* given *)
+    let value = 10 in
+    (* when *)
+    let exec () = assert_that value @@ Satisfies.not @@ Is.Int.greater_than value in
+    (* then *)
+    assert_that exec @@ Is.raising_nothing
+
+let not_is_greater_than__when_actual_less__then_passed =
+  __FUNCTION__ >:: fun _ ->
+    (* given *)
+    let value1 = 10 and value2 = 123 in
+    (* when *)
+    let exec () = assert_that value1 @@ Satisfies.not @@ Is.Int.greater_than value2 in
+    (* then *)
+    assert_that exec @@ Is.raising_nothing
+
+let not_is_greater_than_Test_list =
+  test_list
+    [ not_is_greater_than__when_actual_greater__then_failed;
+      not_is_greater_than__when_actual_equal__then_passed;
+      not_is_greater_than__when_actual_less__then_passed ]
+
+(* is_greater_than_or_equal_to_Test_list *)
+
+let is_greater_than_or_equal_to__when_actual_greater__then_passed =
+  __FUNCTION__ >:: fun _ ->
+    (* given *)
+    let value1 = 10 and value2 = 123 in
+    (* when *)
+    let exec () = assert_that value2 @@ Is.Int.greater_than_or_equal_to value1 in
+    (* then *)
+    assert_that exec @@ Is.raising_nothing
+
+let is_greater_than_or_equal_to__when_actual_equal__then_passed =
+  __FUNCTION__ >:: fun _ ->
+    (* given *)
+    let value = 10 in
+    (* when *)
+    let exec () = assert_that value @@ Is.Int.greater_than_or_equal_to value in
+    (* then *)
+    assert_that exec @@ Is.raising_nothing
+
+let is_greater_than_or_equal_to__when_actual_less__then_failed =
+  __FUNCTION__ >:: fun _ ->
+    (* given *)
+    let value1 = 10 and value2 = 123 in
+    (* when *)
+    let exec () = assert_that value1 @@ Is.Int.greater_than_or_equal_to value2 in
+    (* then *)
+    let expected =
+      Assertion_failed (Printf.sprintf "Expected %d to be greater than or equal to %d" value1 value2)
+    in
+    assert_that exec @@ Is.raising expected
+
+let is_greater_than_or_equal_to_Test_list =
+  test_list
+    [ is_greater_than_or_equal_to__when_actual_greater__then_passed;
+      is_greater_than_or_equal_to__when_actual_equal__then_passed;
+      is_greater_than_or_equal_to__when_actual_less__then_failed ]
+
+(* not_is_greater_than_or_equal_to_Test_list *)
+
+let not_is_greater_than_or_equal_to__when_actual_greater__then_failed =
+  __FUNCTION__ >:: fun _ ->
+    (* given *)
+    let value1 = 10 and value2 = 123 in
+    (* when *)
+    let exec () = assert_that value2 @@ Satisfies.not @@ Is.Int.greater_than_or_equal_to value1 in
+    (* then *)
+    let expected =
+      Assertion_failed
+        (Printf.sprintf "Expected %d not to be greater than or equal to %d" value2 value1)
+    in
+    assert_that exec @@ Is.raising expected
+
+let not_is_greater_than_or_equal_to__when_actual_equal__then_failed =
+  __FUNCTION__ >:: fun _ ->
+    (* given *)
+    let value = 10 in
+    (* when *)
+    let exec () = assert_that value @@ Satisfies.not @@ Is.Int.greater_than_or_equal_to value in
+    (* then *)
+    let expected =
+      Assertion_failed
+        (Printf.sprintf "Expected %d not to be greater than or equal to %d" value value)
+    in
+    assert_that exec @@ Is.raising expected
+
+let not_is_greater_than_or_equal_to__when_actual_less__then_passed =
+  __FUNCTION__ >:: fun _ ->
+    (* given *)
+    let value1 = 10 and value2 = 123 in
+    (* when *)
+    let exec () = assert_that value1 @@ Satisfies.not @@ Is.Int.greater_than_or_equal_to value2 in
+    (* then *)
+    assert_that exec @@ Is.raising_nothing
+
+let not_is_greater_than_or_equal_to_Test_list =
+  test_list
+    [ not_is_greater_than_or_equal_to__when_actual_greater__then_failed;
+      not_is_greater_than_or_equal_to__when_actual_equal__then_failed;
+      not_is_greater_than_or_equal_to__when_actual_less__then_passed ]
+
+(* is_less_than_Test_list *)
+
+let is_less_than__when_actual_less__then_passed =
+  __FUNCTION__ >:: fun _ ->
+    (* given *)
+    let value1 = 10 and value2 = 123 in
+    (* when *)
+    let exec () = assert_that value1 @@ Is.Int.less_than value2 in
+    (* then *)
+    assert_that exec @@ Is.raising_nothing
+
+let is_less_than__when_actual_equal__then_failed =
+  __FUNCTION__ >:: fun _ ->
+    (* given *)
+    let value = 10 in
+    (* when *)
+    let exec () = assert_that value @@ Is.Int.less_than value in
+    (* then *)
+    let expected = Assertion_failed (Printf.sprintf "Expected %d to be less than %d" value value) in
+    assert_that exec @@ Is.raising expected
+
+let is_less_than__when_actual_greater__then_failed =
+  __FUNCTION__ >:: fun _ ->
+    (* given *)
+    let value1 = 10 and value2 = 123 in
+    (* when *)
+    let exec () = assert_that value2 @@ Is.Int.less_than value1 in
+    (* then *)
+    let expected = Assertion_failed (Printf.sprintf "Expected %d to be less than %d" value2 value1) in
+    assert_that exec @@ Is.raising expected
+
+let is_less_than_Test_list =
+  test_list
+    [ is_less_than__when_actual_less__then_passed;
+      is_less_than__when_actual_equal__then_failed;
+      is_less_than__when_actual_greater__then_failed ]
+
+(* not_is_less_than_Test_list *)
+
+let not_is_less_than__when_actual_less__then_failed =
+  __FUNCTION__ >:: fun _ ->
+    (* given *)
+    let value1 = 10 and value2 = 123 in
+    (* when *)
+    let exec () = assert_that value1 @@ Satisfies.not @@ Is.Int.less_than value2 in
+    (* then *)
+    let expected =
+      Assertion_failed (Printf.sprintf "Expected %d not to be less than %d" value1 value2)
+    in
+    assert_that exec @@ Is.raising expected
+
+let not_is_less_than__when_actual_equal__then_passed =
+  __FUNCTION__ >:: fun _ ->
+    (* given *)
+    let value = 10 in
+    (* when *)
+    let exec () = assert_that value @@ Satisfies.not @@ Is.Int.less_than value in
+    (* then *)
+    assert_that exec @@ Is.raising_nothing
+
+let not_is_less_than__when_actual_greater__then_passed =
+  __FUNCTION__ >:: fun _ ->
+    (* given *)
+    let value1 = 10 and value2 = 123 in
+    (* when *)
+    let exec () = assert_that value2 @@ Satisfies.not @@ Is.Int.less_than value1 in
+    (* then *)
+    assert_that exec @@ Is.raising_nothing
+
+let not_is_less_than_Test_list =
+  test_list
+    [ not_is_less_than__when_actual_less__then_failed;
+      not_is_less_than__when_actual_equal__then_passed;
+      not_is_less_than__when_actual_greater__then_passed ]
+
+(* is_less_than_or_equal_to_Test_list *)
+
+let is_less_than_or_equal_to__when_actual_less__then_passed =
+  __FUNCTION__ >:: fun _ ->
+    (* given *)
+    let value1 = 10 and value2 = 123 in
+    (* when *)
+    let exec () = assert_that value1 @@ Is.Int.less_than_or_equal_to value2 in
+    (* then *)
+    assert_that exec @@ Is.raising_nothing
+
+let is_less_than_or_equal_to__when_actual_equal__then_passed =
+  __FUNCTION__ >:: fun _ ->
+    (* given *)
+    let value = 10 in
+    (* when *)
+    let exec () = assert_that value @@ Is.Int.less_than_or_equal_to value in
+    (* then *)
+    assert_that exec @@ Is.raising_nothing
+
+let is_less_than_or_equal_to__when_actual_less__then_failed =
+  __FUNCTION__ >:: fun _ ->
+    (* given *)
+    let value1 = 10 and value2 = 123 in
+    (* when *)
+    let exec () = assert_that value2 @@ Is.Int.less_than_or_equal_to value1 in
+    (* then *)
+    let expected =
+      Assertion_failed (Printf.sprintf "Expected %d to be less than or equal to %d" value2 value1)
+    in
+    assert_that exec @@ Is.raising expected
+
+let is_less_than_or_equal_to_Test_list =
+  test_list
+    [ is_less_than_or_equal_to__when_actual_less__then_passed;
+      is_less_than_or_equal_to__when_actual_equal__then_passed;
+      is_less_than_or_equal_to__when_actual_less__then_failed ]
+
+(* not_is_less_than_or_equal_to_Test_list *)
+
+let not_is_less_than_or_equal_to__when_actual_less__then_failed =
+  __FUNCTION__ >:: fun _ ->
+    (* given *)
+    let value1 = 10 and value2 = 123 in
+    (* when *)
+    let exec () = assert_that value1 @@ Satisfies.not @@ Is.Int.less_than_or_equal_to value2 in
+    (* then *)
+    let expected =
+      Assertion_failed (Printf.sprintf "Expected %d not to be less than or equal to %d" value1 value2)
+    in
+    assert_that exec @@ Is.raising expected
+
+let not_is_less_than_or_equal_to__when_actual_equal__then_failed =
+  __FUNCTION__ >:: fun _ ->
+    (* given *)
+    let value = 10 in
+    (* when *)
+    let exec () = assert_that value @@ Satisfies.not @@ Is.Int.less_than_or_equal_to value in
+    (* then *)
+    let expected =
+      Assertion_failed (Printf.sprintf "Expected %d not to be less than or equal to %d" value value)
+    in
+    assert_that exec @@ Is.raising expected
+
+let not_is_less_than_or_equal_to__when_actual_greater__then_passed =
+  __FUNCTION__ >:: fun _ ->
+    (* given *)
+    let value1 = 10 and value2 = 123 in
+    (* when *)
+    let exec () = assert_that value2 @@ Satisfies.not @@ Is.Int.less_than_or_equal_to value1 in
+    (* then *)
+    assert_that exec @@ Is.raising_nothing
+
+let not_is_less_than_or_equal_to_Test_list =
+  test_list
+    [ not_is_less_than_or_equal_to__when_actual_less__then_failed;
+      not_is_less_than_or_equal_to__when_actual_equal__then_failed;
+      not_is_less_than_or_equal_to__when_actual_greater__then_passed ]
+
 (* int_Test *)
 
 let int_Test =
@@ -244,6 +558,14 @@ let int_Test =
          is_negative_Test_list;
          not_is_negative_Test_list;
          is_equal_to_Test_list;
-         not_is_equal_to_Test_list ]
+         not_is_equal_to_Test_list;
+         is_greater_than_Test_list;
+         not_is_greater_than_Test_list;
+         is_greater_than_or_equal_to_Test_list;
+         not_is_greater_than_or_equal_to_Test_list;
+         is_less_than_Test_list;
+         not_is_less_than_Test_list;
+         is_less_than_or_equal_to_Test_list;
+         not_is_less_than_or_equal_to_Test_list ]
 
 let _ = run_test_tt_main int_Test
