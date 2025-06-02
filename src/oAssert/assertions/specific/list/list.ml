@@ -4,7 +4,7 @@ open struct
   module L = Stdlib.List
 end
 
-module Of (V : Values.VALUE) : Helpers.LIST_ASSERT with type elem = V.t = struct
+module OfEquatable (V : Values.EQUATABLE_VALUE) : Helpers.LIST_ASSERT with type elem = V.t = struct
   type elem = V.t
 
   let empty =
@@ -34,7 +34,7 @@ module Of (V : Values.VALUE) : Helpers.LIST_ASSERT with type elem = V.t = struct
     Assertion
       (fun actual ->
          build_assertion
-           (expected = actual)
+           (L.equal V.equal expected actual)
            (Equality
               { expected_str = Helpers.string_of V.to_string expected;
                 actual_str = Helpers.string_of V.to_string actual;
@@ -44,9 +44,12 @@ module Of (V : Values.VALUE) : Helpers.LIST_ASSERT with type elem = V.t = struct
     Assertion
       (fun actual ->
          build_assertion
-           (L.mem element actual)
+           (L.exists (fun e -> V.equal e element) actual)
            (Condition
               { actual_str = Helpers.string_of V.to_string actual;
                 description = Printf.sprintf "contain %s" @@ V.to_string element;
                 negated = false } ) )
 end
+
+module Of (V : Values.VALUE) : Helpers.LIST_ASSERT with type elem = V.t =
+  OfEquatable (Values.AsEquatable (V))
