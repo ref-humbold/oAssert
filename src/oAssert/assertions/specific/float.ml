@@ -102,20 +102,23 @@ let less_than_or_equal_to expected =
               description = Printf.sprintf "be less than or equal to %s" (FT.to_string expected);
               negated = false } ) )
 
-let between ?(mode = ClosedClosed) minimum maximum =
-  let min_mode, max_mode =
-    match mode with
-    | ClosedClosed -> ("inclusive", "inclusive")
-    | OpenOpen -> ("exclusive", "exclusive")
-    | OpenClosed -> ("exclusive", "inclusive")
-    | ClosedOpen -> ("inclusive", "exclusive")
+let between minimum maximum =
+  let description ending =
+    match ending with
+    | Inclusive x -> Printf.sprintf "%s (inclusive)" (FT.to_string x)
+    | Exclusive x -> Printf.sprintf "%s (exclusive)" (FT.to_string x)
   in
-  let comparison actual =
-    match mode with
-    | ClosedClosed -> minimum <= actual && actual <= maximum
-    | OpenOpen -> minimum < actual && actual < maximum
-    | OpenClosed -> minimum < actual && actual <= maximum
-    | ClosedOpen -> minimum <= actual && actual < maximum
+  let comparison act =
+    let min_condition =
+      match minimum with
+      | Inclusive m -> m <= act
+      | Exclusive m -> m < act
+    and max_condition =
+      match maximum with
+      | Inclusive m -> act <= m
+      | Exclusive m -> act < m
+    in
+    min_condition && max_condition
   in
   Assertion
     (fun actual ->
@@ -124,10 +127,5 @@ let between ?(mode = ClosedClosed) minimum maximum =
          (Condition
             { actual_str = FT.to_string actual;
               description =
-                Printf.sprintf
-                  "be between %s (%s) and %s (%s)"
-                  (FT.to_string minimum)
-                  min_mode
-                  (FT.to_string maximum)
-                  max_mode;
+                Printf.sprintf "be between %s and %s" (description minimum) (description maximum);
               negated = false } ) )

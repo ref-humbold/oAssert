@@ -1,1 +1,1 @@
-type between_mode = ClosedClosed | OpenOpen | OpenClosed | ClosedOpen
+type 'a interval_end = Inclusive of 'a | Exclusive of 'a
