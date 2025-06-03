@@ -14,10 +14,16 @@ exception Assertion_failed of string
 
 type 'a assertion = 'a Internals.assertion
 
-let assertion_failed ~msg = raise @@ Assertion_failed msg
+let assertion_failed msg = raise @@ Assertion_failed msg
+
+let ( !!! ) = assertion_failed
 
 let assert_that actual (Assertion f) =
   let {status; failure_message} = f actual in
   match status with
   | Passed -> ()
-  | Failed -> assertion_failed ~msg:(build_message failure_message)
+  | Failed -> assertion_failed @@ build_message failure_message
+
+let ( <?> ) = assert_that
+
+let ( !: ) = Satisfies.not
