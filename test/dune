@@ -5,8 +5,11 @@
   exceptions_test
   float_test
   int_test
+  option_equatable_test
   option_test
-  string_test)
+  string_test
+  tuple2_test
+  tuple2_equatable_test)
  (libraries oUnit oAssert))
 
 (env
