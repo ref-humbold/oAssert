@@ -1,4 +1,5 @@
 open Internals
+include Assertions.Constants
 
 module Is = struct
   include Assertions.Common
@@ -6,24 +7,27 @@ module Is = struct
   include Assertions.Specific
 end
 
-include Assertions.Constants
 module Satisfies = Assertions.Satisfies
 module Values = Values
 
 exception Assertion_failed of string
+(** Exception raised when assertion fails. *)
 
-type 'a assertion = 'a Internals.assertion
-
+(** [assertion_failed msg] raises [Assertion_failed] exception with message [msg]. *)
 let assertion_failed msg = raise @@ Assertion_failed msg
 
+(** [!!! msg] is [assertion_failed msg]. *)
 let ( !!! ) = assertion_failed
 
+(** [assert_that actual assertion] applies assertion function [assertion] on [actual]. *)
 let assert_that actual (Assertion f) =
   let {status; failure_message} = f actual in
   match status with
   | Passed -> ()
   | Failed -> assertion_failed @@ build_message failure_message
 
+(** [actual <?> assertion] is [assert_that actual assertion]. *)
 let ( <?> ) = assert_that
 
+(** [!: assertion] is [Satisfies.not assertion]. *)
 let ( !: ) = Satisfies.not
