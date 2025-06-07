@@ -5,7 +5,7 @@ module IsTuple = Is.Tuple2.Of (Values.String) (Values.Int)
 
 (* is_equal_to_Test_list *)
 
-let is_equal_to__when_both_elements_same__then_passed =
+let is_equal_to__when_all_elements_same__then_passed =
   __FUNCTION__ >:: fun _ ->
     (* given *)
     let pair = ("qwerty", 123) in
@@ -42,13 +42,13 @@ let is_equal_to__when_second_element_different__then_failed =
 
 let is_equal_to_Test_list =
   test_list
-    [ is_equal_to__when_both_elements_same__then_passed;
+    [ is_equal_to__when_all_elements_same__then_passed;
       is_equal_to__when_first_element_different__then_failed;
       is_equal_to__when_second_element_different__then_failed ]
 
 (* not_is_equal_to_Test_list *)
 
-let not_is_equal_to__when_both_elements_same__then_failed =
+let not_is_equal_to__when_all_elements_same__then_failed =
   __FUNCTION__ >:: fun _ ->
     (* given *)
     let pair = ("qwerty", 123) in
@@ -82,7 +82,7 @@ let not_is_equal_to__when_second_element_different__then_passed =
 
 let not_is_equal_to_Test_list =
   test_list
-    [ not_is_equal_to__when_both_elements_same__then_failed;
+    [ not_is_equal_to__when_all_elements_same__then_failed;
       not_is_equal_to__when_first_element_different__then_passed;
       not_is_equal_to__when_second_element_different__then_passed ]
 
@@ -158,7 +158,7 @@ let is_with_second__when_second_element_different__then_failed =
     (* given *)
     let first = "qwerty" and second = 123 and second' = 8765 in
     (* when *)
-    let action () = assert_that ("qwerty", second) @@ IsTuple.with_second second' in
+    let action () = assert_that (first, second) @@ IsTuple.with_second second' in
     (* then *)
     let expected =
       Assertion_failed

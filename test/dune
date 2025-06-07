@@ -9,7 +9,9 @@
   option_test
   string_test
   tuple2_test
-  tuple2_equatable_test)
+  tuple2_equatable_test
+  tuple3_test
+  tuple3_equatable_test)
  (libraries oUnit oAssert))
 
 (env

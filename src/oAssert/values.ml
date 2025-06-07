@@ -30,6 +30,8 @@ module AsComparable (V : VALUE) : COMPARABLE_VALUE with type t = V.t = struct
   let compare = Stdlib.compare
 end
 
+module Bool : COMPARABLE_VALUE with type t = bool = Stdlib.Bool
+
 module Int : COMPARABLE_VALUE with type t = int = Stdlib.Int
 
 module Float : COMPARABLE_VALUE with type t = float = Stdlib.Float
