@@ -1,13 +1,13 @@
 open Internals
 
-module type EQUATABLE_TYPE_ASSERT = sig
+module type EQ_TYPE_ASSERT = sig
   type t
 
   val equal_to : t -> t assertion
 end
 
-module type COMPARABLE_TYPE_ASSERT = sig
-  include EQUATABLE_TYPE_ASSERT
+module type CMP_TYPE_ASSERT = sig
+  include EQ_TYPE_ASSERT
 
   val greater_than : t -> t assertion
 

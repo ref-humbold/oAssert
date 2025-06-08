@@ -10,18 +10,8 @@ module StringIgnoreCase = struct
   let equal s1 s2 = String.uppercase_ascii s1 = String.uppercase_ascii s2
 end
 
-module IntOption = struct
-  type t = int option
-
-  let to_string i =
-    match i with
-    | Some i' -> "Some " ^ string_of_int i'
-    | None -> "None"
-
-  let equal = Option.equal ( = )
-end
-
-module IsTuple = Is.Tuple2.OfEquatable (StringIgnoreCase) (IntOption)
+module IntOption = Values.Option.OfEq (Values.Int)
+module IsTuple = Is.Tuple2.OfEq (StringIgnoreCase) (IntOption)
 
 (* is_equal_to_Test_list *)
 

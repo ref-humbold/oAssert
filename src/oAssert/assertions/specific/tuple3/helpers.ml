@@ -17,6 +17,3 @@ module type TUPLE3_ASSERT = sig
 
   val with_third : trd_elem -> tuple3 assertion
 end
-
-let string_of printer1 printer2 printer3 (x, y, z) =
-  Printf.sprintf "(%s, %s, %s)" (printer1 x) (printer2 y) (printer3 z)

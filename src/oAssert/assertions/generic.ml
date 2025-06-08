@@ -1,7 +1,6 @@
 open Internals
 
-module ValueOf (V : Values.EQUATABLE_VALUE) : Type_assert.EQUATABLE_TYPE_ASSERT with type t = V.t =
-struct
+module EqOf (V : Values.EQ_VALUE) : Type_assert.EQ_TYPE_ASSERT with type t = V.t = struct
   type t = V.t
 
   let equal_to expected =

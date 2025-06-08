@@ -13,5 +13,3 @@ module type TUPLE2_ASSERT = sig
 
   val with_second : snd_elem -> tuple2 assertion
 end
-
-let string_of printer1 printer2 (x, y) = Printf.sprintf "(%s, %s)" (printer1 x) (printer2 y)

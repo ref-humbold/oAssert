@@ -1,8 +1,8 @@
-(* Tests: Option equatable assertions. *)
+(* Tests: Option eq assertions. *)
 open OUnit2
 open OAssert
 
-module IsOption = Is.Option.OfEquatable (struct
+module IsOption = Is.Option.OfEq (struct
     type t = int * string
 
     let to_string (x, y) = Printf.sprintf "(%d, %s)" x y
@@ -143,10 +143,10 @@ let not_is_some_Test_list =
       not_is_some__when_actual_is_some_of_other__then_passed;
       not_is_some__when_actual_is_none__then_passed ]
 
-(* option_equatable_Test *)
+(* option_eq_Test *)
 
-let option_equatable_Test =
+let option_eq_Test =
   __MODULE__
   >::: [is_none_Test_list; not_is_none_Test_list; is_some_Test_list; not_is_some_Test_list]
 
-let _ = run_test_tt_main option_equatable_Test
+let _ = run_test_tt_main option_eq_Test

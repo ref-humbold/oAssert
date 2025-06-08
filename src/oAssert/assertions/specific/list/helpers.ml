@@ -11,6 +11,3 @@ module type LIST_ASSERT = sig
 
   val containing : elem -> elem list assertion
 end
-
-let string_of printer lst =
-  Printf.sprintf "[%s]" @@ Stdlib.String.concat "; " @@ Stdlib.List.map printer lst

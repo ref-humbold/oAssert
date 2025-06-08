@@ -10,26 +10,9 @@ module StringIgnoreCase = struct
   let equal s1 s2 = String.uppercase_ascii s1 = String.uppercase_ascii s2
 end
 
-module IntOption = struct
-  type t = int option
-
-  let to_string i =
-    match i with
-    | Some i' -> "Some " ^ string_of_int i'
-    | None -> "None"
-
-  let equal = Option.equal ( = )
-end
-
-module BoolList = struct
-  type t = bool list
-
-  let to_string bs = Printf.sprintf "[%s]" @@ String.concat "; " @@ List.map string_of_bool bs
-
-  let equal = List.equal ( = )
-end
-
-module IsTuple = Is.Tuple3.OfEquatable (StringIgnoreCase) (IntOption) (BoolList)
+module IntOption = Values.Option.OfEq (Values.Int)
+module BoolList = Values.List.OfEq (Values.Bool)
+module IsTuple = Is.Tuple3.OfEq (StringIgnoreCase) (IntOption) (BoolList)
 
 (* is_equal_to_Test_list *)
 

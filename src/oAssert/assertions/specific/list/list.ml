@@ -4,8 +4,10 @@ open struct
   module L = Stdlib.List
 end
 
-module OfEquatable (V : Values.EQUATABLE_VALUE) : Helpers.LIST_ASSERT with type elem = V.t = struct
+module OfEq (V : Values.EQ_VALUE) : Helpers.LIST_ASSERT with type elem = V.t = struct
   type elem = V.t
+
+  module ListVal = Values.List.OfEq (V)
 
   let empty =
     Assertion
@@ -15,9 +17,8 @@ module OfEquatable (V : Values.EQUATABLE_VALUE) : Helpers.LIST_ASSERT with type 
              | [] -> true
              | _ -> false )
            (Equality
-              { expected_str = "empty list";
-                actual_str = Helpers.string_of V.to_string actual;
-                negated = false } ) )
+              {expected_str = "empty list"; actual_str = ListVal.to_string actual; negated = false}
+           ) )
 
   let of_length length =
     Assertion
@@ -34,10 +35,10 @@ module OfEquatable (V : Values.EQUATABLE_VALUE) : Helpers.LIST_ASSERT with type 
     Assertion
       (fun actual ->
          build_assertion
-           (L.equal V.equal expected actual)
+           (ListVal.equal expected actual)
            (Equality
-              { expected_str = Helpers.string_of V.to_string expected;
-                actual_str = Helpers.string_of V.to_string actual;
+              { expected_str = ListVal.to_string expected;
+                actual_str = ListVal.to_string actual;
                 negated = false } ) )
 
   let containing element =
@@ -46,10 +47,9 @@ module OfEquatable (V : Values.EQUATABLE_VALUE) : Helpers.LIST_ASSERT with type 
          build_assertion
            (L.exists (fun e -> V.equal e element) actual)
            (Condition
-              { actual_str = Helpers.string_of V.to_string actual;
+              { actual_str = ListVal.to_string actual;
                 description = Printf.sprintf "contain %s" @@ V.to_string element;
                 negated = false } ) )
 end
 
-module Of (V : Values.VALUE) : Helpers.LIST_ASSERT with type elem = V.t =
-  OfEquatable (Values.AsEquatable (V))
+module Of (V : Values.VALUE) : Helpers.LIST_ASSERT with type elem = V.t = OfEq (Values.AsEq (V))
