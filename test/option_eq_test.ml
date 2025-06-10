@@ -3,9 +3,7 @@ open OUnit2
 open OAssert
 
 module IsOption = Is.Option.OfEq (struct
-    type t = int * string
-
-    let to_string (x, y) = Printf.sprintf "(%d, %s)" x y
+    include Values.Tuple2.Of (Values.Int) (Values.String)
 
     let equal (x1, y1) (x2, y2) = x1 = x2 && String.lowercase_ascii y1 = String.lowercase_ascii y2
   end)

@@ -1,13 +1,14 @@
 open Internals
-include Assertions.Constants
+include Constants
 
 module Is = struct
-  include Assertions.Common
+  include Assertions.Bool
+  include Assertions.Exceptions
   include Assertions.Generic
-  include Assertions.Specific
+  include Assertions.Typed
 end
 
-module Satisfies = Assertions.Satisfies
+module Satisfies = Satisfies
 module Values = Values
 
 exception Assertion_failed of string

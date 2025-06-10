@@ -3,9 +3,7 @@ open OUnit2
 open OAssert
 
 module StringIgnoreCase = struct
-  type t = string
-
-  let to_string s = s
+  include Values.String
 
   let equal s1 s2 = String.uppercase_ascii s1 = String.uppercase_ascii s2
 end

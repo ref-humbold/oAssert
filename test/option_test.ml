@@ -1,14 +1,14 @@
 (* Tests: Option assertions. *)
 open OUnit2
 open OAssert
-module IsStringOption = Is.Option.Of (Values.String)
+module IsOption = Is.Option.Of (Values.String)
 
 (* is_none_Test_list *)
 
 let is_none__when_actual_is_none__then_passed =
   __FUNCTION__ >:: fun _ ->
     (* when *)
-    let action () = assert_that None IsStringOption.none in
+    let action () = assert_that None IsOption.none in
     (* then *)
     assert_that action Is.raising_nothing
 
@@ -17,7 +17,7 @@ let is_none__when_actual_is_some__then_failed =
     (* given *)
     let value = "qwerty\nasdf" in
     (* when *)
-    let action () = assert_that (Some value) IsStringOption.none in
+    let action () = assert_that (Some value) IsOption.none in
     (* then *)
     let expected = Assertion_failed (Printf.sprintf "Expected None, but was Some %s" value) in
     assert_that action @@ Is.raising expected
@@ -30,14 +30,14 @@ let is_none_Test_list =
 let not_is_none__when_actual_is_none__then_failed =
   __FUNCTION__ >:: fun _ ->
     (* when *)
-    let action () = assert_that None @@ Satisfies.not IsStringOption.none in
+    let action () = assert_that None @@ Satisfies.not IsOption.none in
     (* then *)
     assert_that action @@ Is.raising @@ Assertion_failed "Expected value different than None"
 
 let not_is_none__when_actual_is_some__then_passed =
   __FUNCTION__ >:: fun _ ->
     (* when *)
-    let action () = assert_that (Some "qwerty\nasdf") @@ Satisfies.not IsStringOption.none in
+    let action () = assert_that (Some "qwerty\nasdf") @@ Satisfies.not IsOption.none in
     (* then *)
     assert_that action Is.raising_nothing
 
@@ -52,7 +52,7 @@ let is_some__when_actual_is_some__then_passed =
     (* given *)
     let value = "qwerty\nasdf" in
     (* when *)
-    let action () = assert_that (Some value) @@ IsStringOption.some value in
+    let action () = assert_that (Some value) @@ IsOption.some value in
     (* then *)
     assert_that action Is.raising_nothing
 
@@ -61,7 +61,7 @@ let is_some__when_actual_is_some_of_other__then_failed =
     (* given *)
     let value = "qwerty\nasdf" and other = "zxcvb\t'qwerty'\tasdfg" in
     (* when *)
-    let action () = assert_that (Some other) @@ IsStringOption.some value in
+    let action () = assert_that (Some other) @@ IsOption.some value in
     (* then *)
     let expected =
       Assertion_failed (Printf.sprintf "Expected Some %s, but was Some %s" value other)
@@ -73,7 +73,7 @@ let is_some__when_actual_is_none__then_failed =
     (* given *)
     let value = "qwerty\nasdf" in
     (* when *)
-    let action () = assert_that None @@ IsStringOption.some value in
+    let action () = assert_that None @@ IsOption.some value in
     (* then *)
     let expected = Assertion_failed (Printf.sprintf "Expected Some %s, but was None" value) in
     assert_that action @@ Is.raising expected
@@ -91,7 +91,7 @@ let not_is_some__when_actual_is_some__then_failed =
     (* given *)
     let value = "qwerty\nasdf" in
     (* when *)
-    let action () = assert_that (Some value) @@ Satisfies.not @@ IsStringOption.some value in
+    let action () = assert_that (Some value) @@ Satisfies.not @@ IsOption.some value in
     (* then *)
     let expected = Assertion_failed (Printf.sprintf "Expected value different than Some %s" value) in
     assert_that action @@ Is.raising expected
@@ -100,9 +100,7 @@ let not_is_some__when_actual_is_some_of_other__then_passed =
   __FUNCTION__ >:: fun _ ->
     (* when *)
     let action () =
-      assert_that (Some "zxcvb\t'qwerty'\tasdfg")
-      @@ Satisfies.not
-      @@ IsStringOption.some "qwerty\nasdf"
+      assert_that (Some "zxcvb\t'qwerty'\tasdfg") @@ Satisfies.not @@ IsOption.some "qwerty\nasdf"
     in
     (* then *)
     assert_that action Is.raising_nothing
@@ -110,7 +108,7 @@ let not_is_some__when_actual_is_some_of_other__then_passed =
 let not_is_some__when_actual_is_none__then_passed =
   __FUNCTION__ >:: fun _ ->
     (* when *)
-    let action () = assert_that None @@ Satisfies.not @@ IsStringOption.some "qwerty\nasdf" in
+    let action () = assert_that None @@ Satisfies.not @@ IsOption.some "qwerty\nasdf" in
     (* then *)
     assert_that action Is.raising_nothing
 
