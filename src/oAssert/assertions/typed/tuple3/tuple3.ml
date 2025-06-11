@@ -3,6 +3,10 @@ open Internals
 module OfEq (VF : Values.EQ_VALUE) (VS : Values.EQ_VALUE) (VT : Values.EQ_VALUE) :
   Helpers.TUPLE3_ASSERT with type fst_elem = VF.t and type snd_elem = VS.t and type trd_elem = VT.t =
 struct
+  open struct
+    module TupleVal = Values.Tuple3.OfEq (VF) (VS) (VT)
+  end
+
   type fst_elem = VF.t
 
   type snd_elem = VS.t
@@ -10,8 +14,6 @@ struct
   type trd_elem = VT.t
 
   type tuple3 = fst_elem * snd_elem * trd_elem
-
-  module TupleVal = Values.Tuple3.OfEq (VF) (VS) (VT)
 
   let equal_to expected =
     Assertion

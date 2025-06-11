@@ -5,9 +5,11 @@ open struct
 end
 
 module OfEq (V : Values.EQ_VALUE) : Helpers.OPTION_ASSERT with type elem = V.t = struct
-  type elem = V.t
+  open struct
+    module OptVal = Values.Option.OfEq (V)
+  end
 
-  module OptVal = Values.Option.OfEq (V)
+  type elem = V.t
 
   let none =
     Assertion

@@ -5,9 +5,11 @@ open struct
 end
 
 module OfEq (V : Values.EQ_VALUE) : Helpers.LIST_ASSERT with type elem = V.t = struct
-  type elem = V.t
+  open struct
+    module ListVal = Values.List.OfEq (V)
+  end
 
-  module ListVal = Values.List.OfEq (V)
+  type elem = V.t
 
   let empty =
     Assertion
@@ -26,9 +28,10 @@ module OfEq (V : Values.EQ_VALUE) : Helpers.LIST_ASSERT with type elem = V.t = s
          let actual_length = L.length actual in
          build_assertion
            (actual_length = length)
-           (Condition
-              { actual_str = string_of_int actual_length;
+           (Comparison
+              { actual_str = ListVal.to_string actual;
                 description = Printf.sprintf "have length %d" length;
+                result_str = Printf.sprintf "was %d" actual_length;
                 negated = false } ) )
 
   let equal_to expected =
@@ -52,4 +55,20 @@ module OfEq (V : Values.EQ_VALUE) : Helpers.LIST_ASSERT with type elem = V.t = s
                 negated = false } ) )
 end
 
-module Of (V : Values.VALUE) : Helpers.LIST_ASSERT with type elem = V.t = OfEq (Values.AsEq (V))
+module Of (V : Values.VALUE) : Helpers.LIST_ASSERT with type elem = V.t = struct
+  open struct
+    module ListVal = Values.List.Of (V)
+  end
+
+  include OfEq (Values.AsEq (V))
+
+  let containing element =
+    Assertion
+      (fun actual ->
+         build_assertion
+           (L.mem element actual)
+           (Condition
+              { actual_str = ListVal.to_string actual;
+                description = Printf.sprintf "contain %s" @@ V.to_string element;
+                negated = false } ) )
+end

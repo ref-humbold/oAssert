@@ -61,7 +61,14 @@ let is_of_length__when_actual_is_shorter__then_failed =
     (* when *)
     let exec () = assert_that value @@ Is.String.of_length length in
     (* then *)
-    let expected = Assertion_failed (Printf.sprintf "Expected %s to have length %d" value length) in
+    let expected =
+      Assertion_failed
+        (Printf.sprintf
+           "Expected %s to have length %d, but was %d"
+           value
+           length
+           (String.length value) )
+    in
     assert_that exec @@ Is.raising expected
 
 let is_of_length__when_actual_is_longer__then_failed =
@@ -71,7 +78,14 @@ let is_of_length__when_actual_is_longer__then_failed =
     (* when *)
     let exec () = assert_that value @@ Is.String.of_length length in
     (* then *)
-    let expected = Assertion_failed (Printf.sprintf "Expected %s to have length %d" value length) in
+    let expected =
+      Assertion_failed
+        (Printf.sprintf
+           "Expected %s to have length %d, but was %d"
+           value
+           length
+           (String.length value) )
+    in
     assert_that exec @@ Is.raising expected
 
 let is_of_length_Test_list =

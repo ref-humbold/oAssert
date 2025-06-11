@@ -2,33 +2,35 @@ open Internals
 
 open struct
   module S = Stdlib.String
-  module ST = Values.String
+  module SV = Values.String
 end
 
 let empty =
   Assertion
     (fun actual ->
        build_assertion
-         (ST.equal actual "")
-         (Equality {expected_str = "empty string"; actual_str = ST.to_string actual; negated = false}) )
+         (SV.equal actual "")
+         (Equality {expected_str = "empty string"; actual_str = SV.to_string actual; negated = false}) )
 
 let of_length length =
   Assertion
     (fun actual ->
+       let actual_length = S.length actual in
        build_assertion
-         (length = S.length actual)
-         (Condition
-            { actual_str = ST.to_string actual;
+         (length = actual_length)
+         (Comparison
+            { actual_str = SV.to_string actual;
               description = Printf.sprintf "have length %d" length;
+              result_str = Printf.sprintf "was %d" actual_length;
               negated = false } ) )
 
 let equal expected =
   Assertion
     (fun actual ->
        build_assertion
-         (ST.equal expected actual)
+         (SV.equal expected actual)
          (Equality
-            {expected_str = ST.to_string expected; actual_str = ST.to_string actual; negated = false}
+            {expected_str = SV.to_string expected; actual_str = SV.to_string actual; negated = false}
          ) )
 
 let uppercase =
@@ -37,7 +39,7 @@ let uppercase =
        build_assertion
          (S.uppercase_ascii actual = actual)
          (Condition
-            {actual_str = ST.to_string actual; description = "be in uppercase"; negated = false} ) )
+            {actual_str = SV.to_string actual; description = "be in uppercase"; negated = false} ) )
 
 let lowercase =
   Assertion
@@ -45,7 +47,7 @@ let lowercase =
        build_assertion
          (S.lowercase_ascii actual = actual)
          (Condition
-            {actual_str = ST.to_string actual; description = "be in lowercase"; negated = false} ) )
+            {actual_str = SV.to_string actual; description = "be in lowercase"; negated = false} ) )
 
 let starting_with prefix =
   Assertion
@@ -53,8 +55,8 @@ let starting_with prefix =
        build_assertion
          (S.starts_with ~prefix actual)
          (Condition
-            { actual_str = ST.to_string actual;
-              description = Printf.sprintf "begin with %s" @@ ST.to_string prefix;
+            { actual_str = SV.to_string actual;
+              description = Printf.sprintf "begin with %s" @@ SV.to_string prefix;
               negated = false } ) )
 
 let ending_with suffix =
@@ -63,6 +65,6 @@ let ending_with suffix =
        build_assertion
          (S.ends_with ~suffix actual)
          (Condition
-            { actual_str = ST.to_string actual;
-              description = Printf.sprintf "end with %s" @@ ST.to_string suffix;
+            { actual_str = SV.to_string actual;
+              description = Printf.sprintf "end with %s" @@ SV.to_string suffix;
               negated = false } ) )

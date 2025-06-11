@@ -3,6 +3,7 @@ type expected_exception = Expecting of exn | OtherThan of exn | Nothing | Anythi
 type assertion_message =
   | Equality of {expected_str : string; actual_str : string; negated : bool}
   | Condition of {actual_str : string; description : string; negated : bool}
+  | Comparison of {actual_str : string; description : string; result_str : string; negated : bool}
   | Raising of {expected : expected_exception; actual : exn option}
 
 type assertion_status = Passed | Failed
@@ -20,6 +21,10 @@ let build_message msg =
     else Printf.sprintf "Expected %s, but was %s" expected_str actual_str
   | Condition {actual_str; description; negated} ->
     Printf.sprintf ("Expected %s" ^^ negated_str negated ^^ "to %s") actual_str description
+  | Comparison {actual_str; description; result_str; negated} ->
+    if negated
+    then Printf.sprintf "Expected %s not to %s" actual_str description
+    else Printf.sprintf "Expected %s to %s, but %s" actual_str description result_str
   | Raising {expected; actual} ->
     let raised_message neg raise_str caught_str =
       Printf.sprintf
@@ -36,7 +41,7 @@ let build_message msg =
       | Nothing ->
         ( match actual with
           | Some ex -> raised_message true "any exception" (Printexc.to_string ex)
-          | None -> failwith "OAssert.Internals.build_message: This should not happen" )
+          | None -> failwith (Printf.sprintf "%s: This should not happen" __FUNCTION__) )
       | Anything -> raised_message false "an exception" "nothing" )
 
 let get_raised_exception action =

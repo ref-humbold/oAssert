@@ -2,13 +2,15 @@ open Internals
 
 module OfEq (VF : Values.EQ_VALUE) (VS : Values.EQ_VALUE) :
   Helpers.TUPLE2_ASSERT with type fst_elem = VF.t and type snd_elem = VS.t = struct
+  open struct
+    module TupleVal = Values.Tuple2.OfEq (VF) (VS)
+  end
+
   type fst_elem = VF.t
 
   type snd_elem = VS.t
 
   type tuple2 = fst_elem * snd_elem
-
-  module TupleVal = Values.Tuple2.OfEq (VF) (VS)
 
   let equal_to expected =
     Assertion

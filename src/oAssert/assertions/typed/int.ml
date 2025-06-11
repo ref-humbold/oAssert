@@ -2,37 +2,37 @@ open Internals
 open Constants
 
 open struct
-  module IT = Values.Int
+  module IV = Values.Int
 end
 
 let zero =
   Assertion
     (fun actual ->
        build_assertion
-         (IT.equal 0 actual)
-         (Equality {expected_str = IT.to_string 0; actual_str = IT.to_string actual; negated = false}) )
+         (IV.equal 0 actual)
+         (Equality {expected_str = IV.to_string 0; actual_str = IV.to_string actual; negated = false}) )
 
 let positive =
   Assertion
     (fun actual ->
        build_assertion
          (actual > 0)
-         (Condition {actual_str = IT.to_string actual; description = "be positive"; negated = false}) )
+         (Condition {actual_str = IV.to_string actual; description = "be positive"; negated = false}) )
 
 let negative =
   Assertion
     (fun actual ->
        build_assertion
          (actual < 0)
-         (Condition {actual_str = IT.to_string actual; description = "be negative"; negated = false}) )
+         (Condition {actual_str = IV.to_string actual; description = "be negative"; negated = false}) )
 
 let equal_to expected =
   Assertion
     (fun actual ->
        build_assertion
-         (IT.equal expected actual)
+         (IV.equal expected actual)
          (Equality
-            {expected_str = IT.to_string expected; actual_str = IT.to_string actual; negated = false}
+            {expected_str = IV.to_string expected; actual_str = IV.to_string actual; negated = false}
          ) )
 
 let greater_than expected =
@@ -41,8 +41,8 @@ let greater_than expected =
        build_assertion
          (actual > expected)
          (Condition
-            { actual_str = IT.to_string actual;
-              description = Printf.sprintf "be greater than %s" (IT.to_string expected);
+            { actual_str = IV.to_string actual;
+              description = Printf.sprintf "be greater than %s" (IV.to_string expected);
               negated = false } ) )
 
 let greater_than_or_equal_to expected =
@@ -51,8 +51,8 @@ let greater_than_or_equal_to expected =
        build_assertion
          (actual >= expected)
          (Condition
-            { actual_str = IT.to_string actual;
-              description = Printf.sprintf "be greater than or equal to %s" (IT.to_string expected);
+            { actual_str = IV.to_string actual;
+              description = Printf.sprintf "be greater than or equal to %s" (IV.to_string expected);
               negated = false } ) )
 
 let less_than expected =
@@ -61,8 +61,8 @@ let less_than expected =
        build_assertion
          (actual < expected)
          (Condition
-            { actual_str = IT.to_string actual;
-              description = Printf.sprintf "be less than %s" (IT.to_string expected);
+            { actual_str = IV.to_string actual;
+              description = Printf.sprintf "be less than %s" (IV.to_string expected);
               negated = false } ) )
 
 let less_than_or_equal_to expected =
@@ -71,15 +71,15 @@ let less_than_or_equal_to expected =
        build_assertion
          (actual <= expected)
          (Condition
-            { actual_str = IT.to_string actual;
-              description = Printf.sprintf "be less than or equal to %s" (IT.to_string expected);
+            { actual_str = IV.to_string actual;
+              description = Printf.sprintf "be less than or equal to %s" (IV.to_string expected);
               negated = false } ) )
 
 let between minimum maximum =
   let description ending =
     match ending with
-    | Inclusive x -> Printf.sprintf "%s (inclusive)" (IT.to_string x)
-    | Exclusive x -> Printf.sprintf "%s (exclusive)" (IT.to_string x)
+    | Inclusive x -> Printf.sprintf "%s (inclusive)" (IV.to_string x)
+    | Exclusive x -> Printf.sprintf "%s (exclusive)" (IV.to_string x)
   in
   let comparison act =
     let min_condition =
@@ -98,7 +98,7 @@ let between minimum maximum =
        build_assertion
          (comparison actual)
          (Condition
-            { actual_str = IT.to_string actual;
+            { actual_str = IV.to_string actual;
               description =
                 Printf.sprintf "be between %s and %s" (description minimum) (description maximum);
               negated = false } ) )

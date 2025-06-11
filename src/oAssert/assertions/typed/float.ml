@@ -3,7 +3,7 @@ open Constants
 
 open struct
   module F = Stdlib.Float
-  module FT = Values.Float
+  module FV = Values.Float
 end
 
 let nan =
@@ -12,29 +12,29 @@ let nan =
        build_assertion
          (F.is_nan actual)
          (Equality
-            {expected_str = FT.to_string nan; actual_str = FT.to_string actual; negated = false} ) )
+            {expected_str = FV.to_string nan; actual_str = FV.to_string actual; negated = false} ) )
 
 let zero =
   Assertion
     (fun actual ->
        build_assertion
-         (FT.equal 0.0 actual)
+         (FV.equal 0.0 actual)
          (Equality
-            {expected_str = FT.to_string 0.0; actual_str = FT.to_string actual; negated = false} ) )
+            {expected_str = FV.to_string 0.0; actual_str = FV.to_string actual; negated = false} ) )
 
 let positive =
   Assertion
     (fun actual ->
        build_assertion
          (actual > 0.0)
-         (Condition {actual_str = FT.to_string actual; description = "be positive"; negated = false}) )
+         (Condition {actual_str = FV.to_string actual; description = "be positive"; negated = false}) )
 
 let negative =
   Assertion
     (fun actual ->
        build_assertion
          (actual < 0.0)
-         (Condition {actual_str = FT.to_string actual; description = "be negative"; negated = false}) )
+         (Condition {actual_str = FV.to_string actual; description = "be negative"; negated = false}) )
 
 let equal_to expected =
   Assertion
@@ -42,7 +42,7 @@ let equal_to expected =
        build_assertion
          (expected = actual)
          (Equality
-            {expected_str = FT.to_string expected; actual_str = FT.to_string actual; negated = false}
+            {expected_str = FV.to_string expected; actual_str = FV.to_string actual; negated = false}
          ) )
 
 let close_to expected ~diff =
@@ -51,15 +51,17 @@ let close_to expected ~diff =
   else
     Assertion
       (fun actual ->
+         let actual_diff = abs_float (expected -. actual) in
          build_assertion
-           (abs_float (expected -. actual) <= diff)
-           (Condition
-              { actual_str = FT.to_string actual;
+           (actual_diff <= diff)
+           (Comparison
+              { actual_str = FV.to_string actual;
                 description =
                   Printf.sprintf
                     "be close to %s with difference %s"
-                    (FT.to_string expected)
-                    (FT.to_string diff);
+                    (FV.to_string expected)
+                    (FV.to_string diff);
+                result_str = Printf.sprintf "difference was %s" (FV.to_string actual_diff);
                 negated = false } ) )
 
 let greater_than expected =
@@ -68,8 +70,8 @@ let greater_than expected =
        build_assertion
          (actual > expected)
          (Condition
-            { actual_str = FT.to_string actual;
-              description = Printf.sprintf "be greater than %s" (FT.to_string expected);
+            { actual_str = FV.to_string actual;
+              description = Printf.sprintf "be greater than %s" (FV.to_string expected);
               negated = false } ) )
 
 let greater_than_or_equal_to expected =
@@ -78,8 +80,8 @@ let greater_than_or_equal_to expected =
        build_assertion
          (actual >= expected)
          (Condition
-            { actual_str = FT.to_string actual;
-              description = Printf.sprintf "be greater than or equal to %s" (FT.to_string expected);
+            { actual_str = FV.to_string actual;
+              description = Printf.sprintf "be greater than or equal to %s" (FV.to_string expected);
               negated = false } ) )
 
 let less_than expected =
@@ -88,8 +90,8 @@ let less_than expected =
        build_assertion
          (actual < expected)
          (Condition
-            { actual_str = FT.to_string actual;
-              description = Printf.sprintf "be less than %s" (FT.to_string expected);
+            { actual_str = FV.to_string actual;
+              description = Printf.sprintf "be less than %s" (FV.to_string expected);
               negated = false } ) )
 
 let less_than_or_equal_to expected =
@@ -98,15 +100,15 @@ let less_than_or_equal_to expected =
        build_assertion
          (actual <= expected)
          (Condition
-            { actual_str = FT.to_string actual;
-              description = Printf.sprintf "be less than or equal to %s" (FT.to_string expected);
+            { actual_str = FV.to_string actual;
+              description = Printf.sprintf "be less than or equal to %s" (FV.to_string expected);
               negated = false } ) )
 
 let between minimum maximum =
   let description ending =
     match ending with
-    | Inclusive x -> Printf.sprintf "%s (inclusive)" (FT.to_string x)
-    | Exclusive x -> Printf.sprintf "%s (exclusive)" (FT.to_string x)
+    | Inclusive x -> Printf.sprintf "%s (inclusive)" (FV.to_string x)
+    | Exclusive x -> Printf.sprintf "%s (exclusive)" (FV.to_string x)
   in
   let comparison act =
     let min_condition =
@@ -125,7 +127,7 @@ let between minimum maximum =
        build_assertion
          (comparison actual)
          (Condition
-            { actual_str = FT.to_string actual;
+            { actual_str = FV.to_string actual;
               description =
                 Printf.sprintf "be between %s and %s" (description minimum) (description maximum);
               negated = false } ) )

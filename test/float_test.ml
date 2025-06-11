@@ -327,10 +327,11 @@ let is_close_to__when_actual_different__then_failed =
     let expected =
       Assertion_failed
         (Printf.sprintf
-           "Expected %s to be close to %s with difference %s"
+           "Expected %s to be close to %s with difference %s, but difference was %s"
            (Float.to_string value2)
            (Float.to_string value1)
-           (Float.to_string diff) )
+           (Float.to_string diff)
+           (Float.to_string @@ abs_float (value2 -. value1)) )
     in
     assert_that exec @@ Is.raising expected
 

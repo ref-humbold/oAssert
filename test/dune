@@ -5,6 +5,7 @@
   exceptions_test
   float_test
   int_test
+  list_test
   option_eq_test
   option_test
   string_test
