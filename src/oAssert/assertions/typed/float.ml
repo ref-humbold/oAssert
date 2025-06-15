@@ -54,7 +54,7 @@ let close_to expected ~diff =
          let actual_diff = abs_float (expected -. actual) in
          build_assertion
            (actual_diff <= diff)
-           (Comparison
+           (ConditionResult
               { actual_str = FV.to_string actual;
                 description =
                   Printf.sprintf

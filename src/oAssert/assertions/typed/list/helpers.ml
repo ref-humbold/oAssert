@@ -10,4 +10,8 @@ module type LIST_ASSERT = sig
   val equal_to : elem list -> elem list assertion
 
   val containing : elem -> elem list assertion
+
+  val containing_all : elem list -> elem list assertion
+
+  val containing_any : elem list -> elem list assertion
 end

@@ -18,7 +18,7 @@ let of_length length =
        let actual_length = S.length actual in
        build_assertion
          (length = actual_length)
-         (Comparison
+         (ConditionResult
             { actual_str = SV.to_string actual;
               description = Printf.sprintf "have length %d" length;
               result_str = Printf.sprintf "was %d" actual_length;
