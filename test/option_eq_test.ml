@@ -1,4 +1,4 @@
-(* Tests: Option eq assertions. *)
+(* Tests: Option assertions. *)
 open OUnit2
 open OAssert
 

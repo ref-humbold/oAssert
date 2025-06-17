@@ -59,7 +59,9 @@ module OfEq (V : Values.EQ_VALUE) : Helpers.LIST_ASSERT with type elem = V.t = s
   let containing_all elements =
     Assertion
       (fun actual ->
-         let missing = L.filter_map (fun e -> if L.mem e actual then None else Some e) elements in
+         let missing =
+           L.filter_map (fun e -> if Locals.contains e actual then None else Some e) elements
+         in
          build_assertion
            (L.is_empty missing)
            (ConditionResult

@@ -6,6 +6,12 @@ module Int : CMP_VALUE with type t = int = Stdlib.Int
 
 module Float : CMP_VALUE with type t = float = Stdlib.Float
 
+module Char : CMP_VALUE with type t = char = struct
+  include Stdlib.Char
+
+  let to_string = Stdlib.Char.escaped
+end
+
 module String : CMP_VALUE with type t = string = struct
   include Stdlib.String
 
