@@ -21,9 +21,7 @@ struct
          build_assertion
            (TupleVal.equal expected actual)
            (Equality
-              { expected_str = TupleVal.to_string expected;
-                actual_str = TupleVal.to_string actual;
-                negated = false } ) )
+              {expected_str = TupleVal.to_string expected; actual_str = TupleVal.to_string actual} ) )
 
   let with_first first =
     Assertion
@@ -33,8 +31,7 @@ struct
            (VF.equal first act1)
            (Condition
               { actual_str = TupleVal.to_string actual;
-                description = Printf.sprintf "have first element %s" @@ VF.to_string first;
-                negated = false } ) )
+                description = Printf.sprintf "have first element %s" @@ VF.to_string first } ) )
 
   let with_second second =
     Assertion
@@ -44,8 +41,7 @@ struct
            (VS.equal second act2)
            (Condition
               { actual_str = TupleVal.to_string actual;
-                description = Printf.sprintf "have second element %s" @@ VS.to_string second;
-                negated = false } ) )
+                description = Printf.sprintf "have second element %s" @@ VS.to_string second } ) )
 
   let with_third third =
     Assertion
@@ -55,8 +51,7 @@ struct
            (VT.equal third act3)
            (Condition
               { actual_str = TupleVal.to_string actual;
-                description = Printf.sprintf "have third element %s" @@ VT.to_string third;
-                negated = false } ) )
+                description = Printf.sprintf "have third element %s" @@ VT.to_string third } ) )
 end
 
 module Of (VF : Values.VALUE) (VS : Values.VALUE) (VT : Values.VALUE) :

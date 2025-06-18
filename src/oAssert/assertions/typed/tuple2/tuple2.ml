@@ -18,9 +18,7 @@ module OfEq (VF : Values.EQ_VALUE) (VS : Values.EQ_VALUE) :
          build_assertion
            (TupleVal.equal expected actual)
            (Equality
-              { expected_str = TupleVal.to_string expected;
-                actual_str = TupleVal.to_string actual;
-                negated = false } ) )
+              {expected_str = TupleVal.to_string expected; actual_str = TupleVal.to_string actual} ) )
 
   let with_first first =
     Assertion
@@ -29,8 +27,7 @@ module OfEq (VF : Values.EQ_VALUE) (VS : Values.EQ_VALUE) :
            (VF.equal first @@ fst actual)
            (Condition
               { actual_str = TupleVal.to_string actual;
-                description = Printf.sprintf "have first element %s" @@ VF.to_string first;
-                negated = false } ) )
+                description = Printf.sprintf "have first element %s" @@ VF.to_string first } ) )
 
   let with_second second =
     Assertion
@@ -39,8 +36,7 @@ module OfEq (VF : Values.EQ_VALUE) (VS : Values.EQ_VALUE) :
            (VS.equal second @@ snd actual)
            (Condition
               { actual_str = TupleVal.to_string actual;
-                description = Printf.sprintf "have second element %s" @@ VS.to_string second;
-                negated = false } ) )
+                description = Printf.sprintf "have second element %s" @@ VS.to_string second } ) )
 end
 
 module Of (VF : Values.VALUE) (VS : Values.VALUE) :

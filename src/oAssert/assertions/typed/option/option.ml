@@ -16,7 +16,7 @@ module OfEq (V : Values.EQ_VALUE) : Helpers.OPTION_ASSERT with type elem = V.t =
       (fun actual ->
          build_assertion
            (Opt.is_none actual)
-           (Equality {expected_str = "None"; actual_str = OptVal.to_string actual; negated = false}) )
+           (Equality {expected_str = "None"; actual_str = OptVal.to_string actual}) )
 
   let some value =
     Assertion
@@ -26,9 +26,7 @@ module OfEq (V : Values.EQ_VALUE) : Helpers.OPTION_ASSERT with type elem = V.t =
              | Some x -> V.equal x value
              | None -> false )
            (Equality
-              { expected_str = OptVal.to_string (Some value);
-                actual_str = OptVal.to_string actual;
-                negated = false } ) )
+              {expected_str = OptVal.to_string (Some value); actual_str = OptVal.to_string actual} ) )
 end
 
 module Of (V : Values.VALUE) : Helpers.OPTION_ASSERT with type elem = V.t = OfEq (Values.AsEq (V))

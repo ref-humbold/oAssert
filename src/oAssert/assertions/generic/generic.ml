@@ -8,9 +8,7 @@ module EqOf (V : Values.EQ_VALUE) : Helpers.EQ_TYPE_ASSERT with type t = V.t = s
       (fun actual ->
          build_assertion
            (V.equal expected actual)
-           (Equality
-              {expected_str = V.to_string expected; actual_str = V.to_string actual; negated = false}
-           ) )
+           (Equality {expected_str = V.to_string expected; actual_str = V.to_string actual}) )
 end
 
 module CmpOf (V : Values.CMP_VALUE) : Helpers.CMP_TYPE_ASSERT with type t = V.t = struct
@@ -23,8 +21,7 @@ module CmpOf (V : Values.CMP_VALUE) : Helpers.CMP_TYPE_ASSERT with type t = V.t 
            (V.compare actual expected > 0)
            (Condition
               { actual_str = V.to_string actual;
-                description = Printf.sprintf "be greater than %s" (V.to_string expected);
-                negated = false } ) )
+                description = Printf.sprintf "be greater than %s" (V.to_string expected) } ) )
 
   let greater_than_or_equal_to expected =
     Assertion
@@ -33,8 +30,8 @@ module CmpOf (V : Values.CMP_VALUE) : Helpers.CMP_TYPE_ASSERT with type t = V.t 
            (V.compare actual expected >= 0)
            (Condition
               { actual_str = V.to_string actual;
-                description = Printf.sprintf "be greater than or equal to %s" (V.to_string expected);
-                negated = false } ) )
+                description = Printf.sprintf "be greater than or equal to %s" (V.to_string expected)
+              } ) )
 
   let less_than expected =
     Assertion
@@ -43,8 +40,7 @@ module CmpOf (V : Values.CMP_VALUE) : Helpers.CMP_TYPE_ASSERT with type t = V.t 
            (V.compare actual expected < 0)
            (Condition
               { actual_str = V.to_string actual;
-                description = Printf.sprintf "be less than %s" (V.to_string expected);
-                negated = false } ) )
+                description = Printf.sprintf "be less than %s" (V.to_string expected) } ) )
 
   let less_than_or_equal_to expected =
     Assertion
@@ -53,6 +49,6 @@ module CmpOf (V : Values.CMP_VALUE) : Helpers.CMP_TYPE_ASSERT with type t = V.t 
            (V.compare actual expected <= 0)
            (Condition
               { actual_str = V.to_string actual;
-                description = Printf.sprintf "be less than or equal to %s" (V.to_string expected);
-                negated = false } ) )
+                description = Printf.sprintf "be less than or equal to %s" (V.to_string expected) }
+           ) )
 end

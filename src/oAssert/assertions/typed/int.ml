@@ -10,30 +10,28 @@ let zero =
     (fun actual ->
        build_assertion
          (IV.equal 0 actual)
-         (Equality {expected_str = IV.to_string 0; actual_str = IV.to_string actual; negated = false}) )
+         (Equality {expected_str = IV.to_string 0; actual_str = IV.to_string actual}) )
 
 let positive =
   Assertion
     (fun actual ->
        build_assertion
          (actual > 0)
-         (Condition {actual_str = IV.to_string actual; description = "be positive"; negated = false}) )
+         (Condition {actual_str = IV.to_string actual; description = "be positive"}) )
 
 let negative =
   Assertion
     (fun actual ->
        build_assertion
          (actual < 0)
-         (Condition {actual_str = IV.to_string actual; description = "be negative"; negated = false}) )
+         (Condition {actual_str = IV.to_string actual; description = "be negative"}) )
 
 let equal_to expected =
   Assertion
     (fun actual ->
        build_assertion
          (IV.equal expected actual)
-         (Equality
-            {expected_str = IV.to_string expected; actual_str = IV.to_string actual; negated = false}
-         ) )
+         (Equality {expected_str = IV.to_string expected; actual_str = IV.to_string actual}) )
 
 let greater_than expected =
   Assertion
@@ -42,8 +40,7 @@ let greater_than expected =
          (actual > expected)
          (Condition
             { actual_str = IV.to_string actual;
-              description = Printf.sprintf "be greater than %s" (IV.to_string expected);
-              negated = false } ) )
+              description = Printf.sprintf "be greater than %s" (IV.to_string expected) } ) )
 
 let greater_than_or_equal_to expected =
   Assertion
@@ -52,8 +49,8 @@ let greater_than_or_equal_to expected =
          (actual >= expected)
          (Condition
             { actual_str = IV.to_string actual;
-              description = Printf.sprintf "be greater than or equal to %s" (IV.to_string expected);
-              negated = false } ) )
+              description = Printf.sprintf "be greater than or equal to %s" (IV.to_string expected)
+            } ) )
 
 let less_than expected =
   Assertion
@@ -62,8 +59,7 @@ let less_than expected =
          (actual < expected)
          (Condition
             { actual_str = IV.to_string actual;
-              description = Printf.sprintf "be less than %s" (IV.to_string expected);
-              negated = false } ) )
+              description = Printf.sprintf "be less than %s" (IV.to_string expected) } ) )
 
 let less_than_or_equal_to expected =
   Assertion
@@ -72,8 +68,7 @@ let less_than_or_equal_to expected =
          (actual <= expected)
          (Condition
             { actual_str = IV.to_string actual;
-              description = Printf.sprintf "be less than or equal to %s" (IV.to_string expected);
-              negated = false } ) )
+              description = Printf.sprintf "be less than or equal to %s" (IV.to_string expected) } ) )
 
 let between minimum maximum =
   let description ending =
@@ -100,5 +95,5 @@ let between minimum maximum =
          (Condition
             { actual_str = IV.to_string actual;
               description =
-                Printf.sprintf "be between %s and %s" (description minimum) (description maximum);
-              negated = false } ) )
+                Printf.sprintf "be between %s and %s" (description minimum) (description maximum) }
+         ) )

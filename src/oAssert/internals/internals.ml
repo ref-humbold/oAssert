@@ -1,11 +1,10 @@
-type expected_exception = Expecting of exn | OtherThan of exn | Nothing | Anything
-
 type assertion_message =
-  | Equality of {expected_str : string; actual_str : string; negated : bool}
-  | Condition of {actual_str : string; description : string; negated : bool}
-  | ConditionResult of
-      {actual_str : string; description : string; result_str : string; negated : bool}
-  | Raising of {expected : expected_exception; actual : exn option}
+  | Negated of assertion_message
+  | Equality of {expected_str : string; actual_str : string}
+  | Condition of {actual_str : string; description : string}
+  | ConditionResult of {actual_str : string; description : string; result_str : string}
+  | Raising of {expected : exn; actual : exn option}
+  | RaisingNothing of {actual : exn option}
 
 type assertion_status = Passed | Failed
 
@@ -14,36 +13,39 @@ type assertion_result = {status : assertion_status; failure_message : assertion_
 type 'a assertion = Assertion of ('a -> assertion_result)
 
 let build_message msg =
-  let negated_str n = if n then format_of_string " not " else format_of_string " " in
-  match msg with
-  | Equality {expected_str; actual_str; negated} ->
-    if negated
-    then Printf.sprintf "Expected value different than %s" expected_str
-    else Printf.sprintf "Expected %s, but was %s" expected_str actual_str
-  | Condition {actual_str; description; negated} ->
-    Printf.sprintf ("Expected %s" ^^ negated_str negated ^^ "to %s") actual_str description
-  | ConditionResult {actual_str; description; result_str; negated} ->
-    if negated
-    then Printf.sprintf "Expected %s not to %s" actual_str description
-    else Printf.sprintf "Expected %s to %s, but %s" actual_str description result_str
-  | Raising {expected; actual} ->
-    let raised_message neg raise_str caught_str =
-      Printf.sprintf
-        ("Expected action" ^^ negated_str neg ^^ "to raise %s, but %s was raised")
-        raise_str
-        caught_str
-    in
-    ( match expected with
-      | Expecting ex ->
-        ( match actual with
-          | Some ex' -> raised_message false (Printexc.to_string ex) (Printexc.to_string ex')
-          | None -> raised_message false (Printexc.to_string ex) "nothing" )
-      | OtherThan ex -> raised_message true (Printexc.to_string ex) "it"
-      | Nothing ->
-        ( match actual with
-          | Some ex -> raised_message true "any exception" (Printexc.to_string ex)
-          | None -> failwith (Printf.sprintf "%s: This should not happen" __FUNCTION__) )
-      | Anything -> raised_message false "an exception" "nothing" )
+  let negated_str n = format_of_string @@ if n then " not " else " " in
+  let exn_message n raise_str caught_str =
+    Printf.sprintf
+      ("Expected action" ^^ negated_str n ^^ "to raise %s, but %s was raised")
+      raise_str
+      caught_str
+  in
+  let rec build msg' negated =
+    match msg' with
+    | Negated m -> build m @@ not negated
+    | Equality {expected_str; actual_str} ->
+      if negated
+      then Printf.sprintf "Expected value different than %s" expected_str
+      else Printf.sprintf "Expected %s, but was %s" expected_str actual_str
+    | Condition {actual_str; description} ->
+      Printf.sprintf ("Expected %s" ^^ negated_str negated ^^ "to %s") actual_str description
+    | ConditionResult {actual_str; description; result_str} ->
+      if negated
+      then Printf.sprintf "Expected %s not to %s" actual_str description
+      else Printf.sprintf "Expected %s to %s, but %s" actual_str description result_str
+    | Raising {expected; actual} ->
+      if negated
+      then exn_message true (Printexc.to_string expected) "it"
+      else (
+        match actual with
+        | Some ex -> exn_message false (Printexc.to_string expected) (Printexc.to_string ex)
+        | None -> exn_message false (Printexc.to_string expected) "nothing" )
+    | RaisingNothing {actual} ->
+      if negated
+      then exn_message false "an exception" "nothing"
+      else exn_message true "any exception" (Printexc.to_string @@ Option.get actual)
+  in
+  build msg false
 
 let get_raised_exception action =
   try

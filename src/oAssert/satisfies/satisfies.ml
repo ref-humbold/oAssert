@@ -3,13 +3,9 @@ open Internals
 let not (Assertion f) =
   let deny msg =
     match msg with
-    | Equality r -> Equality {r with negated = not r.negated}
-    | Condition r -> Condition {r with negated = not r.negated}
-    | ConditionResult r -> ConditionResult {r with negated = not r.negated}
-    | Raising {expected = Expecting ex; actual} -> Raising {expected = OtherThan ex; actual}
-    | Raising {expected = OtherThan ex; actual} -> Raising {expected = Expecting ex; actual}
-    | Raising {expected = Nothing; actual} -> Raising {expected = Anything; actual}
-    | Raising {expected = Anything; actual} -> Raising {expected = Nothing; actual}
+    | Negated m -> m
+    | (Equality _ | Condition _ | ConditionResult _ | Raising _ | RaisingNothing _) as m ->
+      Negated m
   in
   Assertion
     (fun actual ->

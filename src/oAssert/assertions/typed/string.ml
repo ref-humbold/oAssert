@@ -10,7 +10,7 @@ let empty =
     (fun actual ->
        build_assertion
          (SV.equal actual "")
-         (Equality {expected_str = "empty string"; actual_str = SV.to_string actual; negated = false}) )
+         (Equality {expected_str = "empty string"; actual_str = SV.to_string actual}) )
 
 let of_length length =
   Assertion
@@ -21,33 +21,28 @@ let of_length length =
          (ConditionResult
             { actual_str = SV.to_string actual;
               description = Printf.sprintf "have length %d" length;
-              result_str = Printf.sprintf "was %d" actual_length;
-              negated = false } ) )
+              result_str = Printf.sprintf "was %d" actual_length } ) )
 
 let equal expected =
   Assertion
     (fun actual ->
        build_assertion
          (SV.equal expected actual)
-         (Equality
-            {expected_str = SV.to_string expected; actual_str = SV.to_string actual; negated = false}
-         ) )
+         (Equality {expected_str = SV.to_string expected; actual_str = SV.to_string actual}) )
 
 let uppercase =
   Assertion
     (fun actual ->
        build_assertion
          (S.uppercase_ascii actual = actual)
-         (Condition
-            {actual_str = SV.to_string actual; description = "be in uppercase"; negated = false} ) )
+         (Condition {actual_str = SV.to_string actual; description = "be in uppercase"}) )
 
 let lowercase =
   Assertion
     (fun actual ->
        build_assertion
          (S.lowercase_ascii actual = actual)
-         (Condition
-            {actual_str = SV.to_string actual; description = "be in lowercase"; negated = false} ) )
+         (Condition {actual_str = SV.to_string actual; description = "be in lowercase"}) )
 
 let starting_with prefix =
   Assertion
@@ -56,8 +51,7 @@ let starting_with prefix =
          (S.starts_with ~prefix actual)
          (Condition
             { actual_str = SV.to_string actual;
-              description = Printf.sprintf "begin with %s" @@ SV.to_string prefix;
-              negated = false } ) )
+              description = Printf.sprintf "begin with %s" @@ SV.to_string prefix } ) )
 
 let ending_with suffix =
   Assertion
@@ -66,5 +60,13 @@ let ending_with suffix =
          (S.ends_with ~suffix actual)
          (Condition
             { actual_str = SV.to_string actual;
-              description = Printf.sprintf "end with %s" @@ SV.to_string suffix;
-              negated = false } ) )
+              description = Printf.sprintf "end with %s" @@ SV.to_string suffix } ) )
+
+let containing_char character =
+  Assertion
+    (fun actual ->
+       build_assertion
+         (S.contains actual character)
+         (Condition
+            { actual_str = SV.to_string actual;
+              description = Printf.sprintf "contain character %c" character } ) )

@@ -20,9 +20,7 @@ module OfEq (V : Values.EQ_VALUE) : Helpers.LIST_ASSERT with type elem = V.t = s
       (fun actual ->
          build_assertion
            (L.is_empty actual)
-           (Equality
-              {expected_str = "empty list"; actual_str = ListVal.to_string actual; negated = false}
-           ) )
+           (Equality {expected_str = "empty list"; actual_str = ListVal.to_string actual}) )
 
   let of_length length =
     Assertion
@@ -33,8 +31,7 @@ module OfEq (V : Values.EQ_VALUE) : Helpers.LIST_ASSERT with type elem = V.t = s
            (ConditionResult
               { actual_str = ListVal.to_string actual;
                 description = Printf.sprintf "have length %d" length;
-                result_str = Printf.sprintf "was %d" actual_length;
-                negated = false } ) )
+                result_str = Printf.sprintf "was %d" actual_length } ) )
 
   let equal_to expected =
     Assertion
@@ -42,9 +39,7 @@ module OfEq (V : Values.EQ_VALUE) : Helpers.LIST_ASSERT with type elem = V.t = s
          build_assertion
            (ListVal.equal expected actual)
            (Equality
-              { expected_str = ListVal.to_string expected;
-                actual_str = ListVal.to_string actual;
-                negated = false } ) )
+              {expected_str = ListVal.to_string expected; actual_str = ListVal.to_string actual} ) )
 
   let containing element =
     Assertion
@@ -53,8 +48,7 @@ module OfEq (V : Values.EQ_VALUE) : Helpers.LIST_ASSERT with type elem = V.t = s
            (Locals.contains element actual)
            (Condition
               { actual_str = ListVal.to_string actual;
-                description = Printf.sprintf "contain %s" @@ V.to_string element;
-                negated = false } ) )
+                description = Printf.sprintf "contain %s" @@ V.to_string element } ) )
 
   let containing_all elements =
     Assertion
@@ -67,8 +61,7 @@ module OfEq (V : Values.EQ_VALUE) : Helpers.LIST_ASSERT with type elem = V.t = s
            (ConditionResult
               { actual_str = ListVal.to_string actual;
                 description = Printf.sprintf "contain all values of %s" @@ ListVal.to_string elements;
-                result_str = Printf.sprintf "%s are missing" @@ ListVal.to_string missing;
-                negated = false } ) )
+                result_str = Printf.sprintf "%s are missing" @@ ListVal.to_string missing } ) )
 
   let containing_any elements =
     Assertion
@@ -77,8 +70,8 @@ module OfEq (V : Values.EQ_VALUE) : Helpers.LIST_ASSERT with type elem = V.t = s
            (L.exists (fun e -> Locals.contains e actual) elements)
            (Condition
               { actual_str = ListVal.to_string actual;
-                description = Printf.sprintf "contain any value of %s" @@ ListVal.to_string elements;
-                negated = false } ) )
+                description = Printf.sprintf "contain any value of %s" @@ ListVal.to_string elements
+              } ) )
 end
 
 module Of (V : Values.VALUE) : Helpers.LIST_ASSERT with type elem = V.t = struct
@@ -95,8 +88,7 @@ module Of (V : Values.VALUE) : Helpers.LIST_ASSERT with type elem = V.t = struct
            (L.mem element actual)
            (Condition
               { actual_str = ListVal.to_string actual;
-                description = Printf.sprintf "contain %s" @@ V.to_string element;
-                negated = false } ) )
+                description = Printf.sprintf "contain %s" @@ V.to_string element } ) )
 
   let containing_all elements =
     Assertion
@@ -107,8 +99,7 @@ module Of (V : Values.VALUE) : Helpers.LIST_ASSERT with type elem = V.t = struct
            (ConditionResult
               { actual_str = ListVal.to_string actual;
                 description = Printf.sprintf "contain all values of %s" @@ ListVal.to_string elements;
-                result_str = Printf.sprintf "%s are missing" @@ ListVal.to_string missing;
-                negated = false } ) )
+                result_str = Printf.sprintf "%s are missing" @@ ListVal.to_string missing } ) )
 
   let containing_any elements =
     Assertion
@@ -117,6 +108,6 @@ module Of (V : Values.VALUE) : Helpers.LIST_ASSERT with type elem = V.t = struct
            (L.exists (fun e -> L.mem e actual) elements)
            (Condition
               { actual_str = ListVal.to_string actual;
-                description = Printf.sprintf "contain any value of %s" @@ ListVal.to_string elements;
-                negated = false } ) )
+                description = Printf.sprintf "contain any value of %s" @@ ListVal.to_string elements
+              } ) )
 end
