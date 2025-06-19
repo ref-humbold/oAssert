@@ -51,14 +51,14 @@ let not_is_empty_Test_list =
 
 (* is_of_length_Test_list *)
 
-let is_of_length__when_actual_has_same_length__then_passed =
+let is_of_length__when_actual_has_specified_length__then_passed =
   __FUNCTION__ >:: fun _ ->
     (* when *)
     let exec () = assert_that [1; 2; 3; 4] @@ IsList.of_length 4 in
     (* then *)
     assert_that exec @@ Is.raising_nothing
 
-let is_of_length__when_actual_is_shorter__then_failed =
+let is_of_length__when_actual_shorter__then_failed =
   __FUNCTION__ >:: fun _ ->
     (* given *)
     let value = [1; 2; 3; 4] and length = 10 in
@@ -75,7 +75,7 @@ let is_of_length__when_actual_is_shorter__then_failed =
     in
     assert_that exec @@ Is.raising expected
 
-let is_of_length__when_actual_is_longer__then_failed =
+let is_of_length__when_actual_longer__then_failed =
   __FUNCTION__ >:: fun _ ->
     (* given *)
     let value = [1; 2; 3; 4] and length = 3 in
@@ -94,13 +94,13 @@ let is_of_length__when_actual_is_longer__then_failed =
 
 let is_of_length_Test_list =
   test_list
-    [ is_of_length__when_actual_has_same_length__then_passed;
-      is_of_length__when_actual_is_shorter__then_failed;
-      is_of_length__when_actual_is_longer__then_failed ]
+    [ is_of_length__when_actual_has_specified_length__then_passed;
+      is_of_length__when_actual_shorter__then_failed;
+      is_of_length__when_actual_longer__then_failed ]
 
 (* not_is_of_length_Test_list *)
 
-let not_is_of_length__when_actual_has_same_length__then_failed =
+let not_is_of_length__when_actual_has_specified_length__then_failed =
   __FUNCTION__ >:: fun _ ->
     (* given *)
     let value = [1; 2; 3; 4] and length = 4 in
@@ -113,14 +113,14 @@ let not_is_of_length__when_actual_has_same_length__then_failed =
     in
     assert_that exec @@ Is.raising expected
 
-let not_is_of_length__when_actual_is_shorter__then_passed =
+let not_is_of_length__when_actual_shorter__then_passed =
   __FUNCTION__ >:: fun _ ->
     (* when *)
     let exec () = assert_that [1; 2; 3; 4] @@ Satisfies.not @@ IsList.of_length 10 in
     (* then *)
     assert_that exec @@ Is.raising_nothing
 
-let not_is_of_length__when_actual_is_longer__then_passed =
+let not_is_of_length__when_actual_longer__then_passed =
   __FUNCTION__ >:: fun _ ->
     (* when *)
     let exec () = assert_that [1; 2; 3; 4] @@ Satisfies.not @@ IsList.of_length 3 in
@@ -129,9 +129,9 @@ let not_is_of_length__when_actual_is_longer__then_passed =
 
 let not_is_of_length_Test_list =
   test_list
-    [ not_is_of_length__when_actual_has_same_length__then_failed;
-      not_is_of_length__when_actual_is_shorter__then_passed;
-      not_is_of_length__when_actual_is_longer__then_passed ]
+    [ not_is_of_length__when_actual_has_specified_length__then_failed;
+      not_is_of_length__when_actual_shorter__then_passed;
+      not_is_of_length__when_actual_longer__then_passed ]
 
 (* is_equal_to_Test_list *)
 
@@ -160,7 +160,7 @@ let is_equal_to__when_different_elements__then_failed =
     in
     assert_that exec @@ Is.raising expected
 
-let is_equal_to__when_list_is_longer__then_failed =
+let is_equal_to__when_actual_longer__then_failed =
   __FUNCTION__ >:: fun _ ->
     (* given *)
     let value = [1; 2; 3; 4] and value' = [1; 2; 3] in
@@ -176,7 +176,7 @@ let is_equal_to__when_list_is_longer__then_failed =
     in
     assert_that exec @@ Is.raising expected
 
-let is_equal_to__when_list_is_shorter__then_failed =
+let is_equal_to__when_actual_shorter__then_failed =
   __FUNCTION__ >:: fun _ ->
     (* given *)
     let value = [1; 2; 3; 4] and value' = [1; 2; 3; 4; 5; 6; 7] in
@@ -196,8 +196,8 @@ let is_equal_to_Test_list =
   test_list
     [ is_equal_to__when_same_elements__then_passed;
       is_equal_to__when_different_elements__then_failed;
-      is_equal_to__when_list_is_longer__then_failed;
-      is_equal_to__when_list_is_shorter__then_failed ]
+      is_equal_to__when_actual_longer__then_failed;
+      is_equal_to__when_actual_shorter__then_failed ]
 
 (* not_is_equal_to_Test_list *)
 
@@ -220,14 +220,14 @@ let not_is_equal_to__when_different_elements__then_passed =
     (* then *)
     assert_that exec @@ Is.raising_nothing
 
-let not_is_equal_to__when_list_is_longer__then_passed =
+let not_is_equal_to__when_actual_longer__then_passed =
   __FUNCTION__ >:: fun _ ->
     (* when *)
     let exec () = assert_that [1; 2; 3; 4] @@ Satisfies.not @@ IsList.equal_to [1; 2; 3] in
     (* then *)
     assert_that exec @@ Is.raising_nothing
 
-let not_is_equal_to__when_list_is_shorter__then_passed =
+let not_is_equal_to__when_actual_shorter__then_passed =
   __FUNCTION__ >:: fun _ ->
     (* when *)
     let exec () =
@@ -240,8 +240,8 @@ let not_is_equal_to_Test_list =
   test_list
     [ not_is_equal_to__when_same_elements__then_failed;
       not_is_equal_to__when_different_elements__then_passed;
-      not_is_equal_to__when_list_is_longer__then_passed;
-      not_is_equal_to__when_list_is_shorter__then_passed ]
+      not_is_equal_to__when_actual_longer__then_passed;
+      not_is_equal_to__when_actual_shorter__then_passed ]
 
 (* is_containing_Test_list *)
 

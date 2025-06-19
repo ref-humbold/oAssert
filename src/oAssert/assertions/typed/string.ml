@@ -23,7 +23,7 @@ let of_length length =
               description = Printf.sprintf "have length %d" length;
               result_str = Printf.sprintf "was %d" actual_length } ) )
 
-let equal expected =
+let equal_to expected =
   Assertion
     (fun actual ->
        build_assertion
@@ -35,14 +35,14 @@ let uppercase =
     (fun actual ->
        build_assertion
          (S.uppercase_ascii actual = actual)
-         (Condition {actual_str = SV.to_string actual; description = "be in uppercase"}) )
+         (Condition {actual_str = SV.to_string actual; description = "be all uppercase"}) )
 
 let lowercase =
   Assertion
     (fun actual ->
        build_assertion
          (S.lowercase_ascii actual = actual)
-         (Condition {actual_str = SV.to_string actual; description = "be in lowercase"}) )
+         (Condition {actual_str = SV.to_string actual; description = "be all lowercase"}) )
 
 let starting_with prefix =
   Assertion
