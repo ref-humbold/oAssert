@@ -373,6 +373,276 @@ let not_is_lowercase_Test_list =
       not_is_lowercase__when_all_upper_case__then_passed;
       not_is_lowercase__when_mixed_case__then_passed ]
 
+(* is_starting_with_Test_list *)
+
+let is_starting_with__when_prefix__then_passed =
+  __FUNCTION__ >:: fun _ ->
+    (* when *)
+    let exec () = assert_that "qwertyuiop" @@ Is.String.starting_with "qwerty" in
+    (* then *)
+    assert_that exec @@ Is.raising_nothing
+
+let is_starting_with__when_prefix_empty__then_passed =
+  __FUNCTION__ >:: fun _ ->
+    (* when *)
+    let exec () = assert_that "qwertyuiop" @@ Is.String.starting_with "" in
+    (* then *)
+    assert_that exec @@ Is.raising_nothing
+
+let is_starting_with__when_not_prefix__then_failed =
+  __FUNCTION__ >:: fun _ ->
+    (* given *)
+    let value = "qwertyuiop" and prefix = "qweasd" in
+    (* when *)
+    let exec () = assert_that value @@ Is.String.starting_with prefix in
+    (* then *)
+    let expected = Assertion_failed (Printf.sprintf "Expected %s to begin with %s" value prefix) in
+    assert_that exec @@ Is.raising expected
+
+let is_starting_with__when_actual_empty__then_failed =
+  __FUNCTION__ >:: fun _ ->
+    (* given *)
+    let value = "" and prefix = "qweasd" in
+    (* when *)
+    let exec () = assert_that value @@ Is.String.starting_with prefix in
+    (* then *)
+    let expected = Assertion_failed (Printf.sprintf "Expected %s to begin with %s" value prefix) in
+    assert_that exec @@ Is.raising expected
+
+let is_starting_with_Test_list =
+  test_list
+    [ is_starting_with__when_prefix__then_passed;
+      is_starting_with__when_prefix_empty__then_passed;
+      is_starting_with__when_not_prefix__then_failed;
+      is_starting_with__when_actual_empty__then_failed ]
+
+(* not_is_starting_with_Test_list *)
+
+let not_is_starting_with__when_prefix__then_failed =
+  __FUNCTION__ >:: fun _ ->
+    (* given *)
+    let value = "qwertyuiop" and prefix = "qwerty" in
+    (* when *)
+    let exec () = assert_that value @@ Satisfies.not @@ Is.String.starting_with prefix in
+    (* then *)
+    let expected =
+      Assertion_failed (Printf.sprintf "Expected %s not to begin with %s" value prefix)
+    in
+    assert_that exec @@ Is.raising expected
+
+let not_is_starting_with__when_prefix_empty__then_failed =
+  __FUNCTION__ >:: fun _ ->
+    (* given *)
+    let value = "qwertyuiop" and prefix = "" in
+    (* when *)
+    let exec () = assert_that value @@ Satisfies.not @@ Is.String.starting_with prefix in
+    (* then *)
+    let expected =
+      Assertion_failed (Printf.sprintf "Expected %s not to begin with %s" value prefix)
+    in
+    assert_that exec @@ Is.raising expected
+
+let not_is_starting_with__when_not_prefix__then_passed =
+  __FUNCTION__ >:: fun _ ->
+    (* when *)
+    let exec () = assert_that "qwertyuiop" @@ Satisfies.not @@ Is.String.starting_with "qweasd" in
+    (* then *)
+    assert_that exec @@ Is.raising_nothing
+
+let not_is_starting_with__when_actual_empty__then_passed =
+  __FUNCTION__ >:: fun _ ->
+    (* when *)
+    let exec () = assert_that "" @@ Satisfies.not @@ Is.String.starting_with "qweasd" in
+    (* then *)
+    assert_that exec @@ Is.raising_nothing
+
+let not_is_starting_with_Test_list =
+  test_list
+    [ not_is_starting_with__when_prefix__then_failed;
+      not_is_starting_with__when_prefix_empty__then_failed;
+      not_is_starting_with__when_not_prefix__then_passed;
+      not_is_starting_with__when_actual_empty__then_passed ]
+
+(* is_ending_with_Test_list *)
+
+let is_ending_with__when_prefix__then_passed =
+  __FUNCTION__ >:: fun _ ->
+    (* when *)
+    let exec () = assert_that "qwertyuiop" @@ Is.String.ending_with "uiop" in
+    (* then *)
+    assert_that exec @@ Is.raising_nothing
+
+let is_ending_with__when_prefix_empty__then_passed =
+  __FUNCTION__ >:: fun _ ->
+    (* when *)
+    let exec () = assert_that "qwertyuiop" @@ Is.String.ending_with "" in
+    (* then *)
+    assert_that exec @@ Is.raising_nothing
+
+let is_ending_with__when_not_prefix__then_failed =
+  __FUNCTION__ >:: fun _ ->
+    (* given *)
+    let value = "qwertyuiop" and prefix = "uiasd" in
+    (* when *)
+    let exec () = assert_that value @@ Is.String.ending_with prefix in
+    (* then *)
+    let expected = Assertion_failed (Printf.sprintf "Expected %s to end with %s" value prefix) in
+    assert_that exec @@ Is.raising expected
+
+let is_ending_with__when_actual_empty__then_failed =
+  __FUNCTION__ >:: fun _ ->
+    (* given *)
+    let value = "" and prefix = "uiasd" in
+    (* when *)
+    let exec () = assert_that value @@ Is.String.ending_with prefix in
+    (* then *)
+    let expected = Assertion_failed (Printf.sprintf "Expected %s to end with %s" value prefix) in
+    assert_that exec @@ Is.raising expected
+
+let is_ending_with_Test_list =
+  test_list
+    [ is_ending_with__when_prefix__then_passed;
+      is_ending_with__when_prefix_empty__then_passed;
+      is_ending_with__when_not_prefix__then_failed;
+      is_ending_with__when_actual_empty__then_failed ]
+
+(* not_is_ending_with_Test_list *)
+
+let not_is_ending_with__when_prefix__then_failed =
+  __FUNCTION__ >:: fun _ ->
+    (* given *)
+    let value = "qwertyuiop" and prefix = "uiop" in
+    (* when *)
+    let exec () = assert_that value @@ Satisfies.not @@ Is.String.ending_with prefix in
+    (* then *)
+    let expected = Assertion_failed (Printf.sprintf "Expected %s not to end with %s" value prefix) in
+    assert_that exec @@ Is.raising expected
+
+let not_is_ending_with__when_prefix_empty__then_failed =
+  __FUNCTION__ >:: fun _ ->
+    (* given *)
+    let value = "qwertyuiop" and prefix = "" in
+    (* when *)
+    let exec () = assert_that value @@ Satisfies.not @@ Is.String.ending_with prefix in
+    (* then *)
+    let expected = Assertion_failed (Printf.sprintf "Expected %s not to end with %s" value prefix) in
+    assert_that exec @@ Is.raising expected
+
+let not_is_ending_with__when_not_prefix__then_passed =
+  __FUNCTION__ >:: fun _ ->
+    (* when *)
+    let exec () = assert_that "qwertyuiop" @@ Satisfies.not @@ Is.String.ending_with "uiasd" in
+    (* then *)
+    assert_that exec @@ Is.raising_nothing
+
+let not_is_ending_with__when_actual_empty__then_passed =
+  __FUNCTION__ >:: fun _ ->
+    (* when *)
+    let exec () = assert_that "" @@ Satisfies.not @@ Is.String.ending_with "uiasd" in
+    (* then *)
+    assert_that exec @@ Is.raising_nothing
+
+let not_is_ending_with_Test_list =
+  test_list
+    [ not_is_ending_with__when_prefix__then_failed;
+      not_is_ending_with__when_prefix_empty__then_failed;
+      not_is_ending_with__when_not_prefix__then_passed;
+      not_is_ending_with__when_actual_empty__then_passed ]
+
+(* is_containing_char_Test_list *)
+
+let is_containing_char__when_char_present__then_passed =
+  __FUNCTION__ >:: fun _ ->
+    (* when *)
+    let exec () = assert_that "qwertyuiop" @@ Is.String.containing_char 'y' in
+    (* then *)
+    assert_that exec @@ Is.raising_nothing
+
+let is_containing_char__when_special_char_present__then_passed =
+  __FUNCTION__ >:: fun _ ->
+    (* when *)
+    let exec () = assert_that "qwerty\nuiop" @@ Is.String.containing_char '\n' in
+    (* then *)
+    assert_that exec @@ Is.raising_nothing
+
+let is_containing_char__when_char_absent__then_failed =
+  __FUNCTION__ >:: fun _ ->
+    (* given *)
+    let value = "qwertyuiop" and character = '\t' in
+    (* when *)
+    let exec () = assert_that value @@ Is.String.containing_char character in
+    (* then *)
+    let expected =
+      Assertion_failed (Printf.sprintf "Expected %s to contain character %c" value character)
+    in
+    assert_that exec @@ Is.raising expected
+
+let is_containing_char__when_actual_empty__then_failed =
+  __FUNCTION__ >:: fun _ ->
+    (* given *)
+    let value = "" and character = 'a' in
+    (* when *)
+    let exec () = assert_that value @@ Is.String.containing_char character in
+    (* then *)
+    let expected =
+      Assertion_failed (Printf.sprintf "Expected %s to contain character %c" value character)
+    in
+    assert_that exec @@ Is.raising expected
+
+let is_containing_char_Test_list =
+  test_list
+    [ is_containing_char__when_char_present__then_passed;
+      is_containing_char__when_special_char_present__then_passed;
+      is_containing_char__when_char_absent__then_failed;
+      is_containing_char__when_actual_empty__then_failed ]
+
+(* not_is_containing_char_Test_list *)
+
+let not_is_containing_char__when_char_present__then_failed =
+  __FUNCTION__ >:: fun _ ->
+    (* given *)
+    let value = "qwertyuiop" and character = 'y' in
+    (* when *)
+    let exec () = assert_that value @@ Satisfies.not @@ Is.String.containing_char character in
+    (* then *)
+    let expected =
+      Assertion_failed (Printf.sprintf "Expected %s not to contain character %c" value character)
+    in
+    assert_that exec @@ Is.raising expected
+
+let not_is_containing_char__when_special_char_present__then_failed =
+  __FUNCTION__ >:: fun _ ->
+    (* given *)
+    let value = "qwerty\nuiop" and character = '\n' in
+    (* when *)
+    let exec () = assert_that value @@ Satisfies.not @@ Is.String.containing_char character in
+    (* then *)
+    let expected =
+      Assertion_failed (Printf.sprintf "Expected %s not to contain character %c" value character)
+    in
+    assert_that exec @@ Is.raising expected
+
+let not_is_containing_char__when_char_absent__then_passed =
+  __FUNCTION__ >:: fun _ ->
+    (* when *)
+    let exec () = assert_that "qwertyuiop" @@ Satisfies.not @@ Is.String.containing_char '\t' in
+    (* then *)
+    assert_that exec @@ Is.raising_nothing
+
+let not_is_containing_char__when_actual_empty__then_passed =
+  __FUNCTION__ >:: fun _ ->
+    (* when *)
+    let exec () = assert_that "" @@ Satisfies.not @@ Is.String.containing_char 'a' in
+    (* then *)
+    assert_that exec @@ Is.raising_nothing
+
+let not_is_containing_char_Test_list =
+  test_list
+    [ not_is_containing_char__when_char_present__then_failed;
+      not_is_containing_char__when_special_char_present__then_failed;
+      not_is_containing_char__when_char_absent__then_passed;
+      not_is_containing_char__when_actual_empty__then_passed ]
+
 (* string_Test *)
 
 let string_Test =
@@ -386,6 +656,12 @@ let string_Test =
          is_uppercase_Test_list;
          not_is_uppercase_Test_list;
          is_lowercase_Test_list;
-         not_is_lowercase_Test_list ]
+         not_is_lowercase_Test_list;
+         is_starting_with_Test_list;
+         not_is_starting_with_Test_list;
+         is_ending_with_Test_list;
+         not_is_ending_with_Test_list;
+         is_containing_char_Test_list;
+         not_is_containing_char_Test_list ]
 
 let _ = run_test_tt_main string_Test
