@@ -9,5 +9,7 @@ let not (Assertion f) =
   in
   Assertion
     (fun actual ->
-       let {status; failure_message} = f actual in
-       build_assertion (status = Failed) (deny failure_message) )
+       match f actual with
+       | PassAlways -> PassAlways
+       | Result (Passed, failure_message) -> Result (Failed, deny failure_message)
+       | Result (Failed, failure_message) -> Result (Passed, deny failure_message) )

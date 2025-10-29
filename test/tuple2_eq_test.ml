@@ -18,7 +18,7 @@ let is_equal_to__when_all_elements_same__then_passed =
     (* when *)
     let action () = assert_that ("qwerty", Some 123) @@ IsTuple.equal_to ("qwERTy", Some 123) in
     (* then *)
-    assert_that action @@ Is.raising_nothing
+    assert_that action Is.raising_nothing
 
 let is_equal_to__when_first_element_different__then_failed =
   __FUNCTION__ >:: fun _ ->
@@ -88,7 +88,7 @@ let not_is_equal_to__when_first_element_different__then_passed =
       assert_that ("qwerty", second) @@ Satisfies.not @@ IsTuple.equal_to ("asdf", second)
     in
     (* then *)
-    assert_that action @@ Is.raising_nothing
+    assert_that action Is.raising_nothing
 
 let not_is_equal_to__when_second_element_different__then_passed =
   __FUNCTION__ >:: fun _ ->
@@ -99,7 +99,7 @@ let not_is_equal_to__when_second_element_different__then_passed =
       assert_that (first, Some 123) @@ Satisfies.not @@ IsTuple.equal_to (first, None)
     in
     (* then *)
-    assert_that action @@ Is.raising_nothing
+    assert_that action Is.raising_nothing
 
 let not_is_equal_to_Test_list =
   test_list
@@ -114,7 +114,7 @@ let is_with_first__when_first_element_same__then_passed =
     (* when *)
     let action () = assert_that ("qwerty", Some 123) @@ IsTuple.with_first "qwERTy" in
     (* then *)
-    assert_that action @@ Is.raising_nothing
+    assert_that action Is.raising_nothing
 
 let is_with_first__when_first_element_different__then_failed =
   __FUNCTION__ >:: fun _ ->
@@ -162,7 +162,7 @@ let not_is_with_first__when_first_element_different__then_passed =
     (* when *)
     let action () = assert_that ("qwerty", Some 123) @@ Satisfies.not @@ IsTuple.with_first "asdf" in
     (* then *)
-    assert_that action @@ Is.raising_nothing
+    assert_that action Is.raising_nothing
 
 let not_is_with_first_Test_list =
   test_list
@@ -178,7 +178,7 @@ let is_with_second__when_second_element_same__then_passed =
     (* when *)
     let action () = assert_that ("qwerty", second) @@ IsTuple.with_second second in
     (* then *)
-    assert_that action @@ Is.raising_nothing
+    assert_that action Is.raising_nothing
 
 let is_with_second__when_second_element_different__then_failed =
   __FUNCTION__ >:: fun _ ->
@@ -225,7 +225,7 @@ let not_is_with_second__when_second_element_different__then_passed =
     (* when *)
     let action () = assert_that ("qwerty", Some 123) @@ Satisfies.not @@ IsTuple.with_second None in
     (* then *)
-    assert_that action @@ Is.raising_nothing
+    assert_that action Is.raising_nothing
 
 let not_is_with_second_Test_list =
   test_list

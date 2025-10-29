@@ -8,15 +8,15 @@ type assertion_message =
 
 type assertion_status = Passed | Failed
 
-type assertion_result = {status : assertion_status; failure_message : assertion_message}
+type assertion_result = PassAlways | Result of assertion_status * assertion_message
 
 type 'a assertion = Assertion of ('a -> assertion_result)
 
 let build_message msg =
-  let negated_str n = format_of_string @@ if n then " not " else " " in
-  let exn_message n raise_str caught_str =
+  let negated_str negated = format_of_string @@ if negated then " not " else " " in
+  let exn_message negated raise_str caught_str =
     Printf.sprintf
-      ("Expected action" ^^ negated_str n ^^ "to raise %s, but %s was raised")
+      ("Expected action" ^^ negated_str negated ^^ "to raise %s, but %s was raised")
       raise_str
       caught_str
   in
@@ -55,6 +55,5 @@ let get_raised_exception action =
   | ex -> Some ex
 
 let build_assertion cond message =
-  if cond
-  then {status = Passed; failure_message = message}
-  else {status = Failed; failure_message = message}
+  let status = if cond then Passed else Failed in
+  Result (status, message)

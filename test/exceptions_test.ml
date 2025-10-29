@@ -18,10 +18,11 @@ let is_raising_nothing__when_raised_exception__then_failed =
     let ex = Not_found in
     (* when *)
     let action () =
-      assert_that (fun () ->
-                    let _ = raise ex in
-                    None )
-      @@ Is.raising_nothing
+      assert_that
+        (fun () ->
+           let _ = raise ex in
+           None )
+        Is.raising_nothing
     in
     (* then *)
     let expected =
@@ -54,7 +55,7 @@ let not_is_raising_nothing__when_raised_exception__then_passed =
       assert_that (fun () ->
                     let _ = failwith "Exception" in
                     None )
-      @@ Satisfies.not @@ Is.raising_nothing
+      @@ Satisfies.not Is.raising_nothing
     in
     (* then *)
     try action () with

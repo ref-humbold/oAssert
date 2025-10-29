@@ -22,10 +22,9 @@ let ( !!! ) = assertion_failed
 
 (** [assert_that actual assertion] applies assertion function [assertion] on [actual]. *)
 let assert_that actual (Assertion f) =
-  let {status; failure_message} = f actual in
-  match status with
-  | Passed -> ()
-  | Failed -> assertion_failed @@ build_message failure_message
+  match f actual with
+  | PassAlways | Result (Passed, _) -> ()
+  | Result (Failed, failure_message) -> assertion_failed @@ build_message failure_message
 
 (** [actual <?> assertion] is [assert_that actual assertion]. *)
 let ( <?> ) = assert_that

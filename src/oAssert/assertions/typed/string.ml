@@ -33,16 +33,22 @@ let equal_to expected =
 let uppercase =
   Assertion
     (fun actual ->
-       build_assertion
-         (S.uppercase_ascii actual = actual)
-         (Condition {actual_str = SV.to_string actual; description = "be all uppercase"}) )
+       if S.uppercase_ascii actual = S.lowercase_ascii actual
+       then PassAlways
+       else
+         build_assertion
+           (S.uppercase_ascii actual = actual)
+           (Condition {actual_str = SV.to_string actual; description = "be all uppercase"}) )
 
 let lowercase =
   Assertion
     (fun actual ->
-       build_assertion
-         (S.lowercase_ascii actual = actual)
-         (Condition {actual_str = SV.to_string actual; description = "be all lowercase"}) )
+       if S.uppercase_ascii actual = S.lowercase_ascii actual
+       then PassAlways
+       else
+         build_assertion
+           (S.lowercase_ascii actual = actual)
+           (Condition {actual_str = SV.to_string actual; description = "be all lowercase"}) )
 
 let starting_with prefix =
   Assertion
