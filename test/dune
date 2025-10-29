@@ -2,6 +2,7 @@
  (names
   assertion_failed_test
   bool_test
+  char_test
   exceptions_test
   float_test
   int_test
