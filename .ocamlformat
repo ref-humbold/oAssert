@@ -1,4 +1,4 @@
-# VERSION 0.27
+# VERSION 0.28.1
 
 assignment-operator = end-line
 break-before-in = fit-or-vertical
@@ -40,6 +40,7 @@ margin = 100
 match-indent = 0
 match-indent-nested = never
 max-indent = 68
+module-indent = 2
 module-item-spacing = sparse
 nested-match = wrap
 ocp-indent-compat = true
