@@ -284,43 +284,23 @@ let is_uppercase_Test_list =
 
 (* not_is_uppercase_Test_list *)
 
-let not_is_uppercase__when_all_upper_case__then_failed =
-  __FUNCTION__ >:: fun _ ->
-    (* given *)
-    let value = "(QWERTYUIOP\tASDF@ZXCVB)" in
+let not_is_uppercase__when_negated__then_failure param =
+  let label = Printf.sprintf "%s [param = %s]" __FUNCTION__ param in
+  label >:: fun _ ->
     (* when *)
-    let action () = assert_that value @@ Satisfies.not Is.String.uppercase in
+    let action () = assert_that param @@ Satisfies.not Is.String.uppercase in
     (* then *)
-    let expected = Assertion_failed (Printf.sprintf "Expected %s not to be all uppercase" value) in
+    let expected = Failure "This assertion cannot be negated" in
     assert_that action @@ Is.raising expected
-
-let not_is_uppercase__when_all_lower_case__then_passed =
-  __FUNCTION__ >:: fun _ ->
-    (* when *)
-    let action () = assert_that "(qwertyuiop\tasdf@zxcvb)" @@ Satisfies.not Is.String.uppercase in
-    (* then *)
-    assert_that action Is.raising_nothing
-
-let not_is_uppercase__when_mixed_case__then_passed =
-  __FUNCTION__ >:: fun _ ->
-    (* when *)
-    let action () = assert_that "(QWERTYuiop\tASDF@zxcvb)" @@ Satisfies.not Is.String.uppercase in
-    (* then *)
-    assert_that action Is.raising_nothing
-
-let not_is_uppercase__when_no_letters__then_passed =
-  __FUNCTION__ >:: fun _ ->
-    (* when *)
-    let action () = assert_that "!@#$%^&*()" @@ Satisfies.not Is.String.uppercase in
-    (* then *)
-    assert_that action Is.raising_nothing
 
 let not_is_uppercase_Test_list =
   test_list
-    [ not_is_uppercase__when_all_upper_case__then_failed;
-      not_is_uppercase__when_all_lower_case__then_passed;
-      not_is_uppercase__when_mixed_case__then_passed;
-      not_is_uppercase__when_no_letters__then_passed ]
+  @@ List.map
+    (fun p -> not_is_uppercase__when_negated__then_failure p)
+    [ "(QWERTYUIOP\tASDF@ZXCVB)";
+      "(qwertyuiop\tasdf@zxcvb)";
+      "(QWERTYuiop\tASDF@zxcvb)";
+      "!@#$%^&*()" ]
 
 (* is_lowercase_Test_list *)
 
@@ -367,43 +347,23 @@ let is_lowercase_Test_list =
 
 (* not_is_lowercase_Test_list *)
 
-let not_is_lowercase__when_all_lower_case__then_failed =
-  __FUNCTION__ >:: fun _ ->
-    (* given *)
-    let value = "(qwertyuiop\tasdf@zxcvb)" in
+let not_is_lowercase__when_negated__then_failure param =
+  let label = Printf.sprintf "%s [param = %s]" __FUNCTION__ param in
+  label >:: fun _ ->
     (* when *)
-    let action () = assert_that value @@ Satisfies.not Is.String.lowercase in
+    let action () = assert_that param @@ Satisfies.not Is.String.lowercase in
     (* then *)
-    let expected = Assertion_failed (Printf.sprintf "Expected %s not to be all lowercase" value) in
+    let expected = Failure "This assertion cannot be negated" in
     assert_that action @@ Is.raising expected
-
-let not_is_lowercase__when_all_upper_case__then_passed =
-  __FUNCTION__ >:: fun _ ->
-    (* when *)
-    let action () = assert_that "(QWERTYUIOP\tASDF@ZXCVB)" @@ Satisfies.not Is.String.lowercase in
-    (* then *)
-    assert_that action Is.raising_nothing
-
-let not_is_lowercase__when_mixed_case__then_passed =
-  __FUNCTION__ >:: fun _ ->
-    (* when *)
-    let action () = assert_that "(QWERTYuiop\tASDF@zxcvb)" @@ Satisfies.not Is.String.lowercase in
-    (* then *)
-    assert_that action Is.raising_nothing
-
-let not_is_lowercase__when_no_letters__then_passed =
-  __FUNCTION__ >:: fun _ ->
-    (* when *)
-    let action () = assert_that "!@#$%^&*()" @@ Satisfies.not Is.String.lowercase in
-    (* then *)
-    assert_that action Is.raising_nothing
 
 let not_is_lowercase_Test_list =
   test_list
-    [ not_is_lowercase__when_all_lower_case__then_failed;
-      not_is_lowercase__when_all_upper_case__then_passed;
-      not_is_lowercase__when_mixed_case__then_passed;
-      not_is_lowercase__when_no_letters__then_passed ]
+  @@ List.map
+    (fun p -> not_is_lowercase__when_negated__then_failure p)
+    [ "(qwertyuiop\tasdf@zxcvb)";
+      "(QWERTYUIOP\tASDF@ZXCVB)";
+      "(QWERTYuiop\tASDF@zxcvb)";
+      "!@#$%^&*()" ]
 
 (* is_starting_with_Test_list *)
 

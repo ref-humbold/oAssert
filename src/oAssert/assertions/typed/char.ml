@@ -1,5 +1,5 @@
 open Internals
-open Constants
+open Common
 
 open struct
   module C = Stdlib.Char
@@ -82,22 +82,18 @@ let between minimum maximum =
 let uppercase =
   Assertion
     (fun actual ->
-       if C.uppercase_ascii actual = C.lowercase_ascii actual
-       then PassAlways
-       else
-         build_assertion
-           (C.uppercase_ascii actual = actual)
-           (Condition {actual_str = CV.to_string actual; description = "be an uppercase character"}) )
+       build_assertion
+         ~no_negate:()
+         (C.uppercase_ascii actual = actual)
+         (Condition {actual_str = CV.to_string actual; description = "be an uppercase character"}) )
 
 let lowercase =
   Assertion
     (fun actual ->
-       if C.uppercase_ascii actual = C.lowercase_ascii actual
-       then PassAlways
-       else
-         build_assertion
-           (C.lowercase_ascii actual = actual)
-           (Condition {actual_str = CV.to_string actual; description = "be a lowercase character"}) )
+       build_assertion
+         ~no_negate:()
+         (C.lowercase_ascii actual = actual)
+         (Condition {actual_str = CV.to_string actual; description = "be a lowercase character"}) )
 
 let whitespace =
   let whitespace_chars = CharSet.of_list [' '; '\t'; '\n'; '\r'; '\x0b'; '\x0c'] in

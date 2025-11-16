@@ -1,5 +1,5 @@
 open Internals
-include Constants
+include Common
 
 module Is = struct
   include Assertions.Bool
@@ -23,8 +23,9 @@ let ( !!! ) = assertion_failed
 (** [assert_that actual assertion] applies assertion function [assertion] on [actual]. *)
 let assert_that actual (Assertion f) =
   match f actual with
-  | PassAlways | Result (Passed, _) -> ()
-  | Result (Failed, failure_message) -> assertion_failed @@ build_message failure_message
+  | Passed | NegatablePassed _ -> ()
+  | Failed (negated, msg) -> assertion_failed @@ build_message msg negated
+  | NegatableFailed msg -> assertion_failed @@ build_message msg false
 
 (** [actual <?> assertion] is [assert_that actual assertion]. *)
 let ( <?> ) = assert_that
