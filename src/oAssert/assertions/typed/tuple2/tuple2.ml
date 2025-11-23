@@ -1,7 +1,7 @@
 open Internals
 
 module OfEq (VF : Values.EQ_VALUE) (VS : Values.EQ_VALUE) :
-  Helpers.TUPLE2_ASSERT with type fst_elem = VF.t and type snd_elem = VS.t = struct
+  Assert.TUPLE2_ASSERT with type fst_elem = VF.t and type snd_elem = VS.t = struct
   open struct
     module TupleVal = Values.Tuple2.OfEq (VF) (VS)
   end
@@ -20,7 +20,7 @@ module OfEq (VF : Values.EQ_VALUE) (VS : Values.EQ_VALUE) :
            (Equality
               {expected_str = TupleVal.to_string expected; actual_str = TupleVal.to_string actual} ) )
 
-  let with_first first =
+  let first first =
     Assertion
       (fun actual ->
          build_assertion
@@ -29,7 +29,7 @@ module OfEq (VF : Values.EQ_VALUE) (VS : Values.EQ_VALUE) :
               { actual_str = TupleVal.to_string actual;
                 description = Printf.sprintf "have first element %s" @@ VF.to_string first } ) )
 
-  let with_second second =
+  let second second =
     Assertion
       (fun actual ->
          build_assertion
@@ -40,5 +40,5 @@ module OfEq (VF : Values.EQ_VALUE) (VS : Values.EQ_VALUE) :
 end
 
 module Of (VF : Values.VALUE) (VS : Values.VALUE) :
-  Helpers.TUPLE2_ASSERT with type fst_elem = VF.t and type snd_elem = VS.t =
+  Assert.TUPLE2_ASSERT with type fst_elem = VF.t and type snd_elem = VS.t =
   OfEq (Values.AsEq (VF)) (Values.AsEq (VS))

@@ -154,21 +154,21 @@ let not_is_equal_to_Test_list =
       not_is_equal_to__when_second_element_different__then_passed;
       not_is_equal_to__when_third_element_different__then_passed ]
 
-(* is_with_first_Test_list *)
+(* is_first_Test_list *)
 
-let is_with_first__when_first_element_same__then_passed =
+let is_first__when_first_element_same__then_passed =
   __FUNCTION__ >:: fun _ ->
     (* when *)
-    let action () = assert_that ("qwerty", Some 123, [true; false]) @@ IsTuple.with_first "qwERTy" in
+    let action () = assert_that ("qwerty", Some 123, [true; false]) @@ IsTuple.first "qwERTy" in
     (* then *)
     assert_that action Is.raising_nothing
 
-let is_with_first__when_first_element_different__then_failed =
+let is_first__when_first_element_different__then_failed =
   __FUNCTION__ >:: fun _ ->
     (* given *)
     let first = "qwerty" and second = Some 123 and third = [true; false] and first' = "asdf" in
     (* when *)
-    let action () = assert_that (first, second, third) @@ IsTuple.with_first first' in
+    let action () = assert_that (first, second, third) @@ IsTuple.first first' in
     (* then *)
     let expected =
       Assertion_failed
@@ -181,21 +181,19 @@ let is_with_first__when_first_element_different__then_failed =
     in
     assert_that action @@ Is.raising expected
 
-let is_with_first_Test_list =
+let is_first_Test_list =
   test_list
-    [ is_with_first__when_first_element_same__then_passed;
-      is_with_first__when_first_element_different__then_failed ]
+    [ is_first__when_first_element_same__then_passed;
+      is_first__when_first_element_different__then_failed ]
 
-(* not_is_with_first_Test_list *)
+(* not_is_first_Test_list *)
 
-let not_is_with_first__when_first_element_same__then_failed =
+let not_is_first__when_first_element_same__then_failed =
   __FUNCTION__ >:: fun _ ->
     (* given *)
     let first = "qwerty" and second = Some 123 and third = [true; false] and first' = "qwERTy" in
     (* when *)
-    let action () =
-      assert_that (first, second, third) @@ Satisfies.not @@ IsTuple.with_first first'
-    in
+    let action () = assert_that (first, second, third) @@ Satisfies.not @@ IsTuple.first first' in
     (* then *)
     let expected =
       Assertion_failed
@@ -208,37 +206,37 @@ let not_is_with_first__when_first_element_same__then_failed =
     in
     assert_that action @@ Is.raising expected
 
-let not_is_with_first__when_first_element_different__then_passed =
+let not_is_first__when_first_element_different__then_passed =
   __FUNCTION__ >:: fun _ ->
     (* when *)
     let action () =
-      assert_that ("qwerty", Some 123, [true; false]) @@ Satisfies.not @@ IsTuple.with_first "asdf"
+      assert_that ("qwerty", Some 123, [true; false]) @@ Satisfies.not @@ IsTuple.first "asdf"
     in
     (* then *)
     assert_that action Is.raising_nothing
 
-let not_is_with_first_Test_list =
+let not_is_first_Test_list =
   test_list
-    [ not_is_with_first__when_first_element_same__then_failed;
-      not_is_with_first__when_first_element_different__then_passed ]
+    [ not_is_first__when_first_element_same__then_failed;
+      not_is_first__when_first_element_different__then_passed ]
 
-(* is_with_second_Test_list *)
+(* is_second_Test_list *)
 
-let is_with_second__when_second_element_same__then_passed =
+let is_second__when_second_element_same__then_passed =
   __FUNCTION__ >:: fun _ ->
     (* given *)
     let second = Some 123 in
     (* when *)
-    let action () = assert_that ("qwerty", second, [true; false]) @@ IsTuple.with_second second in
+    let action () = assert_that ("qwerty", second, [true; false]) @@ IsTuple.second second in
     (* then *)
     assert_that action Is.raising_nothing
 
-let is_with_second__when_second_element_different__then_failed =
+let is_second__when_second_element_different__then_failed =
   __FUNCTION__ >:: fun _ ->
     (* given *)
     let first = "qwerty" and second = Some 123 and third = [true; false] in
     (* when *)
-    let action () = assert_that (first, second, third) @@ IsTuple.with_second None in
+    let action () = assert_that (first, second, third) @@ IsTuple.second None in
     (* then *)
     let expected =
       Assertion_failed
@@ -250,21 +248,19 @@ let is_with_second__when_second_element_different__then_failed =
     in
     assert_that action @@ Is.raising expected
 
-let is_with_second_Test_list =
+let is_second_Test_list =
   test_list
-    [ is_with_second__when_second_element_same__then_passed;
-      is_with_second__when_second_element_different__then_failed ]
+    [ is_second__when_second_element_same__then_passed;
+      is_second__when_second_element_different__then_failed ]
 
-(* not_is_with_second_Test_list *)
+(* not_is_second_Test_list *)
 
-let not_is_with_second__when_second_element_same__then_failed =
+let not_is_second__when_second_element_same__then_failed =
   __FUNCTION__ >:: fun _ ->
     (* given *)
     let first = "qwerty" and second = Some 123 and third = [true; false] in
     (* when *)
-    let action () =
-      assert_that (first, second, third) @@ Satisfies.not @@ IsTuple.with_second second
-    in
+    let action () = assert_that (first, second, third) @@ Satisfies.not @@ IsTuple.second second in
     (* then *)
     let expected =
       Assertion_failed
@@ -277,37 +273,37 @@ let not_is_with_second__when_second_element_same__then_failed =
     in
     assert_that action @@ Is.raising expected
 
-let not_is_with_second__when_second_element_different__then_passed =
+let not_is_second__when_second_element_different__then_passed =
   __FUNCTION__ >:: fun _ ->
     (* when *)
     let action () =
-      assert_that ("qwerty", Some 123, [true; false]) @@ Satisfies.not @@ IsTuple.with_second None
+      assert_that ("qwerty", Some 123, [true; false]) @@ Satisfies.not @@ IsTuple.second None
     in
     (* then *)
     assert_that action Is.raising_nothing
 
-let not_is_with_second_Test_list =
+let not_is_second_Test_list =
   test_list
-    [ not_is_with_second__when_second_element_same__then_failed;
-      not_is_with_second__when_second_element_different__then_passed ]
+    [ not_is_second__when_second_element_same__then_failed;
+      not_is_second__when_second_element_different__then_passed ]
 
-(* is_with_third_Test_list *)
+(* is_third_Test_list *)
 
-let is_with_third__when_third_element_same__then_passed =
+let is_third__when_third_element_same__then_passed =
   __FUNCTION__ >:: fun _ ->
     (* given *)
     let third = [true; false] in
     (* when *)
-    let action () = assert_that ("qwerty", Some 123, third) @@ IsTuple.with_third third in
+    let action () = assert_that ("qwerty", Some 123, third) @@ IsTuple.third third in
     (* then *)
     assert_that action Is.raising_nothing
 
-let is_with_third__when_third_element_different__then_failed =
+let is_third__when_third_element_different__then_failed =
   __FUNCTION__ >:: fun _ ->
     (* given *)
     let first = "qwerty" and second = Some 123 and third = [true; false] in
     (* when *)
-    let action () = assert_that (first, second, third) @@ IsTuple.with_third [] in
+    let action () = assert_that (first, second, third) @@ IsTuple.third [] in
     (* then *)
     let expected =
       Assertion_failed
@@ -319,19 +315,19 @@ let is_with_third__when_third_element_different__then_failed =
     in
     assert_that action @@ Is.raising expected
 
-let is_with_third_Test_list =
+let is_third_Test_list =
   test_list
-    [ is_with_third__when_third_element_same__then_passed;
-      is_with_third__when_third_element_different__then_failed ]
+    [ is_third__when_third_element_same__then_passed;
+      is_third__when_third_element_different__then_failed ]
 
-(* not_is_with_third_Test_list *)
+(* not_is_third_Test_list *)
 
-let not_is_with_third__when_third_element_same__then_failed =
+let not_is_third__when_third_element_same__then_failed =
   __FUNCTION__ >:: fun _ ->
     (* given *)
     let first = "qwerty" and second = Some 123 and third = [true; false] in
     (* when *)
-    let action () = assert_that (first, second, third) @@ Satisfies.not @@ IsTuple.with_third third in
+    let action () = assert_that (first, second, third) @@ Satisfies.not @@ IsTuple.third third in
     (* then *)
     let expected =
       Assertion_failed
@@ -344,19 +340,19 @@ let not_is_with_third__when_third_element_same__then_failed =
     in
     assert_that action @@ Is.raising expected
 
-let not_is_with_third__when_third_element_different__then_passed =
+let not_is_third__when_third_element_different__then_passed =
   __FUNCTION__ >:: fun _ ->
     (* when *)
     let action () =
-      assert_that ("qwerty", Some 123, [true; false]) @@ Satisfies.not @@ IsTuple.with_third []
+      assert_that ("qwerty", Some 123, [true; false]) @@ Satisfies.not @@ IsTuple.third []
     in
     (* then *)
     assert_that action Is.raising_nothing
 
-let not_is_with_third_Test_list =
+let not_is_third_Test_list =
   test_list
-    [ not_is_with_third__when_third_element_same__then_failed;
-      not_is_with_third__when_third_element_different__then_passed ]
+    [ not_is_third__when_third_element_same__then_failed;
+      not_is_third__when_third_element_different__then_passed ]
 
 (* tuple3_Test *)
 
@@ -364,11 +360,11 @@ let tuple3_Test =
   __MODULE__
   >::: [ is_equal_to_Test_list;
          not_is_equal_to_Test_list;
-         is_with_first_Test_list;
-         not_is_with_first_Test_list;
-         is_with_second_Test_list;
-         not_is_with_second_Test_list;
-         is_with_third_Test_list;
-         not_is_with_third_Test_list ]
+         is_first_Test_list;
+         not_is_first_Test_list;
+         is_second_Test_list;
+         not_is_second_Test_list;
+         is_third_Test_list;
+         not_is_third_Test_list ]
 
 let _ = run_test_tt_main tuple3_Test

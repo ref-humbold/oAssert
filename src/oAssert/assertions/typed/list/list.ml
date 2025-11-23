@@ -4,7 +4,7 @@ open struct
   module L = Stdlib.List
 end
 
-module OfEq (V : Values.EQ_VALUE) : Helpers.LIST_ASSERT with type elem = V.t = struct
+module OfEq (V : Values.EQ_VALUE) : Assert.LIST_ASSERT with type elem = V.t = struct
   open struct
     module ListVal = Values.List.OfEq (V)
 
@@ -95,4 +95,4 @@ module OfEq (V : Values.EQ_VALUE) : Helpers.LIST_ASSERT with type elem = V.t = s
                 result_str = "none matched" } ) )
 end
 
-module Of (V : Values.VALUE) : Helpers.LIST_ASSERT with type elem = V.t = OfEq (Values.AsEq (V))
+module Of (V : Values.VALUE) : Assert.LIST_ASSERT with type elem = V.t = OfEq (Values.AsEq (V))

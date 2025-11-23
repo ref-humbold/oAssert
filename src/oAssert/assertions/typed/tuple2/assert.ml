@@ -9,7 +9,7 @@ module type TUPLE2_ASSERT = sig
 
   val equal_to : tuple2 -> tuple2 assertion
 
-  val with_first : fst_elem -> tuple2 assertion
+  val first : fst_elem -> tuple2 assertion
 
-  val with_second : snd_elem -> tuple2 assertion
+  val second : snd_elem -> tuple2 assertion
 end

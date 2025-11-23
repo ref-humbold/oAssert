@@ -1,6 +1,6 @@
 open Internals
 
-module EqOf (V : Values.EQ_VALUE) : Helpers.EQ_TYPE_ASSERT with type t = V.t = struct
+module EqOf (V : Values.EQ_VALUE) : Assert.EQ_TYPE_ASSERT with type t = V.t = struct
   type t = V.t
 
   let equal_to expected =
@@ -11,7 +11,7 @@ module EqOf (V : Values.EQ_VALUE) : Helpers.EQ_TYPE_ASSERT with type t = V.t = s
            (Equality {expected_str = V.to_string expected; actual_str = V.to_string actual}) )
 end
 
-module CmpOf (V : Values.CMP_VALUE) : Helpers.CMP_TYPE_ASSERT with type t = V.t = struct
+module CmpOf (V : Values.CMP_VALUE) : Assert.CMP_TYPE_ASSERT with type t = V.t = struct
   include EqOf (V)
 
   let greater_than expected =

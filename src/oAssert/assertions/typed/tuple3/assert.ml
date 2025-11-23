@@ -11,9 +11,9 @@ module type TUPLE3_ASSERT = sig
 
   val equal_to : tuple3 -> tuple3 assertion
 
-  val with_first : fst_elem -> tuple3 assertion
+  val first : fst_elem -> tuple3 assertion
 
-  val with_second : snd_elem -> tuple3 assertion
+  val second : snd_elem -> tuple3 assertion
 
-  val with_third : trd_elem -> tuple3 assertion
+  val third : trd_elem -> tuple3 assertion
 end
