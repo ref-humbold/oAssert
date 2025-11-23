@@ -68,46 +68,31 @@ module OfEq (V : Values.EQ_VALUE) : Helpers.LIST_ASSERT with type elem = V.t = s
       (fun actual ->
          build_assertion
            (L.exists (fun e -> Locals.contains e actual) elements)
-           (Condition
-              { actual_str = ListVal.to_string actual;
-                description = Printf.sprintf "contain any value of %s" @@ ListVal.to_string elements
-              } ) )
-end
-
-module Of (V : Values.VALUE) : Helpers.LIST_ASSERT with type elem = V.t = struct
-  open struct
-    module ListVal = Values.List.Of (V)
-  end
-
-  include OfEq (Values.AsEq (V))
-
-  let containing element =
-    Assertion
-      (fun actual ->
-         build_assertion
-           (L.mem element actual)
-           (Condition
-              { actual_str = ListVal.to_string actual;
-                description = Printf.sprintf "contain %s" @@ V.to_string element } ) )
-
-  let containing_all elements =
-    Assertion
-      (fun actual ->
-         let missing = L.filter_map (fun e -> if L.mem e actual then None else Some e) elements in
-         build_assertion
-           (L.is_empty missing)
            (ConditionResult
               { actual_str = ListVal.to_string actual;
-                description = Printf.sprintf "contain all values of %s" @@ ListVal.to_string elements;
-                result_str = Printf.sprintf "%s are missing" @@ ListVal.to_string missing } ) )
+                description = Printf.sprintf "contain any value of %s" @@ ListVal.to_string elements;
+                result_str = "none was found" } ) )
 
-  let containing_any elements =
+  let all_matching predicate =
+    Assertion
+      (fun actual ->
+         let not_matched = L.filter_map (fun e -> if predicate e then None else Some e) actual in
+         build_assertion
+           (L.is_empty not_matched)
+           (ConditionResult
+              { actual_str = ListVal.to_string actual;
+                description = Printf.sprintf "have all elements matching given predicate";
+                result_str = Printf.sprintf "%s did not match" @@ ListVal.to_string not_matched } ) )
+
+  let any_matching predicate =
     Assertion
       (fun actual ->
          build_assertion
-           (L.exists (fun e -> L.mem e actual) elements)
-           (Condition
+           (L.exists (fun e -> predicate e) actual)
+           (ConditionResult
               { actual_str = ListVal.to_string actual;
-                description = Printf.sprintf "contain any value of %s" @@ ListVal.to_string elements
-              } ) )
+                description = Printf.sprintf "have any element matching given predicate";
+                result_str = "none matched" } ) )
 end
+
+module Of (V : Values.VALUE) : Helpers.LIST_ASSERT with type elem = V.t = OfEq (Values.AsEq (V))

@@ -6,4 +6,6 @@ module type OPTION_ASSERT = sig
   val none : elem option assertion
 
   val some : elem -> elem option assertion
+
+  val value_matching : (elem -> bool) -> elem option assertion
 end

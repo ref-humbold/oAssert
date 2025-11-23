@@ -118,10 +118,98 @@ let not_is_some_Test_list =
       not_is_some__when_actual_is_some_of_other__then_passed;
       not_is_some__when_actual_is_none__then_passed ]
 
+(* is_value_matching_Test_list *)
+
+let is_value_matching__when_actual_has_value_matched__then_passed =
+  __FUNCTION__ >:: fun _ ->
+    (* when *)
+    let action () =
+      assert_that (Some "qwerty\nasdf") @@ IsOption.value_matching (fun v -> String.contains v '\n')
+    in
+    (* then *)
+    assert_that action Is.raising_nothing
+
+let is_value_matching__when_actual_has_value_not_matched__then_failed =
+  __FUNCTION__ >:: fun _ ->
+    (* given *)
+    let value = "qwerty\nasdf" in
+    (* when *)
+    let action () =
+      assert_that (Some value) @@ IsOption.value_matching (fun v -> String.contains v '\t')
+    in
+    (* then *)
+    let expected =
+      Assertion_failed
+        (Printf.sprintf "Expected Some %s to have value matching given predicate" value)
+    in
+    assert_that action @@ Is.raising expected
+
+let is_value_matching__when_actual_is_none__then_failed =
+  __FUNCTION__ >:: fun _ ->
+    (* when *)
+    let action () = assert_that None @@ IsOption.value_matching (fun v -> String.contains v '\n') in
+    (* then *)
+    let expected = Assertion_failed "Expected None to have value matching given predicate" in
+    assert_that action @@ Is.raising expected
+
+let is_value_matching_Test_list =
+  test_list
+    [ is_value_matching__when_actual_has_value_matched__then_passed;
+      is_value_matching__when_actual_has_value_not_matched__then_failed;
+      is_value_matching__when_actual_is_none__then_failed ]
+
+(* not_is_value_matching_Test_list *)
+
+let not_is_value_matching__when_actual_has_value_matched__then_failed =
+  __FUNCTION__ >:: fun _ ->
+    (* given *)
+    let value = "qwerty\nasdf" in
+    (* when *)
+    let action () =
+      assert_that (Some value) @@ Satisfies.not
+      @@ IsOption.value_matching (fun v -> String.contains v '\n')
+    in
+    (* then *)
+    let expected =
+      Assertion_failed
+        (Printf.sprintf "Expected Some %s not to have value matching given predicate" value)
+    in
+    assert_that action @@ Is.raising expected
+
+let not_is_value_matching__when_actual_has_value_not_matched__then_passed =
+  __FUNCTION__ >:: fun _ ->
+    (* when *)
+    let action () =
+      assert_that (Some "qwerty\nasdf") @@ Satisfies.not
+      @@ IsOption.value_matching (fun v -> String.contains v '\t')
+    in
+    (* then *)
+    assert_that action Is.raising_nothing
+
+let not_is_value_matching__when_actual_is_none__then_passed =
+  __FUNCTION__ >:: fun _ ->
+    (* when *)
+    let action () =
+      assert_that None @@ Satisfies.not @@ IsOption.value_matching (fun v -> String.contains v '\n')
+    in
+    (* then *)
+    assert_that action Is.raising_nothing
+
+let not_is_value_matching_Test_list =
+  test_list
+    [ not_is_value_matching__when_actual_has_value_matched__then_failed;
+      not_is_value_matching__when_actual_has_value_not_matched__then_passed;
+      not_is_value_matching__when_actual_is_none__then_passed ]
+
 (* option_Test *)
 
 let option_Test =
   __MODULE__
-  >::: [is_none_Test_list; not_is_none_Test_list; is_some_Test_list; not_is_some_Test_list]
+  >::: [ is_none_Test_list;
+         not_is_none_Test_list;
+         is_some_Test_list;
+         not_is_some_Test_list;
+         is_value_matching_Test_list;
+         not_is_value_matching_Test_list ]
 
 let _ = run_test_tt_main option_Test

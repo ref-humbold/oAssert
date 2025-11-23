@@ -27,6 +27,20 @@ module OfEq (V : Values.EQ_VALUE) : Helpers.OPTION_ASSERT with type elem = V.t =
              | None -> false )
            (Equality
               {expected_str = OptVal.to_string (Some value); actual_str = OptVal.to_string actual} ) )
+
+  let value_matching predicate =
+    Assertion
+      (fun actual ->
+         let is_match =
+           match actual with
+           | Some x -> predicate x
+           | None -> false
+         in
+         build_assertion
+           is_match
+           (Condition
+              { actual_str = OptVal.to_string actual;
+                description = "have value matching given predicate" } ) )
 end
 
 module Of (V : Values.VALUE) : Helpers.OPTION_ASSERT with type elem = V.t = OfEq (Values.AsEq (V))
