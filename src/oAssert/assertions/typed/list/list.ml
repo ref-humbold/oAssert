@@ -1,4 +1,5 @@
 open Internals
+open Shared.Length
 
 open struct
   module L = Stdlib.List
@@ -15,23 +16,18 @@ module OfEq (V : Values.EQ_VALUE) : Assert.LIST_ASSERT with type elem = V.t = st
 
   type elem = V.t
 
+  module Length = LengthAssertions (struct
+      module V = ListVal
+
+      let get_length = L.length
+    end)
+
   let empty =
     Assertion
       (fun actual ->
          build_assertion
            (L.is_empty actual)
            (Equality {expected_str = "empty list"; actual_str = ListVal.to_string actual}) )
-
-  let of_length length =
-    Assertion
-      (fun actual ->
-         let actual_length = L.length actual in
-         build_assertion
-           (actual_length = length)
-           (ConditionResult
-              { actual_str = ListVal.to_string actual;
-                description = Printf.sprintf "have length %d" length;
-                result_str = Printf.sprintf "was %d" actual_length } ) )
 
   let equal_to expected =
     Assertion

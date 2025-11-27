@@ -1,8 +1,15 @@
 (* Tests: List assertions. *)
 open OUnit2
 open OAssert
-module ListVal = Values.List.Of (Values.Int)
-module IsList = Is.List.Of (Values.Int)
+
+module Val = struct
+  include Values.Tuple2.Of (Values.Int) (Values.Char)
+
+  let equal (x1, y1) (x2, y2) = abs x1 = abs x2 && y1 = y2
+end
+
+module ListVal = Values.List.OfEq (Val)
+module IsList = Is.List.OfEq (Val)
 
 (* is_empty_Test_list *)
 
@@ -16,7 +23,7 @@ let is_empty__when_actual_empty__then_passed =
 let is_empty__when_actual_not_empty__then_failed =
   __FUNCTION__ >:: fun _ ->
     (* given *)
-    let value = [1; 2; 3; 4] in
+    let value = [(1, 'a'); (2, 'b'); (3, 'c'); (4, 'd')] in
     (* when *)
     let action () = assert_that value IsList.empty in
     (* then *)
@@ -41,7 +48,9 @@ let not_is_empty__when_actual_empty__then_failed =
 let not_is_empty__when_actual_not_empty__then_passed =
   __FUNCTION__ >:: fun _ ->
     (* when *)
-    let action () = assert_that [1; 2; 3; 4] @@ Satisfies.not IsList.empty in
+    let action () =
+      assert_that [(1, 'a'); (2, 'b'); (3, 'c'); (4, 'd')] @@ Satisfies.not IsList.empty
+    in
     (* then *)
     assert_that action Is.raising_nothing
 
@@ -49,105 +58,23 @@ let not_is_empty_Test_list =
   test_list
     [not_is_empty__when_actual_empty__then_failed; not_is_empty__when_actual_not_empty__then_passed]
 
-(* is_of_length_Test_list *)
-
-let is_of_length__when_actual_has_specified_length__then_passed =
-  __FUNCTION__ >:: fun _ ->
-    (* when *)
-    let action () = assert_that [1; 2; 3; 4] @@ IsList.of_length 4 in
-    (* then *)
-    assert_that action Is.raising_nothing
-
-let is_of_length__when_actual_shorter__then_failed =
-  __FUNCTION__ >:: fun _ ->
-    (* given *)
-    let value = [1; 2; 3; 4] and length = 10 in
-    (* when *)
-    let action () = assert_that value @@ IsList.of_length length in
-    (* then *)
-    let expected =
-      Assertion_failed
-        (Printf.sprintf
-           "Expected %s to have length %d, but was %d"
-           (ListVal.to_string value)
-           length
-           (List.length value) )
-    in
-    assert_that action @@ Is.raising expected
-
-let is_of_length__when_actual_longer__then_failed =
-  __FUNCTION__ >:: fun _ ->
-    (* given *)
-    let value = [1; 2; 3; 4] and length = 3 in
-    (* when *)
-    let action () = assert_that value @@ IsList.of_length length in
-    (* then *)
-    let expected =
-      Assertion_failed
-        (Printf.sprintf
-           "Expected %s to have length %d, but was %d"
-           (ListVal.to_string value)
-           length
-           (List.length value) )
-    in
-    assert_that action @@ Is.raising expected
-
-let is_of_length_Test_list =
-  test_list
-    [ is_of_length__when_actual_has_specified_length__then_passed;
-      is_of_length__when_actual_shorter__then_failed;
-      is_of_length__when_actual_longer__then_failed ]
-
-(* not_is_of_length_Test_list *)
-
-let not_is_of_length__when_actual_has_specified_length__then_failed =
-  __FUNCTION__ >:: fun _ ->
-    (* given *)
-    let value = [1; 2; 3; 4] and length = 4 in
-    (* when *)
-    let action () = assert_that value @@ Satisfies.not @@ IsList.of_length length in
-    (* then *)
-    let expected =
-      Assertion_failed
-        (Printf.sprintf "Expected %s not to have length %d" (ListVal.to_string value) length)
-    in
-    assert_that action @@ Is.raising expected
-
-let not_is_of_length__when_actual_shorter__then_passed =
-  __FUNCTION__ >:: fun _ ->
-    (* when *)
-    let action () = assert_that [1; 2; 3; 4] @@ Satisfies.not @@ IsList.of_length 10 in
-    (* then *)
-    assert_that action Is.raising_nothing
-
-let not_is_of_length__when_actual_longer__then_passed =
-  __FUNCTION__ >:: fun _ ->
-    (* when *)
-    let action () = assert_that [1; 2; 3; 4] @@ Satisfies.not @@ IsList.of_length 3 in
-    (* then *)
-    assert_that action Is.raising_nothing
-
-let not_is_of_length_Test_list =
-  test_list
-    [ not_is_of_length__when_actual_has_specified_length__then_failed;
-      not_is_of_length__when_actual_shorter__then_passed;
-      not_is_of_length__when_actual_longer__then_passed ]
-
 (* is_equal_to_Test_list *)
 
 let is_equal_to__when_same_elements__then_passed =
   __FUNCTION__ >:: fun _ ->
     (* given *)
-    let value = [1; 2; 3; 4] in
+    let value = [(1, 'a'); (2, 'b'); (3, 'c'); (4, 'd')]
+    and value' = [(1, 'a'); (-2, 'b'); (-3, 'c'); (4, 'd')] in
     (* when *)
-    let action () = assert_that value @@ IsList.equal_to value in
+    let action () = assert_that value @@ IsList.equal_to value' in
     (* then *)
     assert_that action Is.raising_nothing
 
 let is_equal_to__when_different_elements__then_failed =
   __FUNCTION__ >:: fun _ ->
     (* given *)
-    let value = [1; 2; 3; 4] and value' = [1; 3; 5; 7] in
+    let value = [(1, 'a'); (2, 'b'); (3, 'c'); (4, 'd')]
+    and value' = [(1, 'a'); (-3, 'c'); (-5, 'e'); (7, 'g')] in
     (* when *)
     let action () = assert_that value @@ IsList.equal_to value' in
     (* then *)
@@ -160,10 +87,11 @@ let is_equal_to__when_different_elements__then_failed =
     in
     assert_that action @@ Is.raising expected
 
-let is_equal_to__when_actual_longer__then_failed =
+let is_equal_to__when_list_is_longer__then_failed =
   __FUNCTION__ >:: fun _ ->
     (* given *)
-    let value = [1; 2; 3; 4] and value' = [1; 2; 3] in
+    let value = [(1, 'a'); (2, 'b'); (3, 'c'); (4, 'd')]
+    and value' = [(1, 'a'); (-2, 'b'); (-3, 'c')] in
     (* when *)
     let action () = assert_that value @@ IsList.equal_to value' in
     (* then *)
@@ -176,10 +104,11 @@ let is_equal_to__when_actual_longer__then_failed =
     in
     assert_that action @@ Is.raising expected
 
-let is_equal_to__when_actual_shorter__then_failed =
+let is_equal_to__when_list_is_shorter__then_failed =
   __FUNCTION__ >:: fun _ ->
     (* given *)
-    let value = [1; 2; 3; 4] and value' = [1; 2; 3; 4; 5; 6; 7] in
+    let value = [(1, 'a'); (2, 'b'); (3, 'c'); (4, 'd')]
+    and value' = [(1, 'a'); (-2, 'b'); (-3, 'c'); (4, 'd'); (-5, 'e'); (6, 'f'); (7, 'g')] in
     (* when *)
     let action () = assert_that value @@ IsList.equal_to value' in
     (* then *)
@@ -196,42 +125,53 @@ let is_equal_to_Test_list =
   test_list
     [ is_equal_to__when_same_elements__then_passed;
       is_equal_to__when_different_elements__then_failed;
-      is_equal_to__when_actual_longer__then_failed;
-      is_equal_to__when_actual_shorter__then_failed ]
+      is_equal_to__when_list_is_longer__then_failed;
+      is_equal_to__when_list_is_shorter__then_failed ]
 
 (* not_is_equal_to_Test_list *)
 
 let not_is_equal_to__when_same_elements__then_failed =
   __FUNCTION__ >:: fun _ ->
     (* given *)
-    let value = [1; 2; 3; 4] in
+    let value = [(1, 'a'); (2, 'b'); (3, 'c'); (4, 'd')]
+    and value' = [(1, 'a'); (-2, 'b'); (-3, 'c'); (4, 'd')] in
     (* when *)
-    let action () = assert_that value @@ Satisfies.not @@ IsList.equal_to value in
+    let action () = assert_that value @@ Satisfies.not @@ IsList.equal_to value' in
     (* then *)
     let expected =
-      Assertion_failed (Printf.sprintf "Expected value different than %s" (ListVal.to_string value))
+      Assertion_failed (Printf.sprintf "Expected value different than %s" (ListVal.to_string value'))
     in
     assert_that action @@ Is.raising expected
 
 let not_is_equal_to__when_different_elements__then_passed =
   __FUNCTION__ >:: fun _ ->
     (* when *)
-    let action () = assert_that [1; 2; 3; 4] @@ Satisfies.not @@ IsList.equal_to [1; 3; 5; 7] in
+    let action () =
+      assert_that [(1, 'a'); (2, 'b'); (3, 'c'); (4, 'd')]
+      @@ Satisfies.not
+      @@ IsList.equal_to [(1, 'a'); (-3, 'c'); (-5, 'e'); (7, 'g')]
+    in
     (* then *)
     assert_that action Is.raising_nothing
 
-let not_is_equal_to__when_actual_longer__then_passed =
-  __FUNCTION__ >:: fun _ ->
-    (* when *)
-    let action () = assert_that [1; 2; 3; 4] @@ Satisfies.not @@ IsList.equal_to [1; 2; 3] in
-    (* then *)
-    assert_that action Is.raising_nothing
-
-let not_is_equal_to__when_actual_shorter__then_passed =
+let not_is_equal_to__when_list_is_longer__then_passed =
   __FUNCTION__ >:: fun _ ->
     (* when *)
     let action () =
-      assert_that [1; 2; 3; 4] @@ Satisfies.not @@ IsList.equal_to [1; 2; 3; 4; 5; 6; 7]
+      assert_that [(1, 'a'); (2, 'b'); (3, 'c'); (4, 'd')]
+      @@ Satisfies.not
+      @@ IsList.equal_to [(1, 'a'); (-2, 'b'); (-3, 'c')]
+    in
+    (* then *)
+    assert_that action Is.raising_nothing
+
+let not_is_equal_to__when_list_is_shorter__then_passed =
+  __FUNCTION__ >:: fun _ ->
+    (* when *)
+    let action () =
+      assert_that [(1, 'a'); (2, 'b'); (3, 'c'); (4, 'd')]
+      @@ Satisfies.not
+      @@ IsList.equal_to [(1, 'a'); (-2, 'b'); (-3, 'c'); (4, 'd'); (-5, 'e'); (6, 'f'); (7, 'g')]
     in
     (* then *)
     assert_that action Is.raising_nothing
@@ -240,27 +180,34 @@ let not_is_equal_to_Test_list =
   test_list
     [ not_is_equal_to__when_same_elements__then_failed;
       not_is_equal_to__when_different_elements__then_passed;
-      not_is_equal_to__when_actual_longer__then_passed;
-      not_is_equal_to__when_actual_shorter__then_passed ]
+      not_is_equal_to__when_list_is_longer__then_passed;
+      not_is_equal_to__when_list_is_shorter__then_passed ]
 
 (* is_containing_Test_list *)
 
 let is_containing__when_element_present__then_passed =
   __FUNCTION__ >:: fun _ ->
     (* when *)
-    let action () = assert_that [1; 2; 3; 4] @@ IsList.containing 2 in
+    let action () =
+      assert_that [(1, 'a'); (2, 'b'); (3, 'c'); (4, 'd')] @@ IsList.containing (-2, 'b')
+    in
     (* then *)
     assert_that action Is.raising_nothing
 
 let is_containing__when_element_absent__then_failed =
   __FUNCTION__ >:: fun _ ->
     (* given *)
-    let value = [1; 2; 3; 4] and element = 10 in
+    let value = [(1, 'a'); (2, 'b'); (3, 'c'); (4, 'd')] and element = (10, 'j') in
     (* when *)
     let action () = assert_that value @@ IsList.containing element in
     (* then *)
     let expected =
-      Assertion_failed (Printf.sprintf "Expected %s to contain %d" (ListVal.to_string value) element)
+      Assertion_failed
+        (Printf.sprintf
+           "Expected %s to contain (%d, %c)"
+           (ListVal.to_string value)
+           (fst element)
+           (snd element) )
     in
     assert_that action @@ Is.raising expected
 
@@ -274,20 +221,28 @@ let is_containing_Test_list =
 let not_is_containing__when_element_present__then_failed =
   __FUNCTION__ >:: fun _ ->
     (* given *)
-    let value = [1; 2; 3; 4] and element = 2 in
+    let value = [(1, 'a'); (2, 'b'); (3, 'c'); (4, 'd')] and element = (-2, 'b') in
     (* when *)
     let action () = assert_that value @@ Satisfies.not @@ IsList.containing element in
     (* then *)
     let expected =
       Assertion_failed
-        (Printf.sprintf "Expected %s not to contain %d" (ListVal.to_string value) element)
+        (Printf.sprintf
+           "Expected %s not to contain (%d, %c)"
+           (ListVal.to_string value)
+           (fst element)
+           (snd element) )
     in
     assert_that action @@ Is.raising expected
 
 let not_is_containing__when_element_absent__then_passed =
   __FUNCTION__ >:: fun _ ->
     (* when *)
-    let action () = assert_that [1; 2; 3; 4] @@ Satisfies.not @@ IsList.containing 10 in
+    let action () =
+      assert_that [(1, 'a'); (2, 'b'); (3, 'c'); (4, 'd')]
+      @@ Satisfies.not
+      @@ IsList.containing (10, 'j')
+    in
     (* then *)
     assert_that action Is.raising_nothing
 
@@ -301,14 +256,20 @@ let not_is_containing_Test_list =
 let is_containing_all__when_all_elements_present__then_passed =
   __FUNCTION__ >:: fun _ ->
     (* when *)
-    let action () = assert_that [1; 2; 3; 4; 5; 6; 7; 8; 9] @@ IsList.containing_all [2; 4; 6; 8] in
+    let action () =
+      assert_that
+        [(1, 'a'); (2, 'b'); (3, 'c'); (4, 'd'); (5, 'e'); (6, 'f'); (7, 'g'); (8, 'h'); (9, 'i')]
+      @@ IsList.containing_all [(-2, 'b'); (4, 'd'); (6, 'f'); (-8, 'h')]
+    in
     (* then *)
     assert_that action Is.raising_nothing
 
 let is_containing_all__when_some_elements_absent__then_failed =
   __FUNCTION__ >:: fun _ ->
     (* given *)
-    let value = [1; 2; 3; 4; 5; 6; 7; 8; 9] and elements = [4; 12; 8; 20] in
+    let value =
+      [(1, 'a'); (2, 'b'); (3, 'c'); (4, 'd'); (5, 'e'); (6, 'f'); (7, 'g'); (8, 'h'); (9, 'i')]
+    and elements = [(4, 'd'); (12, 'l'); (-8, 'h'); (20, 't')] in
     (* when *)
     let action () = assert_that value @@ IsList.containing_all elements in
     (* then *)
@@ -318,7 +279,7 @@ let is_containing_all__when_some_elements_absent__then_failed =
            "Expected %s to contain all values of %s, but %s are missing"
            (ListVal.to_string value)
            (ListVal.to_string elements)
-           (ListVal.to_string [12; 20]) )
+           (ListVal.to_string [(12, 'l'); (20, 't')]) )
     in
     assert_that action @@ Is.raising expected
 
@@ -332,7 +293,9 @@ let is_containing_all_Test_list =
 let not_is_containing_all__when_all_elements_present__then_failed =
   __FUNCTION__ >:: fun _ ->
     (* given *)
-    let value = [1; 2; 3; 4; 5; 6; 7; 8; 9] and elements = [2; 4; 6; 8] in
+    let value =
+      [(1, 'a'); (2, 'b'); (3, 'c'); (4, 'd'); (5, 'e'); (6, 'f'); (7, 'g'); (8, 'h'); (9, 'i')]
+    and elements = [(-2, 'b'); (4, 'd'); (6, 'f'); (-8, 'h')] in
     (* when *)
     let action () = assert_that value @@ Satisfies.not @@ IsList.containing_all elements in
     (* then *)
@@ -349,7 +312,10 @@ let not_is_containing_all__when_some_elements_absent__then_passed =
   __FUNCTION__ >:: fun _ ->
     (* when *)
     let action () =
-      assert_that [1; 2; 3; 4; 5; 6; 7; 8; 9] @@ Satisfies.not @@ IsList.containing_all [4; 12; 8; 20]
+      assert_that
+        [(1, 'a'); (2, 'b'); (3, 'c'); (4, 'd'); (5, 'e'); (6, 'f'); (7, 'g'); (8, 'h'); (9, 'i')]
+      @@ Satisfies.not
+      @@ IsList.containing_all [(4, 'd'); (12, 'l'); (-8, 'h'); (20, 't')]
     in
     (* then *)
     assert_that action Is.raising_nothing
@@ -364,14 +330,20 @@ let not_is_containing_all_Test_list =
 let is_containing_any__when_some_elements_present__then_passed =
   __FUNCTION__ >:: fun _ ->
     (* when *)
-    let action () = assert_that [1; 2; 3; 4; 5; 6; 7; 8; 9] @@ IsList.containing_any [4; 12; 8; 20] in
+    let action () =
+      assert_that
+        [(1, 'a'); (2, 'b'); (3, 'c'); (4, 'd'); (5, 'e'); (6, 'f'); (7, 'g'); (8, 'h'); (9, 'i')]
+      @@ IsList.containing_any [(4, 'd'); (12, 'l'); (-8, 'h'); (20, 't')]
+    in
     (* then *)
     assert_that action Is.raising_nothing
 
 let is_containing_any__when_all_elements_absent__then_failed =
   __FUNCTION__ >:: fun _ ->
     (* given *)
-    let value = [1; 2; 3; 4; 5; 6; 7; 8; 9] and elements = [12; 14; 16; 18] in
+    let value =
+      [(1, 'a'); (2, 'b'); (3, 'c'); (4, 'd'); (5, 'e'); (6, 'f'); (7, 'g'); (8, 'h'); (9, 'i')]
+    and elements = [(12, 'l'); (14, 'n'); (16, 'p'); (18, 'r')] in
     (* when *)
     let action () = assert_that value @@ IsList.containing_any elements in
     (* then *)
@@ -394,7 +366,9 @@ let is_containing_any_Test_list =
 let not_is_containing_any__when_some_elements_present__then_failed =
   __FUNCTION__ >:: fun _ ->
     (* given *)
-    let value = [1; 2; 3; 4; 5; 6; 7; 8; 9] and elements = [4; 12; 8; 20] in
+    let value =
+      [(1, 'a'); (2, 'b'); (3, 'c'); (4, 'd'); (5, 'e'); (6, 'f'); (7, 'g'); (8, 'h'); (9, 'i')]
+    and elements = [(4, 'd'); (12, 'l'); (-8, 'h'); (20, 't')] in
     (* when *)
     let action () = assert_that value @@ Satisfies.not @@ IsList.containing_any elements in
     (* then *)
@@ -411,9 +385,10 @@ let not_is_containing_any__when_all_elements_absent__then_passed =
   __FUNCTION__ >:: fun _ ->
     (* when *)
     let action () =
-      assert_that [1; 2; 3; 4; 5; 6; 7; 8; 9]
+      assert_that
+        [(1, 'a'); (2, 'b'); (3, 'c'); (4, 'd'); (5, 'e'); (6, 'f'); (7, 'g'); (8, 'h'); (9, 'i')]
       @@ Satisfies.not
-      @@ IsList.containing_any [12; 14; 16; 18]
+      @@ IsList.containing_any [(12, 'l'); (14, 'n'); (16, 'p'); (18, 'r')]
     in
     (* then *)
     assert_that action Is.raising_nothing
@@ -428,23 +403,29 @@ let not_is_containing_any_Test_list =
 let is_all_matching__when_all_elements_matched__then_passed =
   __FUNCTION__ >:: fun _ ->
     (* when *)
-    let action () = assert_that [1; 2; 3; 4; 5; 6; 7; 8; 9] @@ IsList.all_matching (fun e -> e > 0) in
+    let action () =
+      assert_that
+        [(1, 'a'); (2, 'b'); (3, 'c'); (4, 'd'); (5, 'e'); (6, 'f'); (7, 'g'); (8, 'h'); (9, 'i')]
+      @@ IsList.all_matching (fun e -> fst e > 0)
+    in
     (* then *)
     assert_that action Is.raising_nothing
 
 let is_all_matching__when_some_elements_not_matched__then_failed =
   __FUNCTION__ >:: fun _ ->
     (* given *)
-    let value = [1; 2; 3; 4; 5; 6; 7; 8; 9] in
+    let value =
+      [(1, 'a'); (2, 'b'); (3, 'c'); (4, 'd'); (5, 'e'); (6, 'f'); (7, 'g'); (8, 'h'); (9, 'i')]
+    in
     (* when *)
-    let action () = assert_that value @@ IsList.all_matching (fun e -> e mod 2 = 0) in
+    let action () = assert_that value @@ IsList.all_matching (fun e -> snd e <= 'e') in
     (* then *)
     let expected =
       Assertion_failed
         (Printf.sprintf
            "Expected %s to have all elements matching given predicate, but %s did not match"
            (ListVal.to_string value)
-           (ListVal.to_string [1; 3; 5; 7; 9]) )
+           (ListVal.to_string [(6, 'f'); (7, 'g'); (8, 'h'); (9, 'i')]) )
     in
     assert_that action @@ Is.raising expected
 
@@ -458,9 +439,11 @@ let is_all_matching_Test_list =
 let not_is_all_matching__when_all_elements_matched__then_failed =
   __FUNCTION__ >:: fun _ ->
     (* given *)
-    let value = [1; 2; 3; 4; 5; 6; 7; 8; 9] in
+    let value =
+      [(1, 'a'); (2, 'b'); (3, 'c'); (4, 'd'); (5, 'e'); (6, 'f'); (7, 'g'); (8, 'h'); (9, 'i')]
+    in
     (* when *)
-    let action () = assert_that value @@ Satisfies.not @@ IsList.all_matching (fun e -> e > 0) in
+    let action () = assert_that value @@ Satisfies.not @@ IsList.all_matching (fun e -> fst e > 0) in
     (* then *)
     let expected =
       Assertion_failed
@@ -474,9 +457,10 @@ let not_is_all_matching__when_some_elements_not_matched__then_passed =
   __FUNCTION__ >:: fun _ ->
     (* when *)
     let action () =
-      assert_that [1; 2; 3; 4; 5; 6; 7; 8; 9]
+      assert_that
+        [(1, 'a'); (2, 'b'); (3, 'c'); (4, 'd'); (5, 'e'); (6, 'f'); (7, 'g'); (8, 'h'); (9, 'i')]
       @@ Satisfies.not
-      @@ IsList.all_matching (fun e -> e mod 2 = 0)
+      @@ IsList.all_matching (fun e -> snd e <= 'e')
     in
     (* then *)
     assert_that action Is.raising_nothing
@@ -492,7 +476,9 @@ let is_any_matching__when_some_elements_matched__then_passed =
   __FUNCTION__ >:: fun _ ->
     (* when *)
     let action () =
-      assert_that [1; 2; 3; 4; 5; 6; 7; 8; 9] @@ IsList.any_matching (fun e -> e mod 2 = 0)
+      assert_that
+        [(1, 'a'); (2, 'b'); (3, 'c'); (4, 'd'); (5, 'e'); (6, 'f'); (7, 'g'); (8, 'h'); (9, 'i')]
+      @@ IsList.any_matching (fun e -> snd e <= 'e')
     in
     (* then *)
     assert_that action Is.raising_nothing
@@ -500,9 +486,11 @@ let is_any_matching__when_some_elements_matched__then_passed =
 let is_any_matching__when_all_elements_not_matched__then_failed =
   __FUNCTION__ >:: fun _ ->
     (* given *)
-    let value = [1; 2; 3; 4; 5; 6; 7; 8; 9] in
+    let value =
+      [(1, 'a'); (2, 'b'); (3, 'c'); (4, 'd'); (5, 'e'); (6, 'f'); (7, 'g'); (8, 'h'); (9, 'i')]
+    in
     (* when *)
-    let action () = assert_that value @@ IsList.any_matching (fun e -> e < 0) in
+    let action () = assert_that value @@ IsList.any_matching (fun e -> fst e < 0) in
     (* then *)
     let expected =
       Assertion_failed
@@ -522,10 +510,12 @@ let is_any_matching_Test_list =
 let not_is_any_matching__when_some_elements_matched__then_failed =
   __FUNCTION__ >:: fun _ ->
     (* given *)
-    let value = [1; 2; 3; 4; 5; 6; 7; 8; 9] in
+    let value =
+      [(1, 'a'); (2, 'b'); (3, 'c'); (4, 'd'); (5, 'e'); (6, 'f'); (7, 'g'); (8, 'h'); (9, 'i')]
+    in
     (* when *)
     let action () =
-      assert_that value @@ Satisfies.not @@ IsList.any_matching (fun e -> e mod 2 = 0)
+      assert_that value @@ Satisfies.not @@ IsList.any_matching (fun e -> snd e <= 'e')
     in
     (* then *)
     let expected =
@@ -540,7 +530,10 @@ let not_is_any_matching__when_all_elements_not_matched__then_passed =
   __FUNCTION__ >:: fun _ ->
     (* when *)
     let action () =
-      assert_that [1; 2; 3; 4; 5; 6; 7; 8; 9] @@ Satisfies.not @@ IsList.any_matching (fun e -> e < 0)
+      assert_that
+        [(1, 'a'); (2, 'b'); (3, 'c'); (4, 'd'); (5, 'e'); (6, 'f'); (7, 'g'); (8, 'h'); (9, 'i')]
+      @@ Satisfies.not
+      @@ IsList.any_matching (fun e -> fst e < 0)
     in
     (* then *)
     assert_that action Is.raising_nothing
@@ -556,8 +549,6 @@ let list_Test =
   __MODULE__
   >::: [ is_empty_Test_list;
          not_is_empty_Test_list;
-         is_of_length_Test_list;
-         not_is_of_length_Test_list;
          is_equal_to_Test_list;
          not_is_equal_to_Test_list;
          is_containing_Test_list;

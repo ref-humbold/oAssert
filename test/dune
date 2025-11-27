@@ -6,10 +6,13 @@
   exceptions_test
   float_test
   int_test
+  list_eq_length_test
   list_eq_test
+  list_length_test
   list_test
   option_eq_test
   option_test
+  string_length_test
   string_test
   tuple2_test
   tuple2_eq_test
@@ -21,3 +24,5 @@
  (dev
   (flags
    (:standard -warn-error -A -w +A-70))))
+
+(include_subdirs unqualified)

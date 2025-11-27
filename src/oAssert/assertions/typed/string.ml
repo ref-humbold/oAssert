@@ -1,9 +1,16 @@
 open Internals
+open Shared.Length
 
 open struct
   module S = Stdlib.String
   module SV = Values.String
 end
+
+module Length = LengthAssertions (struct
+    module V = SV
+
+    let get_length = S.length
+  end)
 
 let empty =
   Assertion
@@ -11,17 +18,6 @@ let empty =
        build_assertion
          (SV.equal actual "")
          (Equality {expected_str = "empty string"; actual_str = SV.to_string actual}) )
-
-let of_length length =
-  Assertion
-    (fun actual ->
-       let actual_length = S.length actual in
-       build_assertion
-         (length = actual_length)
-         (ConditionResult
-            { actual_str = SV.to_string actual;
-              description = Printf.sprintf "have length %d" length;
-              result_str = Printf.sprintf "was %d" actual_length } ) )
 
 let equal_to expected =
   Assertion
