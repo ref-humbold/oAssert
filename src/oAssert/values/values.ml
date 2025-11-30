@@ -15,7 +15,7 @@ end
 module String : CMP_VALUE with type t = string = struct
   include Stdlib.String
 
-  let to_string s = s
+  let to_string = Printf.sprintf "%S"
 end
 
 module Option = struct

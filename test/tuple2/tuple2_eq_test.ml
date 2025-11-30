@@ -30,7 +30,7 @@ let is_equal_to__when_first_element_different__then_failed =
     let expected =
       Assertion_failed
         (Printf.sprintf
-           "Expected (%s, %s), but was (%s, %s)"
+           "Expected (%S, %s), but was (%S, %s)"
            first'
            (IntOption.to_string second)
            first
@@ -48,7 +48,7 @@ let is_equal_to__when_second_element_different__then_failed =
     let expected =
       Assertion_failed
         (Printf.sprintf
-           "Expected (%s, None), but was (%s, %s)"
+           "Expected (%S, None), but was (%S, %s)"
            first
            first
            (IntOption.to_string second) )
@@ -73,7 +73,7 @@ let not_is_equal_to__when_all_elements_same__then_failed =
     let expected =
       Assertion_failed
         (Printf.sprintf
-           "Expected value different than (%s, %s)"
+           "Expected value different than (%S, %s)"
            (fst pair')
            (IntOption.to_string @@ snd pair') )
     in
@@ -126,7 +126,7 @@ let is_first__when_first_element_different__then_failed =
     let expected =
       Assertion_failed
         (Printf.sprintf
-           "Expected (%s, %s) to have first element %s"
+           "Expected (%S, %s) to have first element %S"
            first
            (IntOption.to_string second)
            first' )
@@ -150,7 +150,7 @@ let not_is_first__when_first_element_same__then_failed =
     let expected =
       Assertion_failed
         (Printf.sprintf
-           "Expected (%s, %s) not to have first element %s"
+           "Expected (%S, %s) not to have first element %S"
            first
            (IntOption.to_string second)
            first' )
@@ -190,7 +190,7 @@ let is_second__when_second_element_different__then_failed =
     let expected =
       Assertion_failed
         (Printf.sprintf
-           "Expected (%s, %s) to have second element None"
+           "Expected (%S, %s) to have second element None"
            first
            (IntOption.to_string second) )
     in
@@ -213,7 +213,7 @@ let not_is_second__when_second_element_same__then_failed =
     let expected =
       Assertion_failed
         (Printf.sprintf
-           "Expected (%s, %s) not to have second element %s"
+           "Expected (%S, %s) not to have second element %s"
            first
            (IntOption.to_string second)
            (IntOption.to_string second) )

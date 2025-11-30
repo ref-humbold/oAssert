@@ -34,7 +34,7 @@ let is_equal_to__when_first_element_different__then_failed =
     let expected =
       Assertion_failed
         (Printf.sprintf
-           "Expected (%s, %s, %s), but was (%s, %s, %s)"
+           "Expected (%S, %s, %s), but was (%S, %s, %s)"
            first'
            (IntOption.to_string second)
            (BoolList.to_string third)
@@ -54,7 +54,7 @@ let is_equal_to__when_second_element_different__then_failed =
     let expected =
       Assertion_failed
         (Printf.sprintf
-           "Expected (%s, None, %s), but was (%s, %s, %s)"
+           "Expected (%S, None, %s), but was (%S, %s, %s)"
            first
            (BoolList.to_string third)
            first
@@ -73,7 +73,7 @@ let is_equal_to__when_third_element_different__then_failed =
     let expected =
       Assertion_failed
         (Printf.sprintf
-           "Expected (%s, %s, []), but was (%s, %s, %s)"
+           "Expected (%S, %s, []), but was (%S, %s, %s)"
            first
            (IntOption.to_string second)
            first
@@ -103,7 +103,7 @@ let not_is_equal_to__when_all_elements_same__then_failed =
     let expected =
       Assertion_failed
         (Printf.sprintf
-           "Expected value different than (%s, %s, %s)"
+           "Expected value different than (%S, %s, %s)"
            f
            (IntOption.to_string s)
            (BoolList.to_string t) )
@@ -173,7 +173,7 @@ let is_first__when_first_element_different__then_failed =
     let expected =
       Assertion_failed
         (Printf.sprintf
-           "Expected (%s, %s, %s) to have first element %s"
+           "Expected (%S, %s, %s) to have first element %S"
            first
            (IntOption.to_string second)
            (BoolList.to_string third)
@@ -198,7 +198,7 @@ let not_is_first__when_first_element_same__then_failed =
     let expected =
       Assertion_failed
         (Printf.sprintf
-           "Expected (%s, %s, %s) not to have first element %s"
+           "Expected (%S, %s, %s) not to have first element %S"
            first
            (IntOption.to_string second)
            (BoolList.to_string third)
@@ -241,7 +241,7 @@ let is_second__when_second_element_different__then_failed =
     let expected =
       Assertion_failed
         (Printf.sprintf
-           "Expected (%s, %s, %s) to have second element None"
+           "Expected (%S, %s, %s) to have second element None"
            first
            (IntOption.to_string second)
            (BoolList.to_string third) )
@@ -265,7 +265,7 @@ let not_is_second__when_second_element_same__then_failed =
     let expected =
       Assertion_failed
         (Printf.sprintf
-           "Expected (%s, %s, %s) not to have second element %s"
+           "Expected (%S, %s, %s) not to have second element %s"
            first
            (IntOption.to_string second)
            (BoolList.to_string third)
@@ -308,7 +308,7 @@ let is_third__when_third_element_different__then_failed =
     let expected =
       Assertion_failed
         (Printf.sprintf
-           "Expected (%s, %s, %s) to have third element []"
+           "Expected (%S, %s, %s) to have third element []"
            first
            (IntOption.to_string second)
            (BoolList.to_string third) )
@@ -332,7 +332,7 @@ let not_is_third__when_third_element_same__then_failed =
     let expected =
       Assertion_failed
         (Printf.sprintf
-           "Expected (%s, %s, %s) not to have third element %s"
+           "Expected (%S, %s, %s) not to have third element %s"
            first
            (IntOption.to_string second)
            (BoolList.to_string third)

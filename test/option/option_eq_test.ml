@@ -25,7 +25,7 @@ let is_none__when_actual_is_some__then_failed =
     let action () = assert_that (Some value) IsOption.none in
     (* then *)
     let expected =
-      Assertion_failed (Printf.sprintf "Expected None, but was Some (%d, %s)" (fst value) (snd value))
+      Assertion_failed (Printf.sprintf "Expected None, but was Some (%d, %S)" (fst value) (snd value))
     in
     assert_that action @@ Is.raising expected
 
@@ -75,7 +75,7 @@ let is_some__when_actual_is_some_of_other__then_failed =
     let expected =
       Assertion_failed
         (Printf.sprintf
-           "Expected Some (%d, %s), but was Some (%d, %s)"
+           "Expected Some (%d, %S), but was Some (%d, %S)"
            (fst value)
            (snd value)
            (fst other)
@@ -91,7 +91,7 @@ let is_some__when_actual_is_none__then_failed =
     let action () = assert_that None @@ IsOption.some value in
     (* then *)
     let expected =
-      Assertion_failed (Printf.sprintf "Expected Some (%d, %s), but was None" (fst value) (snd value))
+      Assertion_failed (Printf.sprintf "Expected Some (%d, %S), but was None" (fst value) (snd value))
     in
     assert_that action @@ Is.raising expected
 
@@ -115,7 +115,7 @@ let not_is_some__when_actual_is_some__then_failed =
     in
     (* then *)
     let expected =
-      Assertion_failed (Printf.sprintf "Expected value different than Some (%d, %s)" first second)
+      Assertion_failed (Printf.sprintf "Expected value different than Some (%d, %S)" first second)
     in
     assert_that action @@ Is.raising expected
 

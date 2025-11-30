@@ -18,7 +18,7 @@ let is_empty__when_actual_not_empty__then_failed =
     (* when *)
     let action () = assert_that value Is.String.empty in
     (* then *)
-    let expected = Assertion_failed (Printf.sprintf "Expected empty string, but was %s" value) in
+    let expected = Assertion_failed (Printf.sprintf "Expected empty string, but was %S" value) in
     assert_that action @@ Is.raising expected
 
 let is_empty_Test_list =
@@ -64,7 +64,7 @@ let is_equal_to__when_different_case__then_failed =
     (* when *)
     let action () = assert_that value @@ Is.String.equal_to value' in
     (* then *)
-    let expected = Assertion_failed (Printf.sprintf "Expected %s, but was %s" value' value) in
+    let expected = Assertion_failed (Printf.sprintf "Expected %S, but was %S" value' value) in
     assert_that action @@ Is.raising expected
 
 let is_equal_to__when_different_text__then_failed =
@@ -74,7 +74,7 @@ let is_equal_to__when_different_text__then_failed =
     (* when *)
     let action () = assert_that value @@ Is.String.equal_to value' in
     (* then *)
-    let expected = Assertion_failed (Printf.sprintf "Expected %s, but was %s" value' value) in
+    let expected = Assertion_failed (Printf.sprintf "Expected %S, but was %S" value' value) in
     assert_that action @@ Is.raising expected
 
 let is_equal_to__when_actual_shorter__then_failed =
@@ -84,7 +84,7 @@ let is_equal_to__when_actual_shorter__then_failed =
     (* when *)
     let action () = assert_that value @@ Is.String.equal_to value' in
     (* then *)
-    let expected = Assertion_failed (Printf.sprintf "Expected %s, but was %s" value' value) in
+    let expected = Assertion_failed (Printf.sprintf "Expected %S, but was %S" value' value) in
     assert_that action @@ Is.raising expected
 
 let is_equal_to__when_actual_longer__then_failed =
@@ -94,7 +94,7 @@ let is_equal_to__when_actual_longer__then_failed =
     (* when *)
     let action () = assert_that value @@ Is.String.equal_to value' in
     (* then *)
-    let expected = Assertion_failed (Printf.sprintf "Expected %s, but was %s" value' value) in
+    let expected = Assertion_failed (Printf.sprintf "Expected %S, but was %S" value' value) in
     assert_that action @@ Is.raising expected
 
 let is_equal_to_Test_list =
@@ -114,7 +114,7 @@ let not_is_equal_to__when_same_text__then_failed =
     (* when *)
     let action () = assert_that value @@ Satisfies.not @@ Is.String.equal_to value in
     (* then *)
-    let expected = Assertion_failed (Printf.sprintf "Expected value different than %s" value) in
+    let expected = Assertion_failed (Printf.sprintf "Expected value different than %S" value) in
     assert_that action @@ Is.raising expected
 
 let not_is_equal_to__when_different_case__then_passed =
@@ -172,7 +172,7 @@ let is_uppercase__when_all_lower_case__then_failed =
     (* when *)
     let action () = assert_that value Is.String.uppercase in
     (* then *)
-    let expected = Assertion_failed (Printf.sprintf "Expected %s to be all uppercase" value) in
+    let expected = Assertion_failed (Printf.sprintf "Expected %S to be all uppercase" value) in
     assert_that action @@ Is.raising expected
 
 let is_uppercase__when_mixed_case__then_failed =
@@ -182,7 +182,7 @@ let is_uppercase__when_mixed_case__then_failed =
     (* when *)
     let action () = assert_that value Is.String.uppercase in
     (* then *)
-    let expected = Assertion_failed (Printf.sprintf "Expected %s to be all uppercase" value) in
+    let expected = Assertion_failed (Printf.sprintf "Expected %S to be all uppercase" value) in
     assert_that action @@ Is.raising expected
 
 let is_uppercase__when_no_letters__then_passed =
@@ -202,7 +202,7 @@ let is_uppercase_Test_list =
 (* not_is_uppercase_Test_list *)
 
 let not_is_uppercase__when_negated__then_failure param =
-  let label = Printf.sprintf "%s [param = %s]" __FUNCTION__ param in
+  let label = Printf.sprintf "%S [param = %S]" __FUNCTION__ param in
   label >:: fun _ ->
     (* when *)
     let action () = assert_that param @@ Satisfies.not Is.String.uppercase in
@@ -235,7 +235,7 @@ let is_lowercase__when_all_upper_case__then_passed =
     (* when *)
     let action () = assert_that value Is.String.lowercase in
     (* then *)
-    let expected = Assertion_failed (Printf.sprintf "Expected %s to be all lowercase" value) in
+    let expected = Assertion_failed (Printf.sprintf "Expected %S to be all lowercase" value) in
     assert_that action @@ Is.raising expected
 
 let is_lowercase__when_mixed_case__then_failed =
@@ -245,7 +245,7 @@ let is_lowercase__when_mixed_case__then_failed =
     (* when *)
     let action () = assert_that value Is.String.lowercase in
     (* then *)
-    let expected = Assertion_failed (Printf.sprintf "Expected %s to be all lowercase" value) in
+    let expected = Assertion_failed (Printf.sprintf "Expected %S to be all lowercase" value) in
     assert_that action @@ Is.raising expected
 
 let is_lowercase__when_no_letters__then_passed =
@@ -265,7 +265,7 @@ let is_lowercase_Test_list =
 (* not_is_lowercase_Test_list *)
 
 let not_is_lowercase__when_negated__then_failure param =
-  let label = Printf.sprintf "%s [param = %s]" __FUNCTION__ param in
+  let label = Printf.sprintf "%S [param = %S]" __FUNCTION__ param in
   label >:: fun _ ->
     (* when *)
     let action () = assert_that param @@ Satisfies.not Is.String.lowercase in
@@ -305,7 +305,7 @@ let is_starting_with__when_not_prefix__then_failed =
     (* when *)
     let action () = assert_that value @@ Is.String.starting_with prefix in
     (* then *)
-    let expected = Assertion_failed (Printf.sprintf "Expected %s to begin with %s" value prefix) in
+    let expected = Assertion_failed (Printf.sprintf "Expected %S to begin with %S" value prefix) in
     assert_that action @@ Is.raising expected
 
 let is_starting_with__when_actual_empty__then_failed =
@@ -315,7 +315,7 @@ let is_starting_with__when_actual_empty__then_failed =
     (* when *)
     let action () = assert_that value @@ Is.String.starting_with prefix in
     (* then *)
-    let expected = Assertion_failed (Printf.sprintf "Expected %s to begin with %s" value prefix) in
+    let expected = Assertion_failed (Printf.sprintf "Expected %S to begin with %S" value prefix) in
     assert_that action @@ Is.raising expected
 
 let is_starting_with_Test_list =
@@ -335,7 +335,7 @@ let not_is_starting_with__when_prefix__then_failed =
     let action () = assert_that value @@ Satisfies.not @@ Is.String.starting_with prefix in
     (* then *)
     let expected =
-      Assertion_failed (Printf.sprintf "Expected %s not to begin with %s" value prefix)
+      Assertion_failed (Printf.sprintf "Expected %S not to begin with %S" value prefix)
     in
     assert_that action @@ Is.raising expected
 
@@ -347,7 +347,7 @@ let not_is_starting_with__when_prefix_empty__then_failed =
     let action () = assert_that value @@ Satisfies.not @@ Is.String.starting_with prefix in
     (* then *)
     let expected =
-      Assertion_failed (Printf.sprintf "Expected %s not to begin with %s" value prefix)
+      Assertion_failed (Printf.sprintf "Expected %S not to begin with %S" value prefix)
     in
     assert_that action @@ Is.raising expected
 
@@ -395,7 +395,7 @@ let is_ending_with__when_not_prefix__then_failed =
     (* when *)
     let action () = assert_that value @@ Is.String.ending_with prefix in
     (* then *)
-    let expected = Assertion_failed (Printf.sprintf "Expected %s to end with %s" value prefix) in
+    let expected = Assertion_failed (Printf.sprintf "Expected %S to end with %S" value prefix) in
     assert_that action @@ Is.raising expected
 
 let is_ending_with__when_actual_empty__then_failed =
@@ -405,7 +405,7 @@ let is_ending_with__when_actual_empty__then_failed =
     (* when *)
     let action () = assert_that value @@ Is.String.ending_with prefix in
     (* then *)
-    let expected = Assertion_failed (Printf.sprintf "Expected %s to end with %s" value prefix) in
+    let expected = Assertion_failed (Printf.sprintf "Expected %S to end with %S" value prefix) in
     assert_that action @@ Is.raising expected
 
 let is_ending_with_Test_list =
@@ -424,7 +424,7 @@ let not_is_ending_with__when_prefix__then_failed =
     (* when *)
     let action () = assert_that value @@ Satisfies.not @@ Is.String.ending_with prefix in
     (* then *)
-    let expected = Assertion_failed (Printf.sprintf "Expected %s not to end with %s" value prefix) in
+    let expected = Assertion_failed (Printf.sprintf "Expected %S not to end with %S" value prefix) in
     assert_that action @@ Is.raising expected
 
 let not_is_ending_with__when_prefix_empty__then_failed =
@@ -434,7 +434,7 @@ let not_is_ending_with__when_prefix_empty__then_failed =
     (* when *)
     let action () = assert_that value @@ Satisfies.not @@ Is.String.ending_with prefix in
     (* then *)
-    let expected = Assertion_failed (Printf.sprintf "Expected %s not to end with %s" value prefix) in
+    let expected = Assertion_failed (Printf.sprintf "Expected %S not to end with %S" value prefix) in
     assert_that action @@ Is.raising expected
 
 let not_is_ending_with__when_not_prefix__then_passed =
@@ -482,7 +482,7 @@ let is_containing_char__when_char_absent__then_failed =
     let action () = assert_that value @@ Is.String.containing_char character in
     (* then *)
     let expected =
-      Assertion_failed (Printf.sprintf "Expected %s to contain character %c" value character)
+      Assertion_failed (Printf.sprintf "Expected %S to contain character %c" value character)
     in
     assert_that action @@ Is.raising expected
 
@@ -494,7 +494,7 @@ let is_containing_char__when_actual_empty__then_failed =
     let action () = assert_that value @@ Is.String.containing_char character in
     (* then *)
     let expected =
-      Assertion_failed (Printf.sprintf "Expected %s to contain character %c" value character)
+      Assertion_failed (Printf.sprintf "Expected %S to contain character %c" value character)
     in
     assert_that action @@ Is.raising expected
 
@@ -515,7 +515,7 @@ let not_is_containing_char__when_char_present__then_failed =
     let action () = assert_that value @@ Satisfies.not @@ Is.String.containing_char character in
     (* then *)
     let expected =
-      Assertion_failed (Printf.sprintf "Expected %s not to contain character %c" value character)
+      Assertion_failed (Printf.sprintf "Expected %S not to contain character %c" value character)
     in
     assert_that action @@ Is.raising expected
 
@@ -527,7 +527,7 @@ let not_is_containing_char__when_special_char_present__then_failed =
     let action () = assert_that value @@ Satisfies.not @@ Is.String.containing_char character in
     (* then *)
     let expected =
-      Assertion_failed (Printf.sprintf "Expected %s not to contain character %c" value character)
+      Assertion_failed (Printf.sprintf "Expected %S not to contain character %c" value character)
     in
     assert_that action @@ Is.raising expected
 

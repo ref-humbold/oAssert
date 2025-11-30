@@ -19,7 +19,7 @@ let is_none__when_actual_is_some__then_failed =
     (* when *)
     let action () = assert_that (Some value) IsOption.none in
     (* then *)
-    let expected = Assertion_failed (Printf.sprintf "Expected None, but was Some %s" value) in
+    let expected = Assertion_failed (Printf.sprintf "Expected None, but was Some %S" value) in
     assert_that action @@ Is.raising expected
 
 let is_none_Test_list =
@@ -64,7 +64,7 @@ let is_some__when_actual_is_some_of_other__then_failed =
     let action () = assert_that (Some other) @@ IsOption.some value in
     (* then *)
     let expected =
-      Assertion_failed (Printf.sprintf "Expected Some %s, but was Some %s" value other)
+      Assertion_failed (Printf.sprintf "Expected Some %S, but was Some %S" value other)
     in
     assert_that action @@ Is.raising expected
 
@@ -75,7 +75,7 @@ let is_some__when_actual_is_none__then_failed =
     (* when *)
     let action () = assert_that None @@ IsOption.some value in
     (* then *)
-    let expected = Assertion_failed (Printf.sprintf "Expected Some %s, but was None" value) in
+    let expected = Assertion_failed (Printf.sprintf "Expected Some %S, but was None" value) in
     assert_that action @@ Is.raising expected
 
 let is_some_Test_list =
@@ -93,7 +93,7 @@ let not_is_some__when_actual_is_some__then_failed =
     (* when *)
     let action () = assert_that (Some value) @@ Satisfies.not @@ IsOption.some value in
     (* then *)
-    let expected = Assertion_failed (Printf.sprintf "Expected value different than Some %s" value) in
+    let expected = Assertion_failed (Printf.sprintf "Expected value different than Some %S" value) in
     assert_that action @@ Is.raising expected
 
 let not_is_some__when_actual_is_some_of_other__then_passed =
@@ -140,7 +140,7 @@ let is_value_matching__when_actual_has_value_not_matched__then_failed =
     (* then *)
     let expected =
       Assertion_failed
-        (Printf.sprintf "Expected Some %s to have value matching given predicate" value)
+        (Printf.sprintf "Expected Some %S to have value matching given predicate" value)
     in
     assert_that action @@ Is.raising expected
 
@@ -172,7 +172,7 @@ let not_is_value_matching__when_actual_has_value_matched__then_failed =
     (* then *)
     let expected =
       Assertion_failed
-        (Printf.sprintf "Expected Some %s not to have value matching given predicate" value)
+        (Printf.sprintf "Expected Some %S not to have value matching given predicate" value)
     in
     assert_that action @@ Is.raising expected
 
