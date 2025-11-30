@@ -67,4 +67,4 @@ let containing_char character =
          (S.contains actual character)
          (Condition
             { actual_str = SV.to_string actual;
-              description = Printf.sprintf "contain character %c" character } ) )
+              description = Printf.sprintf "contain character %C" character } ) )

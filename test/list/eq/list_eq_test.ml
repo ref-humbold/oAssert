@@ -204,7 +204,7 @@ let is_containing__when_element_absent__then_failed =
     let expected =
       Assertion_failed
         (Printf.sprintf
-           "Expected %s to contain (%d, %c)"
+           "Expected %s to contain (%d, %C)"
            (ListVal.to_string value)
            (fst element)
            (snd element) )
@@ -228,7 +228,7 @@ let not_is_containing__when_element_present__then_failed =
     let expected =
       Assertion_failed
         (Printf.sprintf
-           "Expected %s not to contain (%d, %c)"
+           "Expected %s not to contain (%d, %C)"
            (ListVal.to_string value)
            (fst element)
            (snd element) )

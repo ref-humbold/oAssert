@@ -482,7 +482,7 @@ let is_containing_char__when_char_absent__then_failed =
     let action () = assert_that value @@ Is.String.containing_char character in
     (* then *)
     let expected =
-      Assertion_failed (Printf.sprintf "Expected %S to contain character %c" value character)
+      Assertion_failed (Printf.sprintf "Expected %S to contain character %C" value character)
     in
     assert_that action @@ Is.raising expected
 
@@ -494,7 +494,7 @@ let is_containing_char__when_actual_empty__then_failed =
     let action () = assert_that value @@ Is.String.containing_char character in
     (* then *)
     let expected =
-      Assertion_failed (Printf.sprintf "Expected %S to contain character %c" value character)
+      Assertion_failed (Printf.sprintf "Expected %S to contain character %C" value character)
     in
     assert_that action @@ Is.raising expected
 
@@ -515,7 +515,7 @@ let not_is_containing_char__when_char_present__then_failed =
     let action () = assert_that value @@ Satisfies.not @@ Is.String.containing_char character in
     (* then *)
     let expected =
-      Assertion_failed (Printf.sprintf "Expected %S not to contain character %c" value character)
+      Assertion_failed (Printf.sprintf "Expected %S not to contain character %C" value character)
     in
     assert_that action @@ Is.raising expected
 
@@ -527,7 +527,7 @@ let not_is_containing_char__when_special_char_present__then_failed =
     let action () = assert_that value @@ Satisfies.not @@ Is.String.containing_char character in
     (* then *)
     let expected =
-      Assertion_failed (Printf.sprintf "Expected %S not to contain character %c" value character)
+      Assertion_failed (Printf.sprintf "Expected %S not to contain character %C" value character)
     in
     assert_that action @@ Is.raising expected
 

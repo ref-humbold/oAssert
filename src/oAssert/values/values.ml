@@ -9,7 +9,7 @@ module Float : CMP_VALUE with type t = float = Stdlib.Float
 module Char : CMP_VALUE with type t = char = struct
   include Stdlib.Char
 
-  let to_string = Printf.sprintf "%c"
+  let to_string = Printf.sprintf "%C"
 end
 
 module String : CMP_VALUE with type t = string = struct
