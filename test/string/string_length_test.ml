@@ -132,12 +132,12 @@ let not_is_length_equal_to__when_actual_has_specified_length__then_failed param 
   let label = Printf.sprintf "%s [param = %d]" __FUNCTION__ (String.length param) in
   label >:: fun _ ->
     (* given *)
-    let value = param and length = String.length param in
+    let length = String.length param in
     (* when *)
-    let action () = assert_that value @@ Satisfies.not @@ Is.String.Length.equal_to length in
+    let action () = assert_that param @@ Satisfies.not @@ Is.String.Length.equal_to length in
     (* then *)
     let expected =
-      Assertion_failed (Printf.sprintf "Expected %S not to have length %d" value length)
+      Assertion_failed (Printf.sprintf "Expected %S not to have length %d" param length)
     in
     assert_that action @@ Is.raising expected
 
@@ -173,6 +173,203 @@ let not_is_length_equal_to_Test_list =
       List.map (fun p -> not_is_length_equal_to__when_actual_longer__then_passed p) longer_params
     ]
 
+(* is_length_greater_than_Test_list *)
+
+let is_length_greater_than__when_actual_longer__then_passed param =
+  let label = Printf.sprintf "%s [param = %d]" __FUNCTION__ (String.length param) in
+  label >:: fun _ ->
+    (* when *)
+    let action () = assert_that param @@ Is.String.Length.greater_than 50 in
+    (* then *)
+    assert_that action Is.raising_nothing
+
+let is_length_greater_than__when_actual_shorter__then_failed param =
+  let label = Printf.sprintf "%s [param = %d]" __FUNCTION__ (String.length param) in
+  label >:: fun _ ->
+    (* given *)
+    let length = 50 in
+    (* when *)
+    let action () = assert_that param @@ Is.String.Length.greater_than length in
+    (* then *)
+    let expected =
+      Assertion_failed
+        (Printf.sprintf
+           "Expected %S to have length greater than %d, but was %d"
+           param
+           length
+           (String.length param) )
+    in
+    assert_that action @@ Is.raising expected
+
+let is_length_greater_than__when_actual_equal__then_failed param =
+  let label = Printf.sprintf "%s [param = %d]" __FUNCTION__ (String.length param) in
+  label >:: fun _ ->
+    (* given *)
+    let length = String.length param in
+    (* when *)
+    let action () = assert_that param @@ Is.String.Length.greater_than length in
+    (* then *)
+    let expected =
+      Assertion_failed
+        (Printf.sprintf
+           "Expected %S to have length greater than %d, but was %d"
+           param
+           length
+           (String.length param) )
+    in
+    assert_that action @@ Is.raising expected
+
+let is_length_greater_than_Test_list =
+  test_list
+  @@ List.concat
+    [ List.map (fun p -> is_length_greater_than__when_actual_longer__then_passed p) longer_params;
+      List.map
+        (fun p -> is_length_greater_than__when_actual_shorter__then_failed p)
+        shorter_params;
+      List.map (fun p -> is_length_greater_than__when_actual_equal__then_failed p) all_params ]
+
+(* not_is_length_greater_than_Test_list *)
+
+let not_is_length_greater_than__when_actual_longer__then_failed param =
+  let label = Printf.sprintf "%s [param = %d]" __FUNCTION__ (String.length param) in
+  label >:: fun _ ->
+    (* given *)
+    let length = 50 in
+    (* when *)
+    let action () = assert_that param @@ Satisfies.not @@ Is.String.Length.greater_than length in
+    (* then *)
+    let expected =
+      Assertion_failed (Printf.sprintf "Expected %S not to have length greater than %d" param length)
+    in
+    assert_that action @@ Is.raising expected
+
+let not_is_length_greater_than__when_actual_shorter__then_passed param =
+  let label = Printf.sprintf "%s [param = %d]" __FUNCTION__ (String.length param) in
+  label >:: fun _ ->
+    (* when *)
+    let action () = assert_that param @@ Satisfies.not @@ Is.String.Length.greater_than 50 in
+    (* then *)
+    assert_that action Is.raising_nothing
+
+let not_is_length_greater_than__when_actual_equal__then_passed param =
+  let label = Printf.sprintf "%s [param = %d]" __FUNCTION__ (String.length param) in
+  label >:: fun _ ->
+    (* when *)
+    let action () =
+      assert_that param @@ Satisfies.not @@ Is.String.Length.greater_than (String.length param)
+    in
+    (* then *)
+    assert_that action Is.raising_nothing
+
+let not_is_length_greater_than_Test_list =
+  test_list
+  @@ List.concat
+    [ List.map
+        (fun p -> not_is_length_greater_than__when_actual_longer__then_failed p)
+        longer_params;
+      List.map
+        (fun p -> not_is_length_greater_than__when_actual_shorter__then_passed p)
+        shorter_params;
+      List.map (fun p -> not_is_length_greater_than__when_actual_equal__then_passed p) all_params
+    ]
+
+(* is_length_less_than_Test_list *)
+
+let is_length_less_than__when_actual_shorter__then_passed param =
+  let label = Printf.sprintf "%s [param = %d]" __FUNCTION__ (String.length param) in
+  label >:: fun _ ->
+    (* when *)
+    let action () = assert_that param @@ Is.String.Length.less_than 50 in
+    (* then *)
+    assert_that action Is.raising_nothing
+
+let is_length_less_than__when_actual_longer__then_failed param =
+  let label = Printf.sprintf "%s [param = %d]" __FUNCTION__ (String.length param) in
+  label >:: fun _ ->
+    (* given *)
+    let length = 50 in
+    (* when *)
+    let action () = assert_that param @@ Is.String.Length.less_than length in
+    (* then *)
+    let expected =
+      Assertion_failed
+        (Printf.sprintf
+           "Expected %S to have length less than %d, but was %d"
+           param
+           length
+           (String.length param) )
+    in
+    assert_that action @@ Is.raising expected
+
+let is_length_less_than__when_actual_equal__then_failed param =
+  let label = Printf.sprintf "%s [param = %d]" __FUNCTION__ (String.length param) in
+  label >:: fun _ ->
+    (* given *)
+    let length = String.length param in
+    (* when *)
+    let action () = assert_that param @@ Is.String.Length.greater_than length in
+    (* then *)
+    let expected =
+      Assertion_failed
+        (Printf.sprintf
+           "Expected %S to have length greater than %d, but was %d"
+           param
+           length
+           (String.length param) )
+    in
+    assert_that action @@ Is.raising expected
+
+let is_length_less_than_Test_list =
+  test_list
+  @@ List.concat
+    [ List.map (fun p -> is_length_less_than__when_actual_shorter__then_passed p) shorter_params;
+      List.map (fun p -> is_length_less_than__when_actual_longer__then_failed p) longer_params;
+      List.map (fun p -> is_length_less_than__when_actual_equal__then_failed p) all_params ]
+
+(* not_is_length_less_than_Test_list *)
+
+let not_is_length_less_than__when_actual_shorter__then_failed param =
+  let label = Printf.sprintf "%s [param = %d]" __FUNCTION__ (String.length param) in
+  label >:: fun _ ->
+    (* given *)
+    let length = 50 in
+    (* when *)
+    let action () = assert_that param @@ Satisfies.not @@ Is.String.Length.less_than length in
+    (* then *)
+    let expected =
+      Assertion_failed (Printf.sprintf "Expected %S not to have length less than %d" param length)
+    in
+    assert_that action @@ Is.raising expected
+
+let not_is_length_less_than__when_actual_longer__then_passed param =
+  let label = Printf.sprintf "%s [param = %d]" __FUNCTION__ (String.length param) in
+  label >:: fun _ ->
+    (* when *)
+    let action () = assert_that param @@ Satisfies.not @@ Is.String.Length.less_than 50 in
+    (* then *)
+    assert_that action Is.raising_nothing
+
+let not_is_length_less_than__when_actual_equal__then_passed param =
+  let label = Printf.sprintf "%s [param = %d]" __FUNCTION__ (String.length param) in
+  label >:: fun _ ->
+    (* when *)
+    let action () =
+      assert_that param @@ Satisfies.not @@ Is.String.Length.less_than (String.length param)
+    in
+    (* then *)
+    assert_that action Is.raising_nothing
+
+let not_is_length_less_than_Test_list =
+  test_list
+  @@ List.concat
+    [ List.map
+        (fun p -> not_is_length_less_than__when_actual_shorter__then_failed p)
+        shorter_params;
+      List.map
+        (fun p -> not_is_length_less_than__when_actual_longer__then_passed p)
+        longer_params;
+      List.map (fun p -> not_is_length_less_than__when_actual_equal__then_passed p) all_params ]
+
 (* string_length_Test *)
 
 let string_length_Test =
@@ -180,6 +377,10 @@ let string_length_Test =
   >::: [ is_length_zero_Test_list;
          not_is_length_zero_Test_list;
          is_length_equal_to_Test_list;
-         not_is_length_equal_to_Test_list ]
+         not_is_length_equal_to_Test_list;
+         is_length_greater_than_Test_list;
+         not_is_length_greater_than_Test_list;
+         is_length_less_than_Test_list;
+         not_is_length_less_than_Test_list ]
 
 let _ = run_test_tt_main string_length_Test
