@@ -201,23 +201,25 @@ let is_uppercase_Test_list =
 
 (* not_is_uppercase_Test_list *)
 
-let not_is_uppercase__when_negated__then_failure param =
-  let label = Printf.sprintf "%S [param = %S]" __FUNCTION__ param in
-  label >:: fun _ ->
-    (* when *)
-    let action () = assert_that param @@ Satisfies.not Is.String.uppercase in
-    (* then *)
-    let expected = Failure "This assertion cannot be negated" in
-    assert_that action @@ Is.raising expected
-
-let not_is_uppercase_Test_list =
+let not_is_uppercase__when_negated__then_failure =
+  let with_param param =
+    let label = Printf.sprintf "%S %S" __FUNCTION__ param in
+    label >:: fun _ ->
+      (* when *)
+      let action () = assert_that param @@ Satisfies.not Is.String.uppercase in
+      (* then *)
+      let expected = Failure "This assertion cannot be negated" in
+      assert_that action @@ Is.raising expected
+  in
   test_list
   @@ List.map
-    (fun p -> not_is_uppercase__when_negated__then_failure p)
+    with_param
     [ "(QWERTYUIOP\tASDF@ZXCVB)";
       "(qwertyuiop\tasdf@zxcvb)";
       "(QWERTYuiop\tASDF@zxcvb)";
       "!@#$%^&*()" ]
+
+let not_is_uppercase_Test_list = test_list [not_is_uppercase__when_negated__then_failure]
 
 (* is_lowercase_Test_list *)
 
@@ -264,23 +266,25 @@ let is_lowercase_Test_list =
 
 (* not_is_lowercase_Test_list *)
 
-let not_is_lowercase__when_negated__then_failure param =
-  let label = Printf.sprintf "%S [param = %S]" __FUNCTION__ param in
-  label >:: fun _ ->
-    (* when *)
-    let action () = assert_that param @@ Satisfies.not Is.String.lowercase in
-    (* then *)
-    let expected = Failure "This assertion cannot be negated" in
-    assert_that action @@ Is.raising expected
-
-let not_is_lowercase_Test_list =
+let not_is_lowercase__when_negated__then_failure =
+  let with_param param =
+    let label = Printf.sprintf "%S %S" __FUNCTION__ param in
+    label >:: fun _ ->
+      (* when *)
+      let action () = assert_that param @@ Satisfies.not Is.String.lowercase in
+      (* then *)
+      let expected = Failure "This assertion cannot be negated" in
+      assert_that action @@ Is.raising expected
+  in
   test_list
   @@ List.map
-    (fun p -> not_is_lowercase__when_negated__then_failure p)
+    with_param
     [ "(qwertyuiop\tasdf@zxcvb)";
       "(QWERTYUIOP\tASDF@ZXCVB)";
       "(QWERTYuiop\tASDF@zxcvb)";
       "!@#$%^&*()" ]
+
+let not_is_lowercase_Test_list = test_list [not_is_lowercase__when_negated__then_failure]
 
 (* is_starting_with_Test_list *)
 
