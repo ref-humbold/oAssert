@@ -1,5 +1,6 @@
 open Internals
 open Shared.Length
+open Shared.Equal
 
 open struct
   module L = Stdlib.List
@@ -22,20 +23,14 @@ module OfEq (V : Values.EQ_VALUE) : Assert.LIST_ASSERT with type elem = V.t = st
       let get_length = L.length
     end)
 
+  include EqualAssertions (ListVal)
+
   let empty =
     Assertion
       (fun actual ->
          build_assertion
            (L.is_empty actual)
            (Equality {expected_str = "empty list"; actual_str = ListVal.to_string actual}) )
-
-  let equal_to expected =
-    Assertion
-      (fun actual ->
-         build_assertion
-           (ListVal.equal expected actual)
-           (Equality
-              {expected_str = ListVal.to_string expected; actual_str = ListVal.to_string actual} ) )
 
   let containing element =
     Assertion

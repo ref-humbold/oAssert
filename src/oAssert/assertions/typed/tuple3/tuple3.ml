@@ -1,4 +1,5 @@
 open Internals
+open Shared.Equal
 
 module OfEq (VF : Values.EQ_VALUE) (VS : Values.EQ_VALUE) (VT : Values.EQ_VALUE) :
   Assert.TUPLE3_ASSERT with type fst_elem = VF.t and type snd_elem = VS.t and type trd_elem = VT.t =
@@ -15,13 +16,7 @@ struct
 
   type tuple3 = fst_elem * snd_elem * trd_elem
 
-  let equal_to expected =
-    Assertion
-      (fun actual ->
-         build_assertion
-           (TupleVal.equal expected actual)
-           (Equality
-              {expected_str = TupleVal.to_string expected; actual_str = TupleVal.to_string actual} ) )
+  include EqualAssertions (TupleVal)
 
   let first first =
     Assertion

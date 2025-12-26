@@ -1,9 +1,12 @@
 open Internals
 open Common
+open Shared.Compare
 
 open struct
   module IV = Values.Int
 end
+
+include CompareAssertions (IV)
 
 let zero =
   Assertion
@@ -25,50 +28,6 @@ let negative =
        build_assertion
          (actual < 0)
          (Condition {actual_str = IV.to_string actual; description = "be negative"}) )
-
-let equal_to expected =
-  Assertion
-    (fun actual ->
-       build_assertion
-         (IV.equal expected actual)
-         (Equality {expected_str = IV.to_string expected; actual_str = IV.to_string actual}) )
-
-let greater_than expected =
-  Assertion
-    (fun actual ->
-       build_assertion
-         (actual > expected)
-         (Condition
-            { actual_str = IV.to_string actual;
-              description = Printf.sprintf "be greater than %s" (IV.to_string expected) } ) )
-
-let greater_than_or_equal_to expected =
-  Assertion
-    (fun actual ->
-       build_assertion
-         (actual >= expected)
-         (Condition
-            { actual_str = IV.to_string actual;
-              description = Printf.sprintf "be greater than or equal to %s" (IV.to_string expected)
-            } ) )
-
-let less_than expected =
-  Assertion
-    (fun actual ->
-       build_assertion
-         (actual < expected)
-         (Condition
-            { actual_str = IV.to_string actual;
-              description = Printf.sprintf "be less than %s" (IV.to_string expected) } ) )
-
-let less_than_or_equal_to expected =
-  Assertion
-    (fun actual ->
-       build_assertion
-         (actual <= expected)
-         (Condition
-            { actual_str = IV.to_string actual;
-              description = Printf.sprintf "be less than or equal to %s" (IV.to_string expected) } ) )
 
 let between minimum maximum =
   let description ending =

@@ -1,18 +1,20 @@
 open Internals
+open Equal
 
-module EqOf (V : Values.EQ_VALUE) : Assert.EQ_TYPE_ASSERT with type t = V.t = struct
-  type t = V.t
+module type COMPARE_ASSERT = sig
+  include EQUAL_ASSERT
 
-  let equal_to expected =
-    Assertion
-      (fun actual ->
-         build_assertion
-           (V.equal expected actual)
-           (Equality {expected_str = V.to_string expected; actual_str = V.to_string actual}) )
+  val greater_than : t -> t assertion
+
+  val greater_than_or_equal_to : t -> t assertion
+
+  val less_than : t -> t assertion
+
+  val less_than_or_equal_to : t -> t assertion
 end
 
-module CmpOf (V : Values.CMP_VALUE) : Assert.CMP_TYPE_ASSERT with type t = V.t = struct
-  include EqOf (V)
+module CompareAssertions (V : Values.CMP_VALUE) : COMPARE_ASSERT with type t = V.t = struct
+  include EqualAssertions (V)
 
   let greater_than expected =
     Assertion

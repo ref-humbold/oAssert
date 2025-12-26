@@ -15,4 +15,4 @@ let raising_nothing =
   Assertion
     (fun action ->
        let raised = get_raised_exception action in
-       build_assertion (Option.is_none raised) (RaisingNothing {actual = raised}) )
+       build_assertion (Stdlib.Option.is_none raised) (RaisingNothing {actual = raised}) )

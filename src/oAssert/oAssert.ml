@@ -2,13 +2,13 @@ open Internals
 include Common
 
 module Is = struct
+  include Assertions.Generic
   include Assertions.Bool
   include Assertions.Exceptions
-  include Assertions.Generic
   include Assertions.Typed
 end
 
-module Satisfies = Satisfies
+module Satisfies = Assertions.Satisfies
 module Values = Values
 
 exception Assertion_failed of string

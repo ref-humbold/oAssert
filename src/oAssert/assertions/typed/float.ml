@@ -1,10 +1,13 @@
 open Internals
 open Common
+open Shared.Compare
 
 open struct
   module F = Stdlib.Float
   module FV = Values.Float
 end
+
+include CompareAssertions (FV)
 
 let nan =
   Assertion
@@ -34,13 +37,6 @@ let negative =
          (actual < 0.0)
          (Condition {actual_str = FV.to_string actual; description = "be negative"}) )
 
-let equal_to expected =
-  Assertion
-    (fun actual ->
-       build_assertion
-         (expected = actual)
-         (Equality {expected_str = FV.to_string expected; actual_str = FV.to_string actual}) )
-
 let close_to expected ~diff =
   if diff <= 0.0
   then invalid_arg @@ Printf.sprintf "%s: Difference should be greater than 0" __FUNCTION__
@@ -58,43 +54,6 @@ let close_to expected ~diff =
                     (FV.to_string expected)
                     (FV.to_string diff);
                 result_str = Printf.sprintf "difference was %s" (FV.to_string actual_diff) } ) )
-
-let greater_than expected =
-  Assertion
-    (fun actual ->
-       build_assertion
-         (actual > expected)
-         (Condition
-            { actual_str = FV.to_string actual;
-              description = Printf.sprintf "be greater than %s" (FV.to_string expected) } ) )
-
-let greater_than_or_equal_to expected =
-  Assertion
-    (fun actual ->
-       build_assertion
-         (actual >= expected)
-         (Condition
-            { actual_str = FV.to_string actual;
-              description = Printf.sprintf "be greater than or equal to %s" (FV.to_string expected)
-            } ) )
-
-let less_than expected =
-  Assertion
-    (fun actual ->
-       build_assertion
-         (actual < expected)
-         (Condition
-            { actual_str = FV.to_string actual;
-              description = Printf.sprintf "be less than %s" (FV.to_string expected) } ) )
-
-let less_than_or_equal_to expected =
-  Assertion
-    (fun actual ->
-       build_assertion
-         (actual <= expected)
-         (Condition
-            { actual_str = FV.to_string actual;
-              description = Printf.sprintf "be less than or equal to %s" (FV.to_string expected) } ) )
 
 let between minimum maximum =
   let description ending =

@@ -1,5 +1,6 @@
 open Internals
 open Shared.Length
+open Shared.Equal
 
 open struct
   module S = Stdlib.String
@@ -12,19 +13,14 @@ module Length = LengthAssertions (struct
     let get_length = S.length
   end)
 
+include EqualAssertions (SV)
+
 let empty =
   Assertion
     (fun actual ->
        build_assertion
          (SV.equal actual "")
          (Equality {expected_str = "empty string"; actual_str = SV.to_string actual}) )
-
-let equal_to expected =
-  Assertion
-    (fun actual ->
-       build_assertion
-         (SV.equal expected actual)
-         (Equality {expected_str = SV.to_string expected; actual_str = SV.to_string actual}) )
 
 let uppercase =
   Assertion
