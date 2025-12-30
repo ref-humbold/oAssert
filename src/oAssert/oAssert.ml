@@ -11,6 +11,8 @@ end
 module Satisfies = Assertions.Satisfies
 module Values = Values
 
+type 'a assertion = 'a Internals.assertion
+
 exception Assertion_failed of string
 (** Exception raised when assertion fails. *)
 
@@ -20,7 +22,7 @@ let assertion_failed msg = raise @@ Assertion_failed msg
 (** [!!! msg] is [assertion_failed msg]. *)
 let ( !!! ) = assertion_failed
 
-(** [assert_that actual assertion] applies assertion function [assertion] on [actual]. *)
+(** [assert_that actual assertion] applies assertion function [assertion] on [actual] value. *)
 let assert_that actual (Assertion f) =
   match f actual with
   | Passed | NegatablePassed _ -> ()

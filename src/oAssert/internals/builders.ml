@@ -1,4 +1,4 @@
-open Types
+open Assertion
 
 let build_message msg negated =
   let negated_str negated = format_of_string @@ if negated then " not " else " " in
