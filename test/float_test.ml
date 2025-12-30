@@ -394,14 +394,14 @@ let is_close_to__when_actual_is_same__then_passed =
     (* given *)
     let value = 12.6 in
     (* when *)
-    let action () = assert_that value @@ Is.Float.close_to value ~diff:1e-3 in
+    let action () = assert_that value @@ Is.Float.close_to value ~diff:(Difference 1e-3) in
     (* then *)
     assert_that action Is.raising_nothing
 
 let is_close_to__when_actual_is_in_difference__then_passed =
   __FUNCTION__ >:: fun _ ->
     (* when *)
-    let action () = assert_that 12.600095 @@ Is.Float.close_to 12.6 ~diff:1e-3 in
+    let action () = assert_that 12.600095 @@ Is.Float.close_to 12.6 ~diff:(Difference 1e-3) in
     (* then *)
     assert_that action Is.raising_nothing
 
@@ -410,7 +410,7 @@ let is_close_to__when_actual_different__then_failed =
     (* given *)
     let value1 = 12.6 and value2 = 345.77 and diff = 1e-3 in
     (* when *)
-    let action () = assert_that value2 @@ Is.Float.close_to value1 ~diff in
+    let action () = assert_that value2 @@ Is.Float.close_to value1 ~diff:(Difference diff) in
     (* then *)
     let expected =
       Assertion_failed
@@ -436,7 +436,9 @@ let not_is_close_to__when_actual_is_same__then_failed =
     (* given *)
     let value = 12.6 and diff = 1e-3 in
     (* when *)
-    let action () = assert_that value @@ Satisfies.not @@ Is.Float.close_to value ~diff in
+    let action () =
+      assert_that value @@ Satisfies.not @@ Is.Float.close_to value ~diff:(Difference diff)
+    in
     (* then *)
     let expected =
       Assertion_failed
@@ -453,7 +455,9 @@ let not_is_close_to__when_actual_is_in_difference__then_failed =
     (* given *)
     let value1 = 12.6 and value2 = 12.600095 and diff = 1e-3 in
     (* when *)
-    let action () = assert_that value2 @@ Satisfies.not @@ Is.Float.close_to value1 ~diff in
+    let action () =
+      assert_that value2 @@ Satisfies.not @@ Is.Float.close_to value1 ~diff:(Difference diff)
+    in
     (* then *)
     let expected =
       Assertion_failed
@@ -468,7 +472,9 @@ let not_is_close_to__when_actual_is_in_difference__then_failed =
 let not_is_close_to__when_actual_is_different__then_passed =
   __FUNCTION__ >:: fun _ ->
     (* when *)
-    let action () = assert_that 12.6 @@ Satisfies.not @@ Is.Float.close_to 345.77 ~diff:1e-3 in
+    let action () =
+      assert_that 12.6 @@ Satisfies.not @@ Is.Float.close_to 345.77 ~diff:(Difference 1e-3)
+    in
     (* then *)
     assert_that action Is.raising_nothing
 

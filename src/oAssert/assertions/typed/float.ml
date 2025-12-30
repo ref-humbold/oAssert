@@ -20,7 +20,7 @@ let zero =
   Assertion
     (fun actual ->
        build_assertion
-         (FV.equal 0.0 actual)
+         (actual = 0.0)
          (Equality {expected_str = FV.to_string 0.0; actual_str = FV.to_string actual}) )
 
 let positive =
@@ -38,47 +38,23 @@ let negative =
          (Condition {actual_str = FV.to_string actual; description = "be negative"}) )
 
 let close_to expected ~diff =
-  if diff <= 0.0
-  then invalid_arg @@ Printf.sprintf "%s: Difference should be greater than 0" __FUNCTION__
-  else
-    Assertion
-      (fun actual ->
-         let actual_diff = abs_float (expected -. actual) in
-         build_assertion
-           (actual_diff <= diff)
-           (ConditionResult
-              { actual_str = FV.to_string actual;
-                description =
-                  Printf.sprintf
-                    "be close to %s with difference %s"
-                    (FV.to_string expected)
-                    (FV.to_string diff);
-                result_str = Printf.sprintf "difference was %s" (FV.to_string actual_diff) } ) )
-
-let between minimum maximum =
-  let description ending =
-    match ending with
-    | Inclusive x -> Printf.sprintf "%s (inclusive)" (FV.to_string x)
-    | Exclusive x -> Printf.sprintf "%s (exclusive)" (FV.to_string x)
-  in
-  let comparison act =
-    let min_condition =
-      match minimum with
-      | Inclusive m -> m <= act
-      | Exclusive m -> m < act
-    and max_condition =
-      match maximum with
-      | Inclusive m -> act <= m
-      | Exclusive m -> act < m
-    in
-    min_condition && max_condition
-  in
   Assertion
     (fun actual ->
+       let diff_value =
+         match diff with
+         | Difference d ->
+           if d >= 0.0
+           then d
+           else invalid_arg @@ Printf.sprintf "%s: Difference should be greater than 0" __FUNCTION__
+       in
+       let actual_diff = abs_float (expected -. actual) in
        build_assertion
-         (comparison actual)
-         (Condition
+         (actual_diff <= diff_value)
+         (ConditionResult
             { actual_str = FV.to_string actual;
               description =
-                Printf.sprintf "be between %s and %s" (description minimum) (description maximum) }
-         ) )
+                Printf.sprintf
+                  "be close to %s with difference %s"
+                  (FV.to_string expected)
+                  (FV.to_string diff_value);
+              result_str = Printf.sprintf "difference was %s" (FV.to_string actual_diff) } ) )
