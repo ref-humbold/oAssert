@@ -1,11 +1,11 @@
 open Internals
-open Shared.Equal
+open Shared.Value
 
-module OfEq (VF : Values.EQ_VALUE) (VS : Values.EQ_VALUE) (VT : Values.EQ_VALUE) :
+module Of (VF : Values.VALUE) (VS : Values.VALUE) (VT : Values.VALUE) :
   Assert.TUPLE3_ASSERT with type fst_elem = VF.t and type snd_elem = VS.t and type trd_elem = VT.t =
 struct
   open struct
-    module TupleVal = Values.Tuple3.OfEq (VF) (VS) (VT)
+    module TupleVal = Values.Tuple3.Of (VF) (VS) (VT)
   end
 
   type fst_elem = VF.t
@@ -16,7 +16,7 @@ struct
 
   type tuple3 = fst_elem * snd_elem * trd_elem
 
-  include EqualAssertions (TupleVal)
+  include ValueAssertions (TupleVal)
 
   let first first =
     Assertion
@@ -48,7 +48,3 @@ struct
               { actual_str = TupleVal.to_string actual;
                 description = Printf.sprintf "have third element %s" @@ VT.to_string third } ) )
 end
-
-module Of (VF : Values.VALUE) (VS : Values.VALUE) (VT : Values.VALUE) :
-  Assert.TUPLE3_ASSERT with type fst_elem = VF.t and type snd_elem = VS.t and type trd_elem = VT.t =
-  OfEq (Values.AsEq (VF)) (Values.AsEq (VS)) (Values.AsEq (VT))

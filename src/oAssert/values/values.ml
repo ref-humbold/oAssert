@@ -1,18 +1,18 @@
 include Types
 
-module Bool : CMP_VALUE with type t = bool = Stdlib.Bool
+module Bool : VALUE with type t = bool = Stdlib.Bool
 
-module Int : CMP_VALUE with type t = int = Stdlib.Int
+module Int : COMPARE_VALUE with type t = int = Stdlib.Int
 
-module Float : CMP_VALUE with type t = float = Stdlib.Float
+module Float : COMPARE_VALUE with type t = float = Stdlib.Float
 
-module Char : CMP_VALUE with type t = char = struct
+module Char : COMPARE_VALUE with type t = char = struct
   include Stdlib.Char
 
   let to_string = Printf.sprintf "%C"
 end
 
-module String : CMP_VALUE with type t = string = struct
+module String : VALUE with type t = string = struct
   include Stdlib.String
 
   let to_string = Printf.sprintf "%S"

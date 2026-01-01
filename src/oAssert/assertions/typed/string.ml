@@ -1,6 +1,6 @@
 open Internals
 open Shared.Length
-open Shared.Equal
+open Shared.Value
 
 open struct
   module S = Stdlib.String
@@ -13,7 +13,7 @@ module Length = LengthAssertions (struct
     let get_length = S.length
   end)
 
-include EqualAssertions (SV)
+include ValueAssertions (SV)
 
 let empty =
   Assertion

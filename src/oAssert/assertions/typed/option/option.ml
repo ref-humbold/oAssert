@@ -4,9 +4,9 @@ open struct
   module Opt = Stdlib.Option
 end
 
-module OfEq (V : Values.EQ_VALUE) : Assert.OPTION_ASSERT with type elem = V.t = struct
+module Of (V : Values.VALUE) : Assert.OPTION_ASSERT with type elem = V.t = struct
   open struct
-    module OptVal = Values.Option.OfEq (V)
+    module OptVal = Values.Option.Of (V)
   end
 
   type elem = V.t
@@ -42,5 +42,3 @@ module OfEq (V : Values.EQ_VALUE) : Assert.OPTION_ASSERT with type elem = V.t = 
               { actual_str = OptVal.to_string actual;
                 description = "have value matching given predicate" } ) )
 end
-
-module Of (V : Values.VALUE) : Assert.OPTION_ASSERT with type elem = V.t = OfEq (Values.AsEq (V))

@@ -1,14 +1,14 @@
 open Internals
 open Shared.Length
-open Shared.Equal
+open Shared.Value
 
 open struct
   module L = Stdlib.List
 end
 
-module OfEq (V : Values.EQ_VALUE) : Assert.LIST_ASSERT with type elem = V.t = struct
+module Of (V : Values.VALUE) : Assert.LIST_ASSERT with type elem = V.t = struct
   open struct
-    module ListVal = Values.List.OfEq (V)
+    module ListVal = Values.List.Of (V)
 
     module Locals = struct
       let contains element list = L.exists (fun e -> V.equal e element) list
@@ -23,7 +23,7 @@ module OfEq (V : Values.EQ_VALUE) : Assert.LIST_ASSERT with type elem = V.t = st
       let get_length = L.length
     end)
 
-  include EqualAssertions (ListVal)
+  include ValueAssertions (ListVal)
 
   let empty =
     Assertion
@@ -85,5 +85,3 @@ module OfEq (V : Values.EQ_VALUE) : Assert.LIST_ASSERT with type elem = V.t = st
                 description = Printf.sprintf "have any element matching given predicate";
                 result_str = "none matched" } ) )
 end
-
-module Of (V : Values.VALUE) : Assert.LIST_ASSERT with type elem = V.t = OfEq (Values.AsEq (V))

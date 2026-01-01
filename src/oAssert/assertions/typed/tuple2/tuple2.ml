@@ -1,10 +1,10 @@
 open Internals
-open Shared.Equal
+open Shared.Value
 
-module OfEq (VF : Values.EQ_VALUE) (VS : Values.EQ_VALUE) :
+module Of (VF : Values.VALUE) (VS : Values.VALUE) :
   Assert.TUPLE2_ASSERT with type fst_elem = VF.t and type snd_elem = VS.t = struct
   open struct
-    module TupleVal = Values.Tuple2.OfEq (VF) (VS)
+    module TupleVal = Values.Tuple2.Of (VF) (VS)
   end
 
   type fst_elem = VF.t
@@ -13,7 +13,7 @@ module OfEq (VF : Values.EQ_VALUE) (VS : Values.EQ_VALUE) :
 
   type tuple2 = fst_elem * snd_elem
 
-  include EqualAssertions (TupleVal)
+  include ValueAssertions (TupleVal)
 
   let first first =
     Assertion
@@ -33,7 +33,3 @@ module OfEq (VF : Values.EQ_VALUE) (VS : Values.EQ_VALUE) :
               { actual_str = TupleVal.to_string actual;
                 description = Printf.sprintf "have second element %s" @@ VS.to_string second } ) )
 end
-
-module Of (VF : Values.VALUE) (VS : Values.VALUE) :
-  Assert.TUPLE2_ASSERT with type fst_elem = VF.t and type snd_elem = VS.t =
-  OfEq (Values.AsEq (VF)) (Values.AsEq (VS))

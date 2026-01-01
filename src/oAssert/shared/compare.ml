@@ -1,9 +1,9 @@
 open Internals
 open Common
-open Equal
+open Value
 
 module type COMPARE_ASSERT = sig
-  include EQUAL_ASSERT
+  include VALUE_ASSERT
 
   val greater_than : t -> t assertion
 
@@ -16,8 +16,8 @@ module type COMPARE_ASSERT = sig
   val between : t interval_end -> t interval_end -> t assertion
 end
 
-module CompareAssertions (V : Values.CMP_VALUE) : COMPARE_ASSERT with type t = V.t = struct
-  include EqualAssertions (V)
+module CompareAssertions (V : Values.COMPARE_VALUE) : COMPARE_ASSERT with type t = V.t = struct
+  include ValueAssertions (V)
 
   let greater_than expected =
     Assertion
