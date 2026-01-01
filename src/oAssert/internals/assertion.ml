@@ -1,5 +1,6 @@
 type assertion_message =
-  | Equality of {expected_str : string; actual_str : string}
+  | EmptyValue of {type_str : string; actual_str : string}
+  | ValueEquality of {expected_str : string; actual_str : string}
   | Condition of {actual_str : string; description : string}
   | ConditionResult of {actual_str : string; description : string; result_str : string}
   | Raising of {expected : exn; actual : exn option}

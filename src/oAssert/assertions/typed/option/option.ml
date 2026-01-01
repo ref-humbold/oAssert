@@ -16,7 +16,7 @@ module Of (V : Values.VALUE) : Assert.OPTION_ASSERT with type elem = V.t = struc
       (fun actual ->
          build_assertion
            (Opt.is_none actual)
-           (Equality {expected_str = "None"; actual_str = OptVal.to_string actual}) )
+           (ValueEquality {expected_str = "None"; actual_str = OptVal.to_string actual}) )
 
   let some value =
     Assertion
@@ -25,8 +25,9 @@ module Of (V : Values.VALUE) : Assert.OPTION_ASSERT with type elem = V.t = struc
            ( match actual with
              | Some x -> V.equal x value
              | None -> false )
-           (Equality
-              {expected_str = OptVal.to_string (Some value); actual_str = OptVal.to_string actual} ) )
+           (Condition
+              { actual_str = OptVal.to_string actual;
+                description = Printf.sprintf "be equal to %s" @@ OptVal.to_string (Some value) } ) )
 
   let value_matching predicate =
     Assertion

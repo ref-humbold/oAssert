@@ -12,7 +12,7 @@ let zero =
     (fun actual ->
        build_assertion
          (actual = 0)
-         (Equality {expected_str = IV.to_string 0; actual_str = IV.to_string actual}) )
+         (ValueEquality {expected_str = "zero"; actual_str = IV.to_string actual}) )
 
 let positive =
   Assertion

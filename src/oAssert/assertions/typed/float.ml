@@ -14,14 +14,14 @@ let nan =
     (fun actual ->
        build_assertion
          (F.is_nan actual)
-         (Equality {expected_str = FV.to_string nan; actual_str = FV.to_string actual}) )
+         (ValueEquality {expected_str = "NaN"; actual_str = FV.to_string actual}) )
 
 let zero =
   Assertion
     (fun actual ->
        build_assertion
          (actual = 0.0)
-         (Equality {expected_str = FV.to_string 0.0; actual_str = FV.to_string actual}) )
+         (ValueEquality {expected_str = "zero"; actual_str = FV.to_string actual}) )
 
 let positive =
   Assertion

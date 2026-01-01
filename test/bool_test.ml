@@ -28,7 +28,7 @@ let not_is_true__when_actual_is_true__then_failed =
     (* when *)
     let action () = true <?> !:Is.true_ in
     (* then *)
-    assert_that action @@ Is.raising (Assertion_failed "Expected value different than true")
+    assert_that action @@ Is.raising (Assertion_failed "Expected value other than true")
 
 let not_is_true__when_actual_is_false__then_passed =
   __FUNCTION__ >:: fun _ ->
@@ -67,7 +67,7 @@ let not_is_false__when_actual_is_false__then_failed =
     (* when *)
     let action () = false <?> !:Is.false_ in
     (* then *)
-    assert_that action @@ Is.raising (Assertion_failed "Expected value different than false")
+    assert_that action @@ Is.raising (Assertion_failed "Expected value other than false")
 
 let not_is_false__when_actual_is_true__then_passed =
   __FUNCTION__ >:: fun _ ->

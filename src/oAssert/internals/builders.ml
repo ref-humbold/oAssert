@@ -9,9 +9,13 @@ let build_message msg negated =
       caught_str
   in
   match msg with
-  | Equality {expected_str; actual_str} ->
+  | EmptyValue {type_str; actual_str} ->
     if negated
-    then Printf.sprintf "Expected value different than %s" expected_str
+    then Printf.sprintf "Expected non-empty %s" type_str
+    else Printf.sprintf "Expected empty %s, but was %s" type_str actual_str
+  | ValueEquality {expected_str; actual_str} ->
+    if negated
+    then Printf.sprintf "Expected value other than %s" expected_str
     else Printf.sprintf "Expected %s, but was %s" expected_str actual_str
   | Condition {actual_str; description} ->
     Printf.sprintf ("Expected %s" ^^ negated_str negated ^^ "to %s") actual_str description

@@ -19,8 +19,8 @@ let empty =
   Assertion
     (fun actual ->
        build_assertion
-         (SV.equal actual "")
-         (Equality {expected_str = "empty string"; actual_str = SV.to_string actual}) )
+         (S.empty = actual)
+         (EmptyValue {type_str = "string"; actual_str = SV.to_string actual}) )
 
 let uppercase =
   Assertion

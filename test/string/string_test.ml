@@ -31,7 +31,7 @@ let not_is_empty__when_actual_empty__then_failed =
     (* when *)
     let action () = assert_that "" @@ Satisfies.not Is.String.empty in
     (* then *)
-    let expected = Assertion_failed "Expected value different than empty string" in
+    let expected = Assertion_failed "Expected non-empty string" in
     assert_that action @@ Is.raising expected
 
 let not_is_empty__when_actual_not_empty__then_passed =
@@ -64,7 +64,7 @@ let is_equal_to__when_different_case__then_failed =
     (* when *)
     let action () = assert_that value @@ Is.String.equal_to value' in
     (* then *)
-    let expected = Assertion_failed (Printf.sprintf "Expected %S, but was %S" value' value) in
+    let expected = Assertion_failed (Printf.sprintf "Expected %S to be equal to %S" value value') in
     assert_that action @@ Is.raising expected
 
 let is_equal_to__when_different_text__then_failed =
@@ -74,7 +74,7 @@ let is_equal_to__when_different_text__then_failed =
     (* when *)
     let action () = assert_that value @@ Is.String.equal_to value' in
     (* then *)
-    let expected = Assertion_failed (Printf.sprintf "Expected %S, but was %S" value' value) in
+    let expected = Assertion_failed (Printf.sprintf "Expected %S to be equal to %S" value value') in
     assert_that action @@ Is.raising expected
 
 let is_equal_to__when_actual_shorter__then_failed =
@@ -84,7 +84,7 @@ let is_equal_to__when_actual_shorter__then_failed =
     (* when *)
     let action () = assert_that value @@ Is.String.equal_to value' in
     (* then *)
-    let expected = Assertion_failed (Printf.sprintf "Expected %S, but was %S" value' value) in
+    let expected = Assertion_failed (Printf.sprintf "Expected %S to be equal to %S" value value') in
     assert_that action @@ Is.raising expected
 
 let is_equal_to__when_actual_longer__then_failed =
@@ -94,7 +94,7 @@ let is_equal_to__when_actual_longer__then_failed =
     (* when *)
     let action () = assert_that value @@ Is.String.equal_to value' in
     (* then *)
-    let expected = Assertion_failed (Printf.sprintf "Expected %S, but was %S" value' value) in
+    let expected = Assertion_failed (Printf.sprintf "Expected %S to be equal to %S" value value') in
     assert_that action @@ Is.raising expected
 
 let is_equal_to_Test_list =
@@ -114,7 +114,9 @@ let not_is_equal_to__when_same_text__then_failed =
     (* when *)
     let action () = assert_that value @@ Satisfies.not @@ Is.String.equal_to value in
     (* then *)
-    let expected = Assertion_failed (Printf.sprintf "Expected value different than %S" value) in
+    let expected =
+      Assertion_failed (Printf.sprintf "Expected %S not to be equal to %S" value value)
+    in
     assert_that action @@ Is.raising expected
 
 let not_is_equal_to__when_different_case__then_passed =

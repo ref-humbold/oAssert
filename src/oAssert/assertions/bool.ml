@@ -9,11 +9,11 @@ let true_ =
     (fun actual ->
        build_assertion
          actual
-         (Equality {expected_str = BV.to_string true; actual_str = BV.to_string actual}) )
+         (ValueEquality {expected_str = BV.to_string true; actual_str = BV.to_string actual}) )
 
 let false_ =
   Assertion
     (fun actual ->
        build_assertion
          (not actual)
-         (Equality {expected_str = BV.to_string false; actual_str = BV.to_string actual}) )
+         (ValueEquality {expected_str = BV.to_string false; actual_str = BV.to_string actual}) )

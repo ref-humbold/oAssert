@@ -55,14 +55,12 @@ let is_nan__when_actual_is_nan__then_passed =
 
 let is_nan__when_actual_different_than_nan__then_failed =
   let with_param param =
-    let label = Printf.sprintf "%s %f" __FUNCTION__ param in
+    let label = Printf.sprintf "%s %F" __FUNCTION__ param in
     label >:: fun _ ->
       (* when *)
       let action () = assert_that param Is.Float.nan in
       (* then *)
-      let expected =
-        Assertion_failed (Printf.sprintf "Expected nan, but was %s" (Float.to_string param))
-      in
+      let expected = Assertion_failed (Printf.sprintf "Expected NaN, but was %F" param) in
       assert_that action @@ Is.raising expected
   in
   test_list @@ List.map with_param positive_params
@@ -78,12 +76,12 @@ let not_is_nan__when_actual_is_nan__then_failed =
     (* when *)
     let action () = assert_that Float.nan @@ Satisfies.not Is.Float.nan in
     (* then *)
-    let expected = Assertion_failed "Expected value different than nan" in
+    let expected = Assertion_failed "Expected value other than NaN" in
     assert_that action @@ Is.raising expected
 
 let not_is_nan__when_actual_different_than_nan__then_passed =
   let with_param param =
-    let label = Printf.sprintf "%s %f" __FUNCTION__ param in
+    let label = Printf.sprintf "%s %F" __FUNCTION__ param in
     label >:: fun _ ->
       (* when *)
       let action () = assert_that param @@ Satisfies.not Is.Float.nan in
@@ -108,14 +106,12 @@ let is_zero__when_actual_is_zero__then_passed =
 
 let is_zero__when_actual_different_than_zero__then_failed =
   let with_param param =
-    let label = Printf.sprintf "%s %f" __FUNCTION__ param in
+    let label = Printf.sprintf "%s %F" __FUNCTION__ param in
     label >:: fun _ ->
       (* when *)
       let action () = assert_that param Is.Float.zero in
       (* then *)
-      let expected =
-        Assertion_failed (Printf.sprintf "Expected 0., but was %s" (Float.to_string param))
-      in
+      let expected = Assertion_failed (Printf.sprintf "Expected zero, but was %F" param) in
       assert_that action @@ Is.raising expected
   in
   test_list @@ List.map with_param (positive_params @ negative_params)
@@ -132,12 +128,12 @@ let not_is_zero__when_actual_is_zero__then_failed =
     (* when *)
     let action () = assert_that 0.0 @@ Satisfies.not Is.Float.zero in
     (* then *)
-    let expected = Assertion_failed "Expected value different than 0." in
+    let expected = Assertion_failed "Expected value other than zero" in
     assert_that action @@ Is.raising expected
 
 let not_is_zero__when_actual_different_than_zero__then_passed =
   let with_param param =
-    let label = Printf.sprintf "%s %f" __FUNCTION__ param in
+    let label = Printf.sprintf "%s %F" __FUNCTION__ param in
     label >:: fun _ ->
       (* when *)
       let action () = assert_that param @@ Satisfies.not Is.Float.zero in
@@ -155,7 +151,7 @@ let not_is_zero_Test_list =
 
 let is_positive__when_actual_greater_than_zero__then_passed =
   let with_param param =
-    let label = Printf.sprintf "%s %f" __FUNCTION__ param in
+    let label = Printf.sprintf "%s %F" __FUNCTION__ param in
     label >:: fun _ ->
       (* when *)
       let action () = assert_that param Is.Float.positive in
@@ -166,14 +162,12 @@ let is_positive__when_actual_greater_than_zero__then_passed =
 
 let is_positive__when_actual_less_than_zero__then_failed =
   let with_param param =
-    let label = Printf.sprintf "%s %f" __FUNCTION__ param in
+    let label = Printf.sprintf "%s %F" __FUNCTION__ param in
     label >:: fun _ ->
       (* when *)
       let action () = assert_that param Is.Float.positive in
       (* then *)
-      let expected =
-        Assertion_failed (Printf.sprintf "Expected %s to be positive" (Float.to_string param))
-      in
+      let expected = Assertion_failed (Printf.sprintf "Expected %F to be positive" param) in
       assert_that action @@ Is.raising expected
   in
   test_list @@ List.map with_param negative_params
@@ -185,9 +179,7 @@ let is_positive__when_actual_equal_to_zero__then_failed =
     (* when *)
     let action () = assert_that value Is.Float.positive in
     (* then *)
-    let expected =
-      Assertion_failed (Printf.sprintf "Expected %s to be positive" (Float.to_string value))
-    in
+    let expected = Assertion_failed (Printf.sprintf "Expected %F to be positive" value) in
     assert_that action @@ Is.raising expected
 
 let is_positive_Test_list =
@@ -200,21 +192,19 @@ let is_positive_Test_list =
 
 let not_is_positive__when_actual_greater_than_zero__then_failed =
   let with_param param =
-    let label = Printf.sprintf "%s %f" __FUNCTION__ param in
+    let label = Printf.sprintf "%s %F" __FUNCTION__ param in
     label >:: fun _ ->
       (* when *)
       let action () = assert_that param @@ Satisfies.not Is.Float.positive in
       (* then *)
-      let expected =
-        Assertion_failed (Printf.sprintf "Expected %s not to be positive" (Float.to_string param))
-      in
+      let expected = Assertion_failed (Printf.sprintf "Expected %F not to be positive" param) in
       assert_that action @@ Is.raising expected
   in
   test_list @@ List.map with_param positive_params
 
 let not_is_positive__when_actual_less_than_zero__then_passed =
   let with_param param =
-    let label = Printf.sprintf "%s %f" __FUNCTION__ param in
+    let label = Printf.sprintf "%s %F" __FUNCTION__ param in
     label >:: fun _ ->
       (* when *)
       let action () = assert_that param @@ Satisfies.not Is.Float.positive in
@@ -241,7 +231,7 @@ let not_is_positive_Test_list =
 
 let is_negative__when_actual_less_than_zero__then_passed =
   let with_param param =
-    let label = Printf.sprintf "%s %f" __FUNCTION__ param in
+    let label = Printf.sprintf "%s %F" __FUNCTION__ param in
     label >:: fun _ ->
       (* when *)
       let action () = assert_that param Is.Float.negative in
@@ -252,14 +242,12 @@ let is_negative__when_actual_less_than_zero__then_passed =
 
 let is_negative__when_actual_greater_than_zero__then_failed =
   let with_param param =
-    let label = Printf.sprintf "%s %f" __FUNCTION__ param in
+    let label = Printf.sprintf "%s %F" __FUNCTION__ param in
     label >:: fun _ ->
       (* when *)
       let action () = assert_that param Is.Float.negative in
       (* then *)
-      let expected =
-        Assertion_failed (Printf.sprintf "Expected %s to be negative" (Float.to_string param))
-      in
+      let expected = Assertion_failed (Printf.sprintf "Expected %F to be negative" param) in
       assert_that action @@ Is.raising expected
   in
   test_list @@ List.map with_param positive_params
@@ -271,9 +259,7 @@ let is_negative__when_actual_equal_to_zero__then_failed =
     (* when *)
     let action () = assert_that value Is.Float.negative in
     (* then *)
-    let expected =
-      Assertion_failed (Printf.sprintf "Expected %s to be negative" (Float.to_string value))
-    in
+    let expected = Assertion_failed (Printf.sprintf "Expected %F to be negative" value) in
     assert_that action @@ Is.raising expected
 
 let is_negative_Test_list =
@@ -286,21 +272,19 @@ let is_negative_Test_list =
 
 let not_is_negative__when_actual_less_than_zero__then_failed =
   let with_param param =
-    let label = Printf.sprintf "%s %f" __FUNCTION__ param in
+    let label = Printf.sprintf "%s %F" __FUNCTION__ param in
     label >:: fun _ ->
       (* when *)
       let action () = assert_that param @@ Satisfies.not Is.Float.negative in
       (* then *)
-      let expected =
-        Assertion_failed (Printf.sprintf "Expected %s not to be negative" (Float.to_string param))
-      in
+      let expected = Assertion_failed (Printf.sprintf "Expected %F not to be negative" param) in
       assert_that action @@ Is.raising expected
   in
   test_list @@ List.map with_param negative_params
 
 let not_is_negative__when_actual_greater_than_zero__then_passed =
   let with_param param =
-    let label = Printf.sprintf "%s %f" __FUNCTION__ param in
+    let label = Printf.sprintf "%s %F" __FUNCTION__ param in
     label >:: fun _ ->
       (* when *)
       let action () = assert_that param @@ Satisfies.not Is.Float.negative in
@@ -327,7 +311,7 @@ let not_is_negative_Test_list =
 
 let is_equal_to__when_actual_is_same__then_passed =
   let with_param param =
-    let label = Printf.sprintf "%s %f" __FUNCTION__ param in
+    let label = Printf.sprintf "%s %F" __FUNCTION__ param in
     label >:: fun _ ->
       (* when *)
       let action () = assert_that param @@ Is.Float.equal_to param in
@@ -338,14 +322,13 @@ let is_equal_to__when_actual_is_same__then_passed =
 
 let is_equal_to__when_actual_different__then_failed =
   let with_params (param1, param2) =
-    let label = Printf.sprintf "%s %f %f" __FUNCTION__ param1 param2 in
+    let label = Printf.sprintf "%s %F %F" __FUNCTION__ param1 param2 in
     label >:: fun _ ->
       (* when *)
-      let action () = assert_that param2 @@ Is.Float.equal_to param1 in
+      let action () = assert_that param1 @@ Is.Float.equal_to param2 in
       (* then *)
       let expected =
-        Assertion_failed
-          (Printf.sprintf "Expected %s, but was %s" (Float.to_string param1) (Float.to_string param2))
+        Assertion_failed (Printf.sprintf "Expected %F to be equal to %F" param1 param2)
       in
       assert_that action @@ Is.raising expected
   in
@@ -359,13 +342,13 @@ let is_equal_to_Test_list =
 
 let not_is_equal_to__when_actual_is_same__then_failed =
   let with_param param =
-    let label = Printf.sprintf "%s %f" __FUNCTION__ param in
+    let label = Printf.sprintf "%s %F" __FUNCTION__ param in
     label >:: fun _ ->
       (* when *)
       let action () = assert_that param @@ Satisfies.not @@ Is.Float.equal_to param in
       (* then *)
       let expected =
-        Assertion_failed (Printf.sprintf "Expected value different than %s" (Float.to_string param))
+        Assertion_failed (Printf.sprintf "Expected %F not to be equal to %F" param param)
       in
       assert_that action @@ Is.raising expected
   in
@@ -373,10 +356,10 @@ let not_is_equal_to__when_actual_is_same__then_failed =
 
 let not_is_equal_to__when_actual_is_different__then_passed =
   let with_params (param1, param2) =
-    let label = Printf.sprintf "%s %f %f" __FUNCTION__ param1 param2 in
+    let label = Printf.sprintf "%s %F %F" __FUNCTION__ param1 param2 in
     label >:: fun _ ->
       (* when *)
-      let action () = assert_that param2 @@ Satisfies.not @@ Is.Float.equal_to param1 in
+      let action () = assert_that param1 @@ Satisfies.not @@ Is.Float.equal_to param2 in
       (* then *)
       assert_that action Is.raising_nothing
   in
@@ -415,11 +398,11 @@ let is_close_to__when_actual_different__then_failed =
     let expected =
       Assertion_failed
         (Printf.sprintf
-           "Expected %s to be close to %s with difference %s, but difference was %s"
-           (Float.to_string value2)
-           (Float.to_string value1)
-           (Float.to_string diff)
-           (Float.to_string @@ abs_float (value2 -. value1)) )
+           "Expected %F to be close to %F with difference %F, but difference was %F"
+           value2
+           value1
+           diff
+           (abs_float (value2 -. value1)) )
     in
     assert_that action @@ Is.raising expected
 
@@ -442,11 +425,7 @@ let not_is_close_to__when_actual_is_same__then_failed =
     (* then *)
     let expected =
       Assertion_failed
-        (Printf.sprintf
-           "Expected %s not to be close to %s with difference %s"
-           (Float.to_string value)
-           (Float.to_string value)
-           (Float.to_string diff) )
+        (Printf.sprintf "Expected %F not to be close to %F with difference %F" value value diff)
     in
     assert_that action @@ Is.raising expected
 
@@ -461,11 +440,7 @@ let not_is_close_to__when_actual_is_in_difference__then_failed =
     (* then *)
     let expected =
       Assertion_failed
-        (Printf.sprintf
-           "Expected %s not to be close to %s with difference %s"
-           (Float.to_string value2)
-           (Float.to_string value1)
-           (Float.to_string diff) )
+        (Printf.sprintf "Expected %F not to be close to %F with difference %F" value2 value1 diff)
     in
     assert_that action @@ Is.raising expected
 
@@ -488,7 +463,7 @@ let not_is_close_to_Test_list =
 
 let is_greater_than__when_actual_greater__then_passed =
   let with_params (param1, param2) =
-    let label = Printf.sprintf "%s %f %f" __FUNCTION__ param1 param2 in
+    let label = Printf.sprintf "%s %F %F" __FUNCTION__ param1 param2 in
     label >:: fun _ ->
       (* when *)
       let action () = assert_that param2 @@ Is.Float.greater_than param1 in
@@ -499,17 +474,13 @@ let is_greater_than__when_actual_greater__then_passed =
 
 let is_greater_than__when_actual_equal__then_failed =
   let with_param param =
-    let label = Printf.sprintf "%s %f" __FUNCTION__ param in
+    let label = Printf.sprintf "%s %F" __FUNCTION__ param in
     label >:: fun _ ->
       (* when *)
       let action () = assert_that param @@ Is.Float.greater_than param in
       (* then *)
       let expected =
-        Assertion_failed
-          (Printf.sprintf
-             "Expected %s to be greater than %s"
-             (Float.to_string param)
-             (Float.to_string param) )
+        Assertion_failed (Printf.sprintf "Expected %F to be greater than %F" param param)
       in
       assert_that action @@ Is.raising expected
   in
@@ -517,17 +488,13 @@ let is_greater_than__when_actual_equal__then_failed =
 
 let is_greater_than__when_actual_less__then_failed =
   let with_params (param1, param2) =
-    let label = Printf.sprintf "%s %f %f" __FUNCTION__ param1 param2 in
+    let label = Printf.sprintf "%s %F %F" __FUNCTION__ param1 param2 in
     label >:: fun _ ->
       (* when *)
       let action () = assert_that param1 @@ Is.Float.greater_than param2 in
       (* then *)
       let expected =
-        Assertion_failed
-          (Printf.sprintf
-             "Expected %s to be greater than %s"
-             (Float.to_string param1)
-             (Float.to_string param2) )
+        Assertion_failed (Printf.sprintf "Expected %F to be greater than %F" param1 param2)
       in
       assert_that action @@ Is.raising expected
   in
@@ -543,17 +510,13 @@ let is_greater_than_Test_list =
 
 let not_is_greater_than__when_actual_greater__then_failed =
   let with_params (param1, param2) =
-    let label = Printf.sprintf "%s %f %f" __FUNCTION__ param1 param2 in
+    let label = Printf.sprintf "%s %F %F" __FUNCTION__ param1 param2 in
     label >:: fun _ ->
       (* when *)
       let action () = assert_that param2 @@ Satisfies.not @@ Is.Float.greater_than param1 in
       (* then *)
       let expected =
-        Assertion_failed
-          (Printf.sprintf
-             "Expected %s not to be greater than %s"
-             (Float.to_string param2)
-             (Float.to_string param1) )
+        Assertion_failed (Printf.sprintf "Expected %F not to be greater than %F" param2 param1)
       in
       assert_that action @@ Is.raising expected
   in
@@ -561,7 +524,7 @@ let not_is_greater_than__when_actual_greater__then_failed =
 
 let not_is_greater_than__when_actual_equal__then_passed =
   let with_param param =
-    let label = Printf.sprintf "%s %f" __FUNCTION__ param in
+    let label = Printf.sprintf "%s %F" __FUNCTION__ param in
     label >:: fun _ ->
       (* when *)
       let action () = assert_that param @@ Satisfies.not @@ Is.Float.greater_than param in
@@ -572,7 +535,7 @@ let not_is_greater_than__when_actual_equal__then_passed =
 
 let not_is_greater_than__when_actual_less__then_passed =
   let with_params (param1, param2) =
-    let label = Printf.sprintf "%s %f %f" __FUNCTION__ param1 param2 in
+    let label = Printf.sprintf "%s %F %F" __FUNCTION__ param1 param2 in
     label >:: fun _ ->
       (* when *)
       let action () = assert_that param1 @@ Satisfies.not @@ Is.Float.greater_than param2 in
@@ -591,7 +554,7 @@ let not_is_greater_than_Test_list =
 
 let is_greater_than_or_equal_to__when_actual_greater__then_passed =
   let with_params (param1, param2) =
-    let label = Printf.sprintf "%s %f %f" __FUNCTION__ param1 param2 in
+    let label = Printf.sprintf "%s %F %F" __FUNCTION__ param1 param2 in
     label >:: fun _ ->
       (* when *)
       let action () = assert_that param2 @@ Is.Float.greater_than_or_equal_to param1 in
@@ -602,7 +565,7 @@ let is_greater_than_or_equal_to__when_actual_greater__then_passed =
 
 let is_greater_than_or_equal_to__when_actual_equal__then_passed =
   let with_param param =
-    let label = Printf.sprintf "%s %f" __FUNCTION__ param in
+    let label = Printf.sprintf "%s %F" __FUNCTION__ param in
     label >:: fun _ ->
       (* when *)
       let action () = assert_that param @@ Is.Float.greater_than_or_equal_to param in
@@ -613,17 +576,14 @@ let is_greater_than_or_equal_to__when_actual_equal__then_passed =
 
 let is_greater_than_or_equal_to__when_actual_less__then_failed =
   let with_params (param1, param2) =
-    let label = Printf.sprintf "%s %f %f" __FUNCTION__ param1 param2 in
+    let label = Printf.sprintf "%s %F %F" __FUNCTION__ param1 param2 in
     label >:: fun _ ->
       (* when *)
       let action () = assert_that param1 @@ Is.Float.greater_than_or_equal_to param2 in
       (* then *)
       let expected =
         Assertion_failed
-          (Printf.sprintf
-             "Expected %s to be greater than or equal to %s"
-             (Float.to_string param1)
-             (Float.to_string param2) )
+          (Printf.sprintf "Expected %F to be greater than or equal to %F" param1 param2)
       in
       assert_that action @@ Is.raising expected
   in
@@ -639,7 +599,7 @@ let is_greater_than_or_equal_to_Test_list =
 
 let not_is_greater_than_or_equal_to__when_actual_greater__then_failed =
   let with_params (param1, param2) =
-    let label = Printf.sprintf "%s %f %f" __FUNCTION__ param1 param2 in
+    let label = Printf.sprintf "%s %F %F" __FUNCTION__ param1 param2 in
     label >:: fun _ ->
       (* when *)
       let action () =
@@ -648,10 +608,7 @@ let not_is_greater_than_or_equal_to__when_actual_greater__then_failed =
       (* then *)
       let expected =
         Assertion_failed
-          (Printf.sprintf
-             "Expected %s not to be greater than or equal to %s"
-             (Float.to_string param2)
-             (Float.to_string param1) )
+          (Printf.sprintf "Expected %F not to be greater than or equal to %F" param2 param1)
       in
       assert_that action @@ Is.raising expected
   in
@@ -659,17 +616,14 @@ let not_is_greater_than_or_equal_to__when_actual_greater__then_failed =
 
 let not_is_greater_than_or_equal_to__when_actual_equal__then_failed =
   let with_param param =
-    let label = Printf.sprintf "%s %f" __FUNCTION__ param in
+    let label = Printf.sprintf "%s %F" __FUNCTION__ param in
     label >:: fun _ ->
       (* when *)
       let action () = assert_that param @@ Satisfies.not @@ Is.Float.greater_than_or_equal_to param in
       (* then *)
       let expected =
         Assertion_failed
-          (Printf.sprintf
-             "Expected %s not to be greater than or equal to %s"
-             (Float.to_string param)
-             (Float.to_string param) )
+          (Printf.sprintf "Expected %F not to be greater than or equal to %F" param param)
       in
       assert_that action @@ Is.raising expected
   in
@@ -677,7 +631,7 @@ let not_is_greater_than_or_equal_to__when_actual_equal__then_failed =
 
 let not_is_greater_than_or_equal_to__when_actual_less__then_passed =
   let with_params (param1, param2) =
-    let label = Printf.sprintf "%s %f %f" __FUNCTION__ param1 param2 in
+    let label = Printf.sprintf "%s %F %F" __FUNCTION__ param1 param2 in
     label >:: fun _ ->
       (* when *)
       let action () =
@@ -698,7 +652,7 @@ let not_is_greater_than_or_equal_to_Test_list =
 
 let is_less_than__when_actual_less__then_passed =
   let with_params (param1, param2) =
-    let label = Printf.sprintf "%s %f %f" __FUNCTION__ param1 param2 in
+    let label = Printf.sprintf "%s %F %F" __FUNCTION__ param1 param2 in
     label >:: fun _ ->
       (* when *)
       let action () = assert_that param1 @@ Is.Float.less_than param2 in
@@ -709,35 +663,25 @@ let is_less_than__when_actual_less__then_passed =
 
 let is_less_than__when_actual_equal__then_failed =
   let with_param param =
-    let label = Printf.sprintf "%s %f" __FUNCTION__ param in
+    let label = Printf.sprintf "%s %F" __FUNCTION__ param in
     label >:: fun _ ->
       (* when *)
       let action () = assert_that param @@ Is.Float.less_than param in
       (* then *)
-      let expected =
-        Assertion_failed
-          (Printf.sprintf
-             "Expected %s to be less than %s"
-             (Float.to_string param)
-             (Float.to_string param) )
-      in
+      let expected = Assertion_failed (Printf.sprintf "Expected %F to be less than %F" param param) in
       assert_that action @@ Is.raising expected
   in
   test_list @@ List.map with_param positive_params
 
 let is_less_than__when_actual_greater__then_failed =
   let with_params (param1, param2) =
-    let label = Printf.sprintf "%s %f %f" __FUNCTION__ param1 param2 in
+    let label = Printf.sprintf "%s %F %F" __FUNCTION__ param1 param2 in
     label >:: fun _ ->
       (* when *)
       let action () = assert_that param2 @@ Is.Float.less_than param1 in
       (* then *)
       let expected =
-        Assertion_failed
-          (Printf.sprintf
-             "Expected %s to be less than %s"
-             (Float.to_string param2)
-             (Float.to_string param1) )
+        Assertion_failed (Printf.sprintf "Expected %F to be less than %F" param2 param1)
       in
       assert_that action @@ Is.raising expected
   in
@@ -753,17 +697,13 @@ let is_less_than_Test_list =
 
 let not_is_less_than__when_actual_less__then_failed =
   let with_params (param1, param2) =
-    let label = Printf.sprintf "%s %f %f" __FUNCTION__ param1 param2 in
+    let label = Printf.sprintf "%s %F %F" __FUNCTION__ param1 param2 in
     label >:: fun _ ->
       (* when *)
       let action () = assert_that param1 @@ Satisfies.not @@ Is.Float.less_than param2 in
       (* then *)
       let expected =
-        Assertion_failed
-          (Printf.sprintf
-             "Expected %s not to be less than %s"
-             (Float.to_string param1)
-             (Float.to_string param2) )
+        Assertion_failed (Printf.sprintf "Expected %F not to be less than %F" param1 param2)
       in
       assert_that action @@ Is.raising expected
   in
@@ -771,7 +711,7 @@ let not_is_less_than__when_actual_less__then_failed =
 
 let not_is_less_than__when_actual_equal__then_passed =
   let with_param param =
-    let label = Printf.sprintf "%s %f" __FUNCTION__ param in
+    let label = Printf.sprintf "%s %F" __FUNCTION__ param in
     label >:: fun _ ->
       (* when *)
       let action () = assert_that param @@ Satisfies.not @@ Is.Float.less_than param in
@@ -782,7 +722,7 @@ let not_is_less_than__when_actual_equal__then_passed =
 
 let not_is_less_than__when_actual_greater__then_passed =
   let with_params (param1, param2) =
-    let label = Printf.sprintf "%s %f %f" __FUNCTION__ param1 param2 in
+    let label = Printf.sprintf "%s %F %F" __FUNCTION__ param1 param2 in
     label >:: fun _ ->
       (* when *)
       let action () = assert_that param2 @@ Satisfies.not @@ Is.Float.less_than param1 in
@@ -801,7 +741,7 @@ let not_is_less_than_Test_list =
 
 let is_less_than_or_equal_to__when_actual_less__then_passed =
   let with_params (param1, param2) =
-    let label = Printf.sprintf "%s %f %f" __FUNCTION__ param1 param2 in
+    let label = Printf.sprintf "%s %F %F" __FUNCTION__ param1 param2 in
     label >:: fun _ ->
       (* when *)
       let action () = assert_that param1 @@ Is.Float.less_than_or_equal_to param2 in
@@ -812,7 +752,7 @@ let is_less_than_or_equal_to__when_actual_less__then_passed =
 
 let is_less_than_or_equal_to__when_actual_equal__then_passed =
   let with_param param =
-    let label = Printf.sprintf "%s %f" __FUNCTION__ param in
+    let label = Printf.sprintf "%s %F" __FUNCTION__ param in
     label >:: fun _ ->
       (* when *)
       let action () = assert_that param @@ Is.Float.less_than_or_equal_to param in
@@ -823,17 +763,13 @@ let is_less_than_or_equal_to__when_actual_equal__then_passed =
 
 let is_less_than_or_equal_to__when_actual_less__then_failed =
   let with_params (param1, param2) =
-    let label = Printf.sprintf "%s %f %f" __FUNCTION__ param1 param2 in
+    let label = Printf.sprintf "%s %F %F" __FUNCTION__ param1 param2 in
     label >:: fun _ ->
       (* when *)
       let action () = assert_that param2 @@ Is.Float.less_than_or_equal_to param1 in
       (* then *)
       let expected =
-        Assertion_failed
-          (Printf.sprintf
-             "Expected %s to be less than or equal to %s"
-             (Float.to_string param2)
-             (Float.to_string param1) )
+        Assertion_failed (Printf.sprintf "Expected %F to be less than or equal to %F" param2 param1)
       in
       assert_that action @@ Is.raising expected
   in
@@ -849,17 +785,14 @@ let is_less_than_or_equal_to_Test_list =
 
 let not_is_less_than_or_equal_to__when_actual_less__then_failed =
   let with_params (param1, param2) =
-    let label = Printf.sprintf "%s %f %f" __FUNCTION__ param1 param2 in
+    let label = Printf.sprintf "%s %F %F" __FUNCTION__ param1 param2 in
     label >:: fun _ ->
       (* when *)
       let action () = assert_that param1 @@ Satisfies.not @@ Is.Float.less_than_or_equal_to param2 in
       (* then *)
       let expected =
         Assertion_failed
-          (Printf.sprintf
-             "Expected %s not to be less than or equal to %s"
-             (Float.to_string param1)
-             (Float.to_string param2) )
+          (Printf.sprintf "Expected %F not to be less than or equal to %F" param1 param2)
       in
       assert_that action @@ Is.raising expected
   in
@@ -867,17 +800,13 @@ let not_is_less_than_or_equal_to__when_actual_less__then_failed =
 
 let not_is_less_than_or_equal_to__when_actual_equal__then_failed =
   let with_param param =
-    let label = Printf.sprintf "%s %f" __FUNCTION__ param in
+    let label = Printf.sprintf "%s %F" __FUNCTION__ param in
     label >:: fun _ ->
       (* when *)
       let action () = assert_that param @@ Satisfies.not @@ Is.Float.less_than_or_equal_to param in
       (* then *)
       let expected =
-        Assertion_failed
-          (Printf.sprintf
-             "Expected %s not to be less than or equal to %s"
-             (Float.to_string param)
-             (Float.to_string param) )
+        Assertion_failed (Printf.sprintf "Expected %F not to be less than or equal to %F" param param)
       in
       assert_that action @@ Is.raising expected
   in
@@ -885,7 +814,7 @@ let not_is_less_than_or_equal_to__when_actual_equal__then_failed =
 
 let not_is_less_than_or_equal_to__when_actual_greater__then_passed =
   let with_params (param1, param2) =
-    let label = Printf.sprintf "%s %f %f" __FUNCTION__ param1 param2 in
+    let label = Printf.sprintf "%s %F %F" __FUNCTION__ param1 param2 in
     label >:: fun _ ->
       (* when *)
       let action () = assert_that param2 @@ Satisfies.not @@ Is.Float.less_than_or_equal_to param1 in

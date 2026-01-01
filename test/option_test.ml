@@ -32,7 +32,7 @@ let not_is_none__when_actual_is_none__then_failed =
     (* when *)
     let action () = assert_that None @@ Satisfies.not IsOption.none in
     (* then *)
-    assert_that action @@ Is.raising @@ Assertion_failed "Expected value different than None"
+    assert_that action @@ Is.raising @@ Assertion_failed "Expected value other than None"
 
 let not_is_none__when_actual_is_some__then_passed =
   __FUNCTION__ >:: fun _ ->
@@ -56,15 +56,15 @@ let is_some__when_actual_is_some__then_passed =
     (* then *)
     assert_that action Is.raising_nothing
 
-let is_some__when_actual_is_some_of_other__then_failed =
+let is_some__when_actual_has_different_value__then_failed =
   __FUNCTION__ >:: fun _ ->
     (* given *)
-    let value = "qwerty\nasdf" and other = "zxcvb\t'qwerty'\tasdfg" in
+    let value = "qwerty\nasdf" and value' = "zxcvb\t'qwerty'\tasdfg" in
     (* when *)
-    let action () = assert_that (Some other) @@ IsOption.some value in
+    let action () = assert_that (Some value') @@ IsOption.some value in
     (* then *)
     let expected =
-      Assertion_failed (Printf.sprintf "Expected Some %S, but was Some %S" value other)
+      Assertion_failed (Printf.sprintf "Expected Some %S to be equal to Some %S" value' value)
     in
     assert_that action @@ Is.raising expected
 
@@ -75,13 +75,13 @@ let is_some__when_actual_is_none__then_failed =
     (* when *)
     let action () = assert_that None @@ IsOption.some value in
     (* then *)
-    let expected = Assertion_failed (Printf.sprintf "Expected Some %S, but was None" value) in
+    let expected = Assertion_failed (Printf.sprintf "Expected None to be equal to Some %S" value) in
     assert_that action @@ Is.raising expected
 
 let is_some_Test_list =
   test_list
     [ is_some__when_actual_is_some__then_passed;
-      is_some__when_actual_is_some_of_other__then_failed;
+      is_some__when_actual_has_different_value__then_failed;
       is_some__when_actual_is_none__then_failed ]
 
 (* not_is_some_Test_list *)
@@ -93,7 +93,9 @@ let not_is_some__when_actual_is_some__then_failed =
     (* when *)
     let action () = assert_that (Some value) @@ Satisfies.not @@ IsOption.some value in
     (* then *)
-    let expected = Assertion_failed (Printf.sprintf "Expected value different than Some %S" value) in
+    let expected =
+      Assertion_failed (Printf.sprintf "Expected Some %S not to be equal to Some %S" value value)
+    in
     assert_that action @@ Is.raising expected
 
 let not_is_some__when_actual_is_some_of_other__then_passed =

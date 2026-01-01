@@ -22,7 +22,8 @@ module Of (VF : Values.VALUE) (VS : Values.VALUE) :
            (VF.equal first @@ fst actual)
            (Condition
               { actual_str = TupleVal.to_string actual;
-                description = Printf.sprintf "have first element %s" @@ VF.to_string first } ) )
+                description = Printf.sprintf "have first element equal to %s" @@ VF.to_string first
+              } ) )
 
   let second second =
     Assertion
@@ -31,5 +32,6 @@ module Of (VF : Values.VALUE) (VS : Values.VALUE) :
            (VS.equal second @@ snd actual)
            (Condition
               { actual_str = TupleVal.to_string actual;
-                description = Printf.sprintf "have second element %s" @@ VS.to_string second } ) )
+                description = Printf.sprintf "have second element equal to %s" @@ VS.to_string second
+              } ) )
 end

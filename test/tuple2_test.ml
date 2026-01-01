@@ -23,7 +23,7 @@ let is_equal_to__when_first_element_different__then_failed =
     (* then *)
     let expected =
       Assertion_failed
-        (Printf.sprintf "Expected (%S, %d), but was (%S, %d)" first' second first second)
+        (Printf.sprintf "Expected (%S, %d) to be equal to (%S, %d)" first second first' second)
     in
     assert_that action @@ Is.raising expected
 
@@ -36,7 +36,7 @@ let is_equal_to__when_second_element_different__then_failed =
     (* then *)
     let expected =
       Assertion_failed
-        (Printf.sprintf "Expected (%S, %d), but was (%S, %d)" first second' first second)
+        (Printf.sprintf "Expected (%S, %d) to be equal to (%S, %d)" first second first second')
     in
     assert_that action @@ Is.raising expected
 
@@ -55,8 +55,9 @@ let not_is_equal_to__when_all_elements_same__then_failed =
     (* when *)
     let action () = assert_that pair @@ Satisfies.not @@ IsTuple.equal_to pair in
     (* then *)
+    let f, s = pair in
     let expected =
-      Assertion_failed (Printf.sprintf "Expected value different than (%S, %d)" (fst pair) (snd pair))
+      Assertion_failed (Printf.sprintf "Expected (%S, %d) not to be equal to (%S, %d)" f s f s)
     in
     assert_that action @@ Is.raising expected
 
@@ -106,7 +107,7 @@ let is_first__when_first_element_different__then_failed =
     (* then *)
     let expected =
       Assertion_failed
-        (Printf.sprintf "Expected (%S, %d) to have first element %S" first second first')
+        (Printf.sprintf "Expected (%S, %d) to have first element equal to %S" first second first')
     in
     assert_that action @@ Is.raising expected
 
@@ -126,7 +127,7 @@ let not_is_first__when_first_element_same__then_failed =
     (* then *)
     let expected =
       Assertion_failed
-        (Printf.sprintf "Expected (%S, %d) not to have first element %S" first second first)
+        (Printf.sprintf "Expected (%S, %d) not to have first element equal to %S" first second first)
     in
     assert_that action @@ Is.raising expected
 
@@ -162,7 +163,7 @@ let is_second__when_second_element_different__then_failed =
     (* then *)
     let expected =
       Assertion_failed
-        (Printf.sprintf "Expected (%S, %d) to have second element %d" first second second')
+        (Printf.sprintf "Expected (%S, %d) to have second element equal to %d" first second second')
     in
     assert_that action @@ Is.raising expected
 
@@ -182,7 +183,11 @@ let not_is_second__when_second_element_same__then_failed =
     (* then *)
     let expected =
       Assertion_failed
-        (Printf.sprintf "Expected (%S, %d) not to have second element %d" first second second)
+        (Printf.sprintf
+           "Expected (%S, %d) not to have second element equal to %d"
+           first
+           second
+           second )
     in
     assert_that action @@ Is.raising expected
 

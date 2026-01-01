@@ -26,7 +26,8 @@ struct
            (VF.equal first act1)
            (Condition
               { actual_str = TupleVal.to_string actual;
-                description = Printf.sprintf "have first element %s" @@ VF.to_string first } ) )
+                description = Printf.sprintf "have first element equal to %s" @@ VF.to_string first
+              } ) )
 
   let second second =
     Assertion
@@ -36,7 +37,8 @@ struct
            (VS.equal second act2)
            (Condition
               { actual_str = TupleVal.to_string actual;
-                description = Printf.sprintf "have second element %s" @@ VS.to_string second } ) )
+                description = Printf.sprintf "have second element equal to %s" @@ VS.to_string second
+              } ) )
 
   let third third =
     Assertion
@@ -46,5 +48,6 @@ struct
            (VT.equal third act3)
            (Condition
               { actual_str = TupleVal.to_string actual;
-                description = Printf.sprintf "have third element %s" @@ VT.to_string third } ) )
+                description = Printf.sprintf "have third element equal to %s" @@ VT.to_string third
+              } ) )
 end

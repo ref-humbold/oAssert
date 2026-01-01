@@ -60,7 +60,7 @@ let is_zero__when_actual_different_than_zero__then_failed =
       (* when *)
       let action () = assert_that param Is.Int.zero in
       (* then *)
-      let expected = Assertion_failed (Printf.sprintf "Expected 0, but was %d" param) in
+      let expected = Assertion_failed (Printf.sprintf "Expected zero, but was %d" param) in
       assert_that action @@ Is.raising expected
   in
   test_list @@ List.map with_param (positive_params @ negative_params)
@@ -77,7 +77,7 @@ let not_is_zero__when_actual_is_zero__then_failed =
     (* when *)
     let action () = assert_that 0 @@ Satisfies.not Is.Int.zero in
     (* then *)
-    let expected = Assertion_failed "Expected value different than 0" in
+    let expected = Assertion_failed "Expected value other than zero" in
     assert_that action @@ Is.raising expected
 
 let not_is_zero__when_actual_different_than_zero__then_passed =
@@ -275,9 +275,11 @@ let is_equal_to__when_actual_different__then_failed =
     let label = Printf.sprintf "%s %d %d" __FUNCTION__ param1 param2 in
     label >:: fun _ ->
       (* when *)
-      let action () = assert_that param2 @@ Is.Int.equal_to param1 in
+      let action () = assert_that param1 @@ Is.Int.equal_to param2 in
       (* then *)
-      let expected = Assertion_failed (Printf.sprintf "Expected %d, but was %d" param1 param2) in
+      let expected =
+        Assertion_failed (Printf.sprintf "Expected %d to be equal to %d" param1 param2)
+      in
       assert_that action @@ Is.raising expected
   in
   test_list @@ List.map with_params pair_params
@@ -295,7 +297,9 @@ let not_is_equal_to__when_actual_is_same__then_failed =
       (* when *)
       let action () = assert_that param @@ Satisfies.not @@ Is.Int.equal_to param in
       (* then *)
-      let expected = Assertion_failed (Printf.sprintf "Expected value different than %d" param) in
+      let expected =
+        Assertion_failed (Printf.sprintf "Expected %d not to be equal to %d" param param)
+      in
       assert_that action @@ Is.raising expected
   in
   test_list @@ List.map with_param (positive_params @ negative_params)

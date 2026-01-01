@@ -35,7 +35,7 @@ let not_is_empty__when_actual_empty__then_failed =
     (* when *)
     let action () = assert_that [] @@ Satisfies.not IsList.empty in
     (* then *)
-    let expected = Assertion_failed "Expected value different than empty list" in
+    let expected = Assertion_failed "Expected non-empty list" in
     assert_that action @@ Is.raising expected
 
 let not_is_empty__when_actual_not_empty__then_passed =
@@ -70,9 +70,9 @@ let is_equal_to__when_different_elements__then_failed =
     let expected =
       Assertion_failed
         (Printf.sprintf
-           "Expected %s, but was %s"
-           (ListVal.to_string value')
-           (ListVal.to_string value) )
+           "Expected %s to be equal to %s"
+           (ListVal.to_string value)
+           (ListVal.to_string value') )
     in
     assert_that action @@ Is.raising expected
 
@@ -86,9 +86,9 @@ let is_equal_to__when_actual_longer__then_failed =
     let expected =
       Assertion_failed
         (Printf.sprintf
-           "Expected %s, but was %s"
-           (ListVal.to_string value')
-           (ListVal.to_string value) )
+           "Expected %s to be equal to %s"
+           (ListVal.to_string value)
+           (ListVal.to_string value') )
     in
     assert_that action @@ Is.raising expected
 
@@ -102,9 +102,9 @@ let is_equal_to__when_actual_shorter__then_failed =
     let expected =
       Assertion_failed
         (Printf.sprintf
-           "Expected %s, but was %s"
-           (ListVal.to_string value')
-           (ListVal.to_string value) )
+           "Expected %s to be equal to %s"
+           (ListVal.to_string value)
+           (ListVal.to_string value') )
     in
     assert_that action @@ Is.raising expected
 
@@ -125,7 +125,11 @@ let not_is_equal_to__when_same_elements__then_failed =
     let action () = assert_that value @@ Satisfies.not @@ IsList.equal_to value in
     (* then *)
     let expected =
-      Assertion_failed (Printf.sprintf "Expected value different than %s" (ListVal.to_string value))
+      Assertion_failed
+        (Printf.sprintf
+           "Expected %s not to be equal to %s"
+           (ListVal.to_string value)
+           (ListVal.to_string value) )
     in
     assert_that action @@ Is.raising expected
 

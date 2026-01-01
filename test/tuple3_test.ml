@@ -24,11 +24,11 @@ let is_equal_to__when_first_element_different__then_failed =
     let expected =
       Assertion_failed
         (Printf.sprintf
-           "Expected (%S, %d, %B), but was (%S, %d, %B)"
-           first'
+           "Expected (%S, %d, %B) to be equal to (%S, %d, %B)"
+           first
            second
            third
-           first
+           first'
            second
            third )
     in
@@ -44,12 +44,12 @@ let is_equal_to__when_second_element_different__then_failed =
     let expected =
       Assertion_failed
         (Printf.sprintf
-           "Expected (%S, %d, %B), but was (%S, %d, %B)"
-           first
-           second'
-           third
+           "Expected (%S, %d, %B) to be equal to (%S, %d, %B)"
            first
            second
+           third
+           first
+           second'
            third )
     in
     assert_that action @@ Is.raising expected
@@ -64,13 +64,13 @@ let is_equal_to__when_third_element_different__then_failed =
     let expected =
       Assertion_failed
         (Printf.sprintf
-           "Expected (%S, %d, %B), but was (%S, %d, %B)"
+           "Expected (%S, %d, %B) to be equal to (%S, %d, %B)"
            first
            second
-           third'
+           third
            first
            second
-           third )
+           third' )
     in
     assert_that action @@ Is.raising expected
 
@@ -92,7 +92,8 @@ let not_is_equal_to__when_both_elements_same__then_failed =
     (* then *)
     let f, s, t = pair in
     let expected =
-      Assertion_failed (Printf.sprintf "Expected value different than (%S, %d, %B)" f s t)
+      Assertion_failed
+        (Printf.sprintf "Expected (%S, %d, %B) not to be equal to (%S, %d, %B)" f s t f s t)
     in
     assert_that action @@ Is.raising expected
 
@@ -158,7 +159,12 @@ let is_first__when_first_element_different__then_failed =
     (* then *)
     let expected =
       Assertion_failed
-        (Printf.sprintf "Expected (%S, %d, %B) to have first element %S" first second third first')
+        (Printf.sprintf
+           "Expected (%S, %d, %B) to have first element equal to %S"
+           first
+           second
+           third
+           first' )
     in
     assert_that action @@ Is.raising expected
 
@@ -178,7 +184,12 @@ let not_is_first__when_first_element_same__then_failed =
     (* then *)
     let expected =
       Assertion_failed
-        (Printf.sprintf "Expected (%S, %d, %B) not to have first element %S" first second third first)
+        (Printf.sprintf
+           "Expected (%S, %d, %B) not to have first element equal to %S"
+           first
+           second
+           third
+           first )
     in
     assert_that action @@ Is.raising expected
 
@@ -214,7 +225,12 @@ let is_second__when_second_element_different__then_failed =
     (* then *)
     let expected =
       Assertion_failed
-        (Printf.sprintf "Expected (%S, %d, %B) to have second element %d" first second third second')
+        (Printf.sprintf
+           "Expected (%S, %d, %B) to have second element equal to %d"
+           first
+           second
+           third
+           second' )
     in
     assert_that action @@ Is.raising expected
 
@@ -235,7 +251,7 @@ let not_is_second__when_second_element_same__then_failed =
     let expected =
       Assertion_failed
         (Printf.sprintf
-           "Expected (%S, %d, %B) not to have second element %d"
+           "Expected (%S, %d, %B) not to have second element equal to %d"
            first
            second
            third
@@ -275,7 +291,12 @@ let is_third__when_third_element_different__then_failed =
     (* then *)
     let expected =
       Assertion_failed
-        (Printf.sprintf "Expected (%S, %d, %B) to have third element %B" first second third third')
+        (Printf.sprintf
+           "Expected (%S, %d, %B) to have third element equal to %B"
+           first
+           second
+           third
+           third' )
     in
     assert_that action @@ Is.raising expected
 
@@ -296,7 +317,7 @@ let not_is_third__when_third_element_same__then_failed =
     let expected =
       Assertion_failed
         (Printf.sprintf
-           "Expected (%S, %d, %B) not to have third element %B"
+           "Expected (%S, %d, %B) not to have third element equal to %B"
            first
            second
            third

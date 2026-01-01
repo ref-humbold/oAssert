@@ -30,7 +30,7 @@ module Of (V : Values.VALUE) : Assert.LIST_ASSERT with type elem = V.t = struct
       (fun actual ->
          build_assertion
            (L.is_empty actual)
-           (Equality {expected_str = "empty list"; actual_str = ListVal.to_string actual}) )
+           (EmptyValue {type_str = "list"; actual_str = ListVal.to_string actual}) )
 
   let containing element =
     Assertion

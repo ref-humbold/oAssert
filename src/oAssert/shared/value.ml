@@ -25,5 +25,7 @@ module ValueAssertions (V : Values.VALUE) : VALUE_ASSERT with type t = V.t = str
       (fun actual ->
          build_assertion
            (V.equal expected actual)
-           (Equality {expected_str = V.to_string expected; actual_str = V.to_string actual}) )
+           (Condition
+              { actual_str = V.to_string actual;
+                description = Printf.sprintf "be equal to %s" (V.to_string expected) } ) )
 end
