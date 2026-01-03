@@ -6,7 +6,7 @@ open struct
   module L = Stdlib.List
 end
 
-module Of (V : Values.VALUE) : Assert.LIST_ASSERT with type elem = V.t = struct
+module Of (V : Values.VALUE) : Sigs.LIST_ASSERT with type elem = V.t = struct
   open struct
     module ListVal = Values.List.Of (V)
 

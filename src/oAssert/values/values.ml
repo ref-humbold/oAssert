@@ -1,4 +1,4 @@
-include Types
+include Sigs
 
 module Bool : VALUE with type t = bool = Stdlib.Bool
 
@@ -18,18 +18,7 @@ module String : VALUE with type t = string = struct
   let to_string = Printf.sprintf "%S"
 end
 
-module Option = struct
-  include Option
-end
-
-module List = struct
-  include List
-end
-
-module Tuple2 = struct
-  include Tuple2
-end
-
-module Tuple3 = struct
-  include Tuple3
-end
+module Option = Option
+module List = List
+module Tuple2 = Tuple2
+module Tuple3 = Tuple3

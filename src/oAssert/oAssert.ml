@@ -1,14 +1,7 @@
 open Internals
 include Common
-
-module Is = struct
-  include Assertions.Generic
-  include Assertions.Bool
-  include Assertions.Exceptions
-  include Assertions.Typed
-end
-
-module Satisfies = Assertions.Satisfies
+module Is = Assert.Assertions
+module Satisfies = Assert.Satisfies
 module Values = Values
 
 type 'a assertion = 'a Internals.assertion

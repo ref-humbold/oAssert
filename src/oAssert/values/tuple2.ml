@@ -1,4 +1,4 @@
-open Types
+open Sigs
 
 module Of (F : VALUE) (S : VALUE) : VALUE with type t = F.t * S.t = struct
   type t = F.t * S.t

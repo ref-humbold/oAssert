@@ -4,7 +4,7 @@ open struct
   module Opt = Stdlib.Option
 end
 
-module Of (V : Values.VALUE) : Assert.OPTION_ASSERT with type elem = V.t = struct
+module Of (V : Values.VALUE) : Sigs.OPTION_ASSERT with type elem = V.t = struct
   open struct
     module OptVal = Values.Option.Of (V)
   end

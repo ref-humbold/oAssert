@@ -2,7 +2,7 @@ open Internals
 open Shared.Value
 
 module Of (VF : Values.VALUE) (VS : Values.VALUE) (VT : Values.VALUE) :
-  Assert.TUPLE3_ASSERT with type fst_elem = VF.t and type snd_elem = VS.t and type trd_elem = VT.t =
+  Sigs.TUPLE3_ASSERT with type fst_elem = VF.t and type snd_elem = VS.t and type trd_elem = VT.t =
 struct
   open struct
     module TupleVal = Values.Tuple3.Of (VF) (VS) (VT)

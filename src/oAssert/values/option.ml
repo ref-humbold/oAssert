@@ -1,4 +1,4 @@
-open Types
+open Sigs
 
 module Of (T : VALUE) : VALUE with type t = T.t option = struct
   type t = T.t option
