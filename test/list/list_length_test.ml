@@ -14,13 +14,13 @@ let generate_params max_len start =
   in
   generate max_len start []
 
-let shorter_params = generate_params 25 0
+let params_short_lists = generate_params 25 0
 
-let longer_params = generate_params 100 75
+let params_long_lists = generate_params 100 75
 
-let all_params = shorter_params @ longer_params
+let params_all_lists = params_short_lists @ params_long_lists
 
-let non_empty_params = List.filter (fun p -> not @@ List.is_empty p) all_params
+let params_non_empty_lists = List.filter (fun p -> not @@ List.is_empty p) params_all_lists
 
 (* is_length_zero_Test_list *)
 
@@ -47,7 +47,7 @@ let is_length_zero__when_actual_is_not_empty__then_failed =
       in
       assert_that action @@ Is.raising expected
   in
-  test_list @@ List.map with_param non_empty_params
+  test_list @@ List.map with_param params_non_empty_lists
 
 let is_length_zero_Test_list =
   test_list
@@ -73,7 +73,7 @@ let not_is_length_zero__when_actual_is_not_empty__then_passed =
       (* then *)
       assert_that action Is.raising_nothing
   in
-  test_list @@ List.map with_param non_empty_params
+  test_list @@ List.map with_param params_non_empty_lists
 
 let not_is_length_zero_Test_list =
   test_list
@@ -91,7 +91,7 @@ let is_length_equal_to__when_actual_has_specified_length__then_passed =
       (* then *)
       assert_that action Is.raising_nothing
   in
-  test_list @@ List.map with_param all_params
+  test_list @@ List.map with_param params_all_lists
 
 let is_length_equal_to__when_actual_shorter__then_failed =
   let with_param param =
@@ -112,7 +112,7 @@ let is_length_equal_to__when_actual_shorter__then_failed =
       in
       assert_that action @@ Is.raising expected
   in
-  test_list @@ List.map with_param shorter_params
+  test_list @@ List.map with_param params_short_lists
 
 let is_length_equal_to__when_actual_longer__then_failed =
   let with_param param =
@@ -133,7 +133,7 @@ let is_length_equal_to__when_actual_longer__then_failed =
       in
       assert_that action @@ Is.raising expected
   in
-  test_list @@ List.map with_param longer_params
+  test_list @@ List.map with_param params_long_lists
 
 let is_length_equal_to_Test_list =
   test_list
@@ -158,7 +158,7 @@ let not_is_length_equal_to__when_actual_has_specified_length__then_failed =
       in
       assert_that action @@ Is.raising expected
   in
-  test_list @@ List.map with_param all_params
+  test_list @@ List.map with_param params_all_lists
 
 let not_is_length_equal_to__when_actual_shorter__then_passed =
   let with_param param =
@@ -171,7 +171,7 @@ let not_is_length_equal_to__when_actual_shorter__then_passed =
       (* then *)
       assert_that action Is.raising_nothing
   in
-  test_list @@ List.map with_param shorter_params
+  test_list @@ List.map with_param params_short_lists
 
 let not_is_length_equal_to__when_actual_longer__then_passed =
   let with_param param =
@@ -184,7 +184,7 @@ let not_is_length_equal_to__when_actual_longer__then_passed =
       (* then *)
       assert_that action Is.raising_nothing
   in
-  test_list @@ List.map with_param longer_params
+  test_list @@ List.map with_param params_long_lists
 
 let not_is_length_equal_to_Test_list =
   test_list
@@ -203,7 +203,7 @@ let is_length_greater_than__when_actual_longer__then_passed =
       (* then *)
       assert_that action Is.raising_nothing
   in
-  test_list @@ List.map with_param longer_params
+  test_list @@ List.map with_param params_long_lists
 
 let is_length_greater_than__when_actual_shorter__then_failed =
   let with_param param =
@@ -224,7 +224,7 @@ let is_length_greater_than__when_actual_shorter__then_failed =
       in
       assert_that action @@ Is.raising expected
   in
-  test_list @@ List.map with_param shorter_params
+  test_list @@ List.map with_param params_short_lists
 
 let is_length_greater_than__when_actual_equal__then_failed =
   let with_param param =
@@ -245,7 +245,7 @@ let is_length_greater_than__when_actual_equal__then_failed =
       in
       assert_that action @@ Is.raising expected
   in
-  test_list @@ List.map with_param all_params
+  test_list @@ List.map with_param params_all_lists
 
 let is_length_greater_than_Test_list =
   test_list
@@ -273,7 +273,7 @@ let not_is_length_greater_than__when_actual_longer__then_failed =
       in
       assert_that action @@ Is.raising expected
   in
-  test_list @@ List.map with_param longer_params
+  test_list @@ List.map with_param params_long_lists
 
 let not_is_length_greater_than__when_actual_shorter__then_passed =
   let with_param param =
@@ -284,7 +284,7 @@ let not_is_length_greater_than__when_actual_shorter__then_passed =
       (* then *)
       assert_that action Is.raising_nothing
   in
-  test_list @@ List.map with_param shorter_params
+  test_list @@ List.map with_param params_short_lists
 
 let not_is_length_greater_than__when_actual_equal__then_passed =
   let with_param param =
@@ -297,7 +297,7 @@ let not_is_length_greater_than__when_actual_equal__then_passed =
       (* then *)
       assert_that action Is.raising_nothing
   in
-  test_list @@ List.map with_param all_params
+  test_list @@ List.map with_param params_all_lists
 
 let not_is_length_greater_than_Test_list =
   test_list
@@ -316,7 +316,7 @@ let is_length_less_than__when_actual_shorter__then_passed =
       (* then *)
       assert_that action Is.raising_nothing
   in
-  test_list @@ List.map with_param shorter_params
+  test_list @@ List.map with_param params_short_lists
 
 let is_length_less_than__when_actual_longer__then_failed =
   let with_param param =
@@ -337,7 +337,7 @@ let is_length_less_than__when_actual_longer__then_failed =
       in
       assert_that action @@ Is.raising expected
   in
-  test_list @@ List.map with_param longer_params
+  test_list @@ List.map with_param params_long_lists
 
 let is_length_less_than__when_actual_equal__then_failed =
   let with_param param =
@@ -358,7 +358,7 @@ let is_length_less_than__when_actual_equal__then_failed =
       in
       assert_that action @@ Is.raising expected
   in
-  test_list @@ List.map with_param all_params
+  test_list @@ List.map with_param params_all_lists
 
 let is_length_less_than_Test_list =
   test_list
@@ -386,7 +386,7 @@ let not_is_length_less_than__when_actual_shorter__then_failed =
       in
       assert_that action @@ Is.raising expected
   in
-  test_list @@ List.map with_param shorter_params
+  test_list @@ List.map with_param params_short_lists
 
 let not_is_length_less_than__when_actual_longer__then_passed =
   let with_param param =
@@ -397,7 +397,7 @@ let not_is_length_less_than__when_actual_longer__then_passed =
       (* then *)
       assert_that action Is.raising_nothing
   in
-  test_list @@ List.map with_param longer_params
+  test_list @@ List.map with_param params_long_lists
 
 let not_is_length_less_than__when_actual_equal__then_passed =
   let with_param param =
@@ -410,7 +410,7 @@ let not_is_length_less_than__when_actual_equal__then_passed =
       (* then *)
       assert_that action Is.raising_nothing
   in
-  test_list @@ List.map with_param all_params
+  test_list @@ List.map with_param params_all_lists
 
 let not_is_length_less_than_Test_list =
   test_list

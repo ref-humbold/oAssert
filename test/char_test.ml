@@ -2,9 +2,9 @@
 open OUnit2
 open OAssert
 
-let whitespace_params = [' '; '\t'; '\n'; '\r'; '\012'; '\009']
+let params_whitespace = [' '; '\t'; '\n'; '\r'; '\012'; '\009']
 
-let uppercase_letters_params =
+let params_uppercase_letters =
   [ 'A';
     'B';
     'C';
@@ -32,7 +32,7 @@ let uppercase_letters_params =
     'Y';
     'Z' ]
 
-let lowercase_letters_params =
+let params_lowercase_letters =
   [ 'a';
     'b';
     'c';
@@ -60,7 +60,7 @@ let lowercase_letters_params =
     'y';
     'z' ]
 
-let not_letters_params =
+let params_not_letters =
   [ '!';
     '@';
     '#';
@@ -113,7 +113,7 @@ let is_uppercase__when_letter_upper_case__then_passed =
       (* then *)
       assert_that action Is.raising_nothing
   in
-  test_list @@ List.map with_param uppercase_letters_params
+  test_list @@ List.map with_param params_uppercase_letters
 
 let is_uppercase__when_letter_lower_case__then_failed =
   let with_param param =
@@ -127,7 +127,7 @@ let is_uppercase__when_letter_lower_case__then_failed =
       in
       assert_that action @@ Is.raising expected
   in
-  test_list @@ List.map with_param lowercase_letters_params
+  test_list @@ List.map with_param params_lowercase_letters
 
 let is_uppercase__when_not_letter__then_passed =
   let with_param param =
@@ -138,7 +138,7 @@ let is_uppercase__when_not_letter__then_passed =
       (* then *)
       assert_that action Is.raising_nothing
   in
-  test_list @@ List.map with_param (not_letters_params @ whitespace_params)
+  test_list @@ List.map with_param (params_not_letters @ params_whitespace)
 
 let is_uppercase_Test_list =
   test_list
@@ -161,7 +161,7 @@ let not_is_uppercase__when_negated__then_failed =
   test_list
   @@ List.map
     with_param
-    (uppercase_letters_params @ lowercase_letters_params @ not_letters_params @ whitespace_params)
+    (params_uppercase_letters @ params_lowercase_letters @ params_not_letters @ params_whitespace)
 
 let not_is_uppercase_Test_list = test_list [not_is_uppercase__when_negated__then_failed]
 
@@ -176,7 +176,7 @@ let is_lowercase__when_letter_lower_case__then_failed =
       (* then *)
       assert_that action Is.raising_nothing
   in
-  test_list @@ List.map with_param lowercase_letters_params
+  test_list @@ List.map with_param params_lowercase_letters
 
 let is_lowercase__when_letter_upper_case__then_passed =
   let with_param param =
@@ -190,7 +190,7 @@ let is_lowercase__when_letter_upper_case__then_passed =
       in
       assert_that action @@ Is.raising expected
   in
-  test_list @@ List.map with_param uppercase_letters_params
+  test_list @@ List.map with_param params_uppercase_letters
 
 let is_lowercase__when_not_letter__then_passed =
   let with_param param =
@@ -201,7 +201,7 @@ let is_lowercase__when_not_letter__then_passed =
       (* then *)
       assert_that action Is.raising_nothing
   in
-  test_list @@ List.map with_param (not_letters_params @ whitespace_params)
+  test_list @@ List.map with_param (params_not_letters @ params_whitespace)
 
 let is_lowercase_Test_list =
   test_list
@@ -224,7 +224,7 @@ let not_is_lowercase_Test_list =
   test_list
   @@ List.map
     (fun p -> not_is_lowercase__when_negated__then_failure p)
-    (lowercase_letters_params @ uppercase_letters_params @ not_letters_params @ whitespace_params)
+    (params_lowercase_letters @ params_uppercase_letters @ params_not_letters @ params_whitespace)
 
 (* is_whitespace_Test_list *)
 
@@ -237,7 +237,7 @@ let is_whitespace__when_whitespace_character__then_passed =
       (* then *)
       assert_that action Is.raising_nothing
   in
-  test_list @@ List.map with_param whitespace_params
+  test_list @@ List.map with_param params_whitespace
 
 let is_whitespace__when_non_whitespace_character__then_failed =
   let with_param param =
@@ -252,7 +252,7 @@ let is_whitespace__when_non_whitespace_character__then_failed =
       assert_that action @@ Is.raising expected
   in
   test_list
-  @@ List.map with_param (uppercase_letters_params @ lowercase_letters_params @ not_letters_params)
+  @@ List.map with_param (params_uppercase_letters @ params_lowercase_letters @ params_not_letters)
 
 let is_whitespace_Test_list =
   test_list
@@ -273,7 +273,7 @@ let not_is_whitespace__when_whitespace_character__then_failed =
       in
       assert_that action @@ Is.raising expected
   in
-  test_list @@ List.map with_param whitespace_params
+  test_list @@ List.map with_param params_whitespace
 
 let not_is_whitespace__when_non_whitespace_character__then_passed =
   let with_param param =
@@ -285,7 +285,7 @@ let not_is_whitespace__when_non_whitespace_character__then_passed =
       assert_that action Is.raising_nothing
   in
   test_list
-  @@ List.map with_param (uppercase_letters_params @ lowercase_letters_params @ not_letters_params)
+  @@ List.map with_param (params_uppercase_letters @ params_lowercase_letters @ params_not_letters)
 
 let not_is_whitespace_Test_list =
   test_list

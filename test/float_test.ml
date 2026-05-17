@@ -2,7 +2,7 @@
 open OUnit2
 open OAssert
 
-let positive_params =
+let params_positive =
   [ 1.1;
     2.2;
     3.3;
@@ -34,15 +34,15 @@ let positive_params =
     832040.29;
     1000000.0 ]
 
-let negative_params = List.map (fun x -> -.x) positive_params
+let params_negative = List.map (fun x -> -.x) params_positive
 
-let pair_params =
+let params_number_pairs =
   let rec pairing lst =
     match lst with
     | x :: y :: lst' -> (x, y) :: pairing lst'
     | _ -> []
   in
-  pairing positive_params
+  pairing params_positive
 
 (* is_nan_Test_list *)
 
@@ -63,7 +63,7 @@ let is_nan__when_actual_different_than_nan__then_failed =
       let expected = Assertion_failed (Printf.sprintf "Expected NaN, but was %F" param) in
       assert_that action @@ Is.raising expected
   in
-  test_list @@ List.map with_param positive_params
+  test_list @@ List.map with_param params_positive
 
 let is_nan_Test_list =
   test_list
@@ -88,7 +88,7 @@ let not_is_nan__when_actual_different_than_nan__then_passed =
       (* then *)
       assert_that action Is.raising_nothing
   in
-  test_list @@ List.map with_param positive_params
+  test_list @@ List.map with_param params_positive
 
 let not_is_nan_Test_list =
   test_list
@@ -114,7 +114,7 @@ let is_zero__when_actual_different_than_zero__then_failed =
       let expected = Assertion_failed (Printf.sprintf "Expected zero, but was %F" param) in
       assert_that action @@ Is.raising expected
   in
-  test_list @@ List.map with_param (positive_params @ negative_params)
+  test_list @@ List.map with_param (params_positive @ params_negative)
 
 let is_zero_Test_list =
   test_list
@@ -140,7 +140,7 @@ let not_is_zero__when_actual_different_than_zero__then_passed =
       (* then *)
       assert_that action Is.raising_nothing
   in
-  test_list @@ List.map with_param (positive_params @ negative_params)
+  test_list @@ List.map with_param (params_positive @ params_negative)
 
 let not_is_zero_Test_list =
   test_list
@@ -158,7 +158,7 @@ let is_positive__when_actual_greater_than_zero__then_passed =
       (* then *)
       assert_that action Is.raising_nothing
   in
-  test_list @@ List.map with_param positive_params
+  test_list @@ List.map with_param params_positive
 
 let is_positive__when_actual_less_than_zero__then_failed =
   let with_param param =
@@ -170,7 +170,7 @@ let is_positive__when_actual_less_than_zero__then_failed =
       let expected = Assertion_failed (Printf.sprintf "Expected %F to be positive" param) in
       assert_that action @@ Is.raising expected
   in
-  test_list @@ List.map with_param negative_params
+  test_list @@ List.map with_param params_negative
 
 let is_positive__when_actual_equal_to_zero__then_failed =
   __FUNCTION__ >:: fun _ ->
@@ -200,7 +200,7 @@ let not_is_positive__when_actual_greater_than_zero__then_failed =
       let expected = Assertion_failed (Printf.sprintf "Expected %F not to be positive" param) in
       assert_that action @@ Is.raising expected
   in
-  test_list @@ List.map with_param positive_params
+  test_list @@ List.map with_param params_positive
 
 let not_is_positive__when_actual_less_than_zero__then_passed =
   let with_param param =
@@ -211,7 +211,7 @@ let not_is_positive__when_actual_less_than_zero__then_passed =
       (* then *)
       assert_that action Is.raising_nothing
   in
-  test_list @@ List.map with_param negative_params
+  test_list @@ List.map with_param params_negative
 
 let not_is_positive__when_actual_equal_to_zero__then_passed =
   __FUNCTION__ >:: fun _ ->
@@ -238,7 +238,7 @@ let is_negative__when_actual_less_than_zero__then_passed =
       (* then *)
       assert_that action Is.raising_nothing
   in
-  test_list @@ List.map with_param negative_params
+  test_list @@ List.map with_param params_negative
 
 let is_negative__when_actual_greater_than_zero__then_failed =
   let with_param param =
@@ -250,7 +250,7 @@ let is_negative__when_actual_greater_than_zero__then_failed =
       let expected = Assertion_failed (Printf.sprintf "Expected %F to be negative" param) in
       assert_that action @@ Is.raising expected
   in
-  test_list @@ List.map with_param positive_params
+  test_list @@ List.map with_param params_positive
 
 let is_negative__when_actual_equal_to_zero__then_failed =
   __FUNCTION__ >:: fun _ ->
@@ -280,7 +280,7 @@ let not_is_negative__when_actual_less_than_zero__then_failed =
       let expected = Assertion_failed (Printf.sprintf "Expected %F not to be negative" param) in
       assert_that action @@ Is.raising expected
   in
-  test_list @@ List.map with_param negative_params
+  test_list @@ List.map with_param params_negative
 
 let not_is_negative__when_actual_greater_than_zero__then_passed =
   let with_param param =
@@ -291,7 +291,7 @@ let not_is_negative__when_actual_greater_than_zero__then_passed =
       (* then *)
       assert_that action Is.raising_nothing
   in
-  test_list @@ List.map with_param positive_params
+  test_list @@ List.map with_param params_positive
 
 let not_is_negative__when_actual_equal_to_zero__then_passed =
   __FUNCTION__ >:: fun _ ->
@@ -318,10 +318,10 @@ let is_equal_to__when_actual_is_same__then_passed =
       (* then *)
       assert_that action Is.raising_nothing
   in
-  test_list @@ List.map with_param positive_params
+  test_list @@ List.map with_param params_positive
 
 let is_equal_to__when_actual_different__then_failed =
-  let with_params (param1, param2) =
+  let with_param (param1, param2) =
     let label = Printf.sprintf "%s %F %F" __FUNCTION__ param1 param2 in
     label >:: fun _ ->
       (* when *)
@@ -332,7 +332,8 @@ let is_equal_to__when_actual_different__then_failed =
       in
       assert_that action @@ Is.raising expected
   in
-  test_list @@ List.map with_params (pair_params @ List.map (fun (x, y) -> (y, x)) pair_params)
+  test_list
+  @@ List.map with_param (params_number_pairs @ List.map (fun (x, y) -> (y, x)) params_number_pairs)
 
 let is_equal_to_Test_list =
   test_list
@@ -352,10 +353,10 @@ let not_is_equal_to__when_actual_is_same__then_failed =
       in
       assert_that action @@ Is.raising expected
   in
-  test_list @@ List.map with_param positive_params
+  test_list @@ List.map with_param params_positive
 
 let not_is_equal_to__when_actual_is_different__then_passed =
-  let with_params (param1, param2) =
+  let with_param (param1, param2) =
     let label = Printf.sprintf "%s %F %F" __FUNCTION__ param1 param2 in
     label >:: fun _ ->
       (* when *)
@@ -363,7 +364,8 @@ let not_is_equal_to__when_actual_is_different__then_passed =
       (* then *)
       assert_that action Is.raising_nothing
   in
-  test_list @@ List.map with_params (pair_params @ List.map (fun (x, y) -> (y, x)) pair_params)
+  test_list
+  @@ List.map with_param (params_number_pairs @ List.map (fun (x, y) -> (y, x)) params_number_pairs)
 
 let not_is_equal_to_Test_list =
   test_list
@@ -462,7 +464,7 @@ let not_is_close_to_Test_list =
 (* is_greater_than_Test_list *)
 
 let is_greater_than__when_actual_greater__then_passed =
-  let with_params (param1, param2) =
+  let with_param (param1, param2) =
     let label = Printf.sprintf "%s %F %F" __FUNCTION__ param1 param2 in
     label >:: fun _ ->
       (* when *)
@@ -470,7 +472,7 @@ let is_greater_than__when_actual_greater__then_passed =
       (* then *)
       assert_that action Is.raising_nothing
   in
-  test_list @@ List.map with_params pair_params
+  test_list @@ List.map with_param params_number_pairs
 
 let is_greater_than__when_actual_equal__then_failed =
   let with_param param =
@@ -484,10 +486,10 @@ let is_greater_than__when_actual_equal__then_failed =
       in
       assert_that action @@ Is.raising expected
   in
-  test_list @@ List.map with_param positive_params
+  test_list @@ List.map with_param params_positive
 
 let is_greater_than__when_actual_less__then_failed =
-  let with_params (param1, param2) =
+  let with_param (param1, param2) =
     let label = Printf.sprintf "%s %F %F" __FUNCTION__ param1 param2 in
     label >:: fun _ ->
       (* when *)
@@ -498,7 +500,7 @@ let is_greater_than__when_actual_less__then_failed =
       in
       assert_that action @@ Is.raising expected
   in
-  test_list @@ List.map with_params pair_params
+  test_list @@ List.map with_param params_number_pairs
 
 let is_greater_than_Test_list =
   test_list
@@ -509,7 +511,7 @@ let is_greater_than_Test_list =
 (* not_is_greater_than_Test_list *)
 
 let not_is_greater_than__when_actual_greater__then_failed =
-  let with_params (param1, param2) =
+  let with_param (param1, param2) =
     let label = Printf.sprintf "%s %F %F" __FUNCTION__ param1 param2 in
     label >:: fun _ ->
       (* when *)
@@ -520,7 +522,7 @@ let not_is_greater_than__when_actual_greater__then_failed =
       in
       assert_that action @@ Is.raising expected
   in
-  test_list @@ List.map with_params pair_params
+  test_list @@ List.map with_param params_number_pairs
 
 let not_is_greater_than__when_actual_equal__then_passed =
   let with_param param =
@@ -531,10 +533,10 @@ let not_is_greater_than__when_actual_equal__then_passed =
       (* then *)
       assert_that action Is.raising_nothing
   in
-  test_list @@ List.map with_param positive_params
+  test_list @@ List.map with_param params_positive
 
 let not_is_greater_than__when_actual_less__then_passed =
-  let with_params (param1, param2) =
+  let with_param (param1, param2) =
     let label = Printf.sprintf "%s %F %F" __FUNCTION__ param1 param2 in
     label >:: fun _ ->
       (* when *)
@@ -542,7 +544,7 @@ let not_is_greater_than__when_actual_less__then_passed =
       (* then *)
       assert_that action Is.raising_nothing
   in
-  test_list @@ List.map with_params pair_params
+  test_list @@ List.map with_param params_number_pairs
 
 let not_is_greater_than_Test_list =
   test_list
@@ -553,7 +555,7 @@ let not_is_greater_than_Test_list =
 (* is_greater_than_or_equal_to_Test_list *)
 
 let is_greater_than_or_equal_to__when_actual_greater__then_passed =
-  let with_params (param1, param2) =
+  let with_param (param1, param2) =
     let label = Printf.sprintf "%s %F %F" __FUNCTION__ param1 param2 in
     label >:: fun _ ->
       (* when *)
@@ -561,7 +563,7 @@ let is_greater_than_or_equal_to__when_actual_greater__then_passed =
       (* then *)
       assert_that action Is.raising_nothing
   in
-  test_list @@ List.map with_params pair_params
+  test_list @@ List.map with_param params_number_pairs
 
 let is_greater_than_or_equal_to__when_actual_equal__then_passed =
   let with_param param =
@@ -572,10 +574,10 @@ let is_greater_than_or_equal_to__when_actual_equal__then_passed =
       (* then *)
       assert_that action Is.raising_nothing
   in
-  test_list @@ List.map with_param positive_params
+  test_list @@ List.map with_param params_positive
 
 let is_greater_than_or_equal_to__when_actual_less__then_failed =
-  let with_params (param1, param2) =
+  let with_param (param1, param2) =
     let label = Printf.sprintf "%s %F %F" __FUNCTION__ param1 param2 in
     label >:: fun _ ->
       (* when *)
@@ -587,7 +589,7 @@ let is_greater_than_or_equal_to__when_actual_less__then_failed =
       in
       assert_that action @@ Is.raising expected
   in
-  test_list @@ List.map with_params pair_params
+  test_list @@ List.map with_param params_number_pairs
 
 let is_greater_than_or_equal_to_Test_list =
   test_list
@@ -598,7 +600,7 @@ let is_greater_than_or_equal_to_Test_list =
 (* not_is_greater_than_or_equal_to_Test_list *)
 
 let not_is_greater_than_or_equal_to__when_actual_greater__then_failed =
-  let with_params (param1, param2) =
+  let with_param (param1, param2) =
     let label = Printf.sprintf "%s %F %F" __FUNCTION__ param1 param2 in
     label >:: fun _ ->
       (* when *)
@@ -612,7 +614,7 @@ let not_is_greater_than_or_equal_to__when_actual_greater__then_failed =
       in
       assert_that action @@ Is.raising expected
   in
-  test_list @@ List.map with_params pair_params
+  test_list @@ List.map with_param params_number_pairs
 
 let not_is_greater_than_or_equal_to__when_actual_equal__then_failed =
   let with_param param =
@@ -627,10 +629,10 @@ let not_is_greater_than_or_equal_to__when_actual_equal__then_failed =
       in
       assert_that action @@ Is.raising expected
   in
-  test_list @@ List.map with_param positive_params
+  test_list @@ List.map with_param params_positive
 
 let not_is_greater_than_or_equal_to__when_actual_less__then_passed =
-  let with_params (param1, param2) =
+  let with_param (param1, param2) =
     let label = Printf.sprintf "%s %F %F" __FUNCTION__ param1 param2 in
     label >:: fun _ ->
       (* when *)
@@ -640,7 +642,7 @@ let not_is_greater_than_or_equal_to__when_actual_less__then_passed =
       (* then *)
       assert_that action Is.raising_nothing
   in
-  test_list @@ List.map with_params pair_params
+  test_list @@ List.map with_param params_number_pairs
 
 let not_is_greater_than_or_equal_to_Test_list =
   test_list
@@ -651,7 +653,7 @@ let not_is_greater_than_or_equal_to_Test_list =
 (* is_less_than_Test_list *)
 
 let is_less_than__when_actual_less__then_passed =
-  let with_params (param1, param2) =
+  let with_param (param1, param2) =
     let label = Printf.sprintf "%s %F %F" __FUNCTION__ param1 param2 in
     label >:: fun _ ->
       (* when *)
@@ -659,7 +661,7 @@ let is_less_than__when_actual_less__then_passed =
       (* then *)
       assert_that action Is.raising_nothing
   in
-  test_list @@ List.map with_params pair_params
+  test_list @@ List.map with_param params_number_pairs
 
 let is_less_than__when_actual_equal__then_failed =
   let with_param param =
@@ -671,10 +673,10 @@ let is_less_than__when_actual_equal__then_failed =
       let expected = Assertion_failed (Printf.sprintf "Expected %F to be less than %F" param param) in
       assert_that action @@ Is.raising expected
   in
-  test_list @@ List.map with_param positive_params
+  test_list @@ List.map with_param params_positive
 
 let is_less_than__when_actual_greater__then_failed =
-  let with_params (param1, param2) =
+  let with_param (param1, param2) =
     let label = Printf.sprintf "%s %F %F" __FUNCTION__ param1 param2 in
     label >:: fun _ ->
       (* when *)
@@ -685,7 +687,7 @@ let is_less_than__when_actual_greater__then_failed =
       in
       assert_that action @@ Is.raising expected
   in
-  test_list @@ List.map with_params pair_params
+  test_list @@ List.map with_param params_number_pairs
 
 let is_less_than_Test_list =
   test_list
@@ -696,7 +698,7 @@ let is_less_than_Test_list =
 (* not_is_less_than_Test_list *)
 
 let not_is_less_than__when_actual_less__then_failed =
-  let with_params (param1, param2) =
+  let with_param (param1, param2) =
     let label = Printf.sprintf "%s %F %F" __FUNCTION__ param1 param2 in
     label >:: fun _ ->
       (* when *)
@@ -707,7 +709,7 @@ let not_is_less_than__when_actual_less__then_failed =
       in
       assert_that action @@ Is.raising expected
   in
-  test_list @@ List.map with_params pair_params
+  test_list @@ List.map with_param params_number_pairs
 
 let not_is_less_than__when_actual_equal__then_passed =
   let with_param param =
@@ -718,10 +720,10 @@ let not_is_less_than__when_actual_equal__then_passed =
       (* then *)
       assert_that action Is.raising_nothing
   in
-  test_list @@ List.map with_param positive_params
+  test_list @@ List.map with_param params_positive
 
 let not_is_less_than__when_actual_greater__then_passed =
-  let with_params (param1, param2) =
+  let with_param (param1, param2) =
     let label = Printf.sprintf "%s %F %F" __FUNCTION__ param1 param2 in
     label >:: fun _ ->
       (* when *)
@@ -729,7 +731,7 @@ let not_is_less_than__when_actual_greater__then_passed =
       (* then *)
       assert_that action Is.raising_nothing
   in
-  test_list @@ List.map with_params pair_params
+  test_list @@ List.map with_param params_number_pairs
 
 let not_is_less_than_Test_list =
   test_list
@@ -740,7 +742,7 @@ let not_is_less_than_Test_list =
 (* is_less_than_or_equal_to_Test_list *)
 
 let is_less_than_or_equal_to__when_actual_less__then_passed =
-  let with_params (param1, param2) =
+  let with_param (param1, param2) =
     let label = Printf.sprintf "%s %F %F" __FUNCTION__ param1 param2 in
     label >:: fun _ ->
       (* when *)
@@ -748,7 +750,7 @@ let is_less_than_or_equal_to__when_actual_less__then_passed =
       (* then *)
       assert_that action Is.raising_nothing
   in
-  test_list @@ List.map with_params pair_params
+  test_list @@ List.map with_param params_number_pairs
 
 let is_less_than_or_equal_to__when_actual_equal__then_passed =
   let with_param param =
@@ -759,10 +761,10 @@ let is_less_than_or_equal_to__when_actual_equal__then_passed =
       (* then *)
       assert_that action Is.raising_nothing
   in
-  test_list @@ List.map with_param positive_params
+  test_list @@ List.map with_param params_positive
 
 let is_less_than_or_equal_to__when_actual_less__then_failed =
-  let with_params (param1, param2) =
+  let with_param (param1, param2) =
     let label = Printf.sprintf "%s %F %F" __FUNCTION__ param1 param2 in
     label >:: fun _ ->
       (* when *)
@@ -773,7 +775,7 @@ let is_less_than_or_equal_to__when_actual_less__then_failed =
       in
       assert_that action @@ Is.raising expected
   in
-  test_list @@ List.map with_params pair_params
+  test_list @@ List.map with_param params_number_pairs
 
 let is_less_than_or_equal_to_Test_list =
   test_list
@@ -784,7 +786,7 @@ let is_less_than_or_equal_to_Test_list =
 (* not_is_less_than_or_equal_to_Test_list *)
 
 let not_is_less_than_or_equal_to__when_actual_less__then_failed =
-  let with_params (param1, param2) =
+  let with_param (param1, param2) =
     let label = Printf.sprintf "%s %F %F" __FUNCTION__ param1 param2 in
     label >:: fun _ ->
       (* when *)
@@ -796,7 +798,7 @@ let not_is_less_than_or_equal_to__when_actual_less__then_failed =
       in
       assert_that action @@ Is.raising expected
   in
-  test_list @@ List.map with_params pair_params
+  test_list @@ List.map with_param params_number_pairs
 
 let not_is_less_than_or_equal_to__when_actual_equal__then_failed =
   let with_param param =
@@ -810,10 +812,10 @@ let not_is_less_than_or_equal_to__when_actual_equal__then_failed =
       in
       assert_that action @@ Is.raising expected
   in
-  test_list @@ List.map with_param positive_params
+  test_list @@ List.map with_param params_positive
 
 let not_is_less_than_or_equal_to__when_actual_greater__then_passed =
-  let with_params (param1, param2) =
+  let with_param (param1, param2) =
     let label = Printf.sprintf "%s %F %F" __FUNCTION__ param1 param2 in
     label >:: fun _ ->
       (* when *)
@@ -821,7 +823,7 @@ let not_is_less_than_or_equal_to__when_actual_greater__then_passed =
       (* then *)
       assert_that action Is.raising_nothing
   in
-  test_list @@ List.map with_params pair_params
+  test_list @@ List.map with_param params_number_pairs
 
 let not_is_less_than_or_equal_to_Test_list =
   test_list
