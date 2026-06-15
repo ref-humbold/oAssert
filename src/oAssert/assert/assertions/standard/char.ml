@@ -4,7 +4,6 @@ open Shared.Compare
 open struct
   module C = Stdlib.Char
   module CV = Values.Char
-  module CharSet = Set.Make (C)
 end
 
 include CompareAssertions (CV)
@@ -26,9 +25,25 @@ let lowercase =
          (Condition {actual_str = CV.to_string actual; description = "be a lowercase character"}) )
 
 let whitespace =
-  let whitespace_chars = CharSet.of_list [' '; '\t'; '\n'; '\r'; '\x0b'; '\x0c'] in
+  let is_whitespace c =
+    match c with
+    | ' ' | '\t' | '\n' | '\r' | '\x0b' | '\x0c' -> true
+    | _ -> false
+  in
   Assertion
     (fun actual ->
        build_assertion
-         (CharSet.mem actual whitespace_chars)
+         (is_whitespace actual)
          (Condition {actual_str = CV.to_string actual; description = "be a whitespace character"}) )
+
+let digit =
+  let is_digit c =
+    match c with
+    | '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' -> true
+    | _ -> false
+  in
+  Assertion
+    (fun actual ->
+       build_assertion
+         (is_digit actual)
+         (Condition {actual_str = CV.to_string actual; description = "be a digit"}) )

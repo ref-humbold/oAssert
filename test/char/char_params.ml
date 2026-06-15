@@ -1,6 +1,8 @@
 (* Test params: Char assertions. *)
 
-let params_whitespace = [' '; '\t'; '\n'; '\r'; '\012'; '\009']
+let params_whitespace = [' '; '\t'; '\n'; '\r'; '\x0b'; '\x0c']
+
+let params_digits = ['0'; '1'; '2'; '3'; '4'; '5'; '6'; '7'; '8'; '9']
 
 let params_uppercase_letters =
   [ 'A';
@@ -58,7 +60,7 @@ let params_lowercase_letters =
     'y';
     'z' ]
 
-let params_not_letters =
+let params_symbols =
   [ '!';
     '@';
     '#';
@@ -88,14 +90,4 @@ let params_not_letters =
     ';';
     ':';
     '?';
-    '~';
-    '0';
-    '1';
-    '2';
-    '3';
-    '4';
-    '5';
-    '6';
-    '7';
-    '8';
-    '9' ]
+    '~' ]
