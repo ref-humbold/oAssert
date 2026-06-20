@@ -1,4 +1,4 @@
-(* Tests: Tuple (of 2 elements) member assertions. *)
+(* Tests: Tuple (of 2 elements) assertions - members. *)
 open OUnit2
 open OAssert
 module IsTuple = Is.Tuple2.Of (Values.String) (Values.Int)
@@ -118,6 +118,8 @@ let not_second_Test_list =
   test_list
     [ not_is_second__when_second_element_same__then_failed;
       not_is_second__when_second_element_different__then_passed ]
+
+(* tuple2_test_members *)
 
 let tuple2_test_members =
   __MODULE__ >::: [first_Test_list; not_first_Test_list; second_Test_list; not_second_Test_list]

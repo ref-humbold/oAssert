@@ -1,4 +1,4 @@
-(* Tests: Char assertions. *)
+(* Tests: Char assertions - letter case. *)
 open OUnit2
 open OAssert
 open Char_params
@@ -129,9 +129,11 @@ let not_is_lowercase_Test_list =
     ( params_lowercase_letters @ params_uppercase_letters @ params_symbols @ params_digits
       @ params_whitespace )
 
+(* char_test_lettercase *)
+
 let char_test_lettercase =
-  test_list
-    [ is_uppercase_Test_list;
-      not_is_uppercase_Test_list;
-      is_lowercase_Test_list;
-      not_is_lowercase_Test_list ]
+  __MODULE__
+  >::: [ is_uppercase_Test_list;
+         not_is_uppercase_Test_list;
+         is_lowercase_Test_list;
+         not_is_lowercase_Test_list ]

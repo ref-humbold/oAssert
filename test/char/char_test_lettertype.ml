@@ -1,4 +1,4 @@
-(* Tests: Char assertions. *)
+(* Tests: Char assertions - letter type. *)
 open OUnit2
 open OAssert
 open Char_params
@@ -138,9 +138,11 @@ let not_is_digit_Test_list =
     [ not_is_digit__when_digit_character__then_failed;
       not_is_digit__when_non_digit_character__then_passed ]
 
+(* char_test_lettertype *)
+
 let char_test_lettertype =
-  test_list
-    [ is_whitespace_Test_list;
-      not_is_whitespace_Test_list;
-      is_digit_Test_list;
-      not_is_digit_Test_list ]
+  __MODULE__
+  >::: [ is_whitespace_Test_list;
+         not_is_whitespace_Test_list;
+         is_digit_Test_list;
+         not_is_digit_Test_list ]

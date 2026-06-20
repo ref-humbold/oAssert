@@ -1,4 +1,4 @@
-(* Tests: Tuple (of 3 elements) member assertions. *)
+(* Tests: Tuple (of 3 elements) assertions - members. *)
 open OUnit2
 open OAssert
 module IsTuple = Is.Tuple3.Of (Values.String) (Values.Int) (Values.Bool)
@@ -200,6 +200,8 @@ let not_third_Test_list =
   test_list
     [ not_is_third__when_third_element_same__then_failed;
       not_is_third__when_third_element_different__then_passed ]
+
+(* tuple3_test_members *)
 
 let tuple3_test_members =
   __MODULE__

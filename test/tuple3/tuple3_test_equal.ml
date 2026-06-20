@@ -1,4 +1,4 @@
-(* Tests: Tuple (of 3 elements) equality assertions. *)
+(* Tests: Tuple (of 3 elements) assertions - equality. *)
 open OUnit2
 open OAssert
 module IsTuple = Is.Tuple3.Of (Values.String) (Values.Int) (Values.Bool)
@@ -138,5 +138,7 @@ let not_equal_to_Test_list =
       not_is_equal_to__when_first_element_different__then_passed;
       not_is_equal_to__when_second_element_different__then_passed;
       not_is_equal_to__when_third_element_different__then_passed ]
+
+(* tuple3_test_equal *)
 
 let tuple3_test_equal = __MODULE__ >::: [equal_to_Test_list; not_equal_to_Test_list]

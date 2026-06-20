@@ -83,6 +83,7 @@ let not_is_false_Test_list =
 (* bool_Test *)
 
 let bool_Test =
-  "" >::: [is_true_Test_list; not_is_true_Test_list; is_false_Test_list; not_is_false_Test_list]
+  __MODULE__
+  >::: [is_true_Test_list; not_is_true_Test_list; is_false_Test_list; not_is_false_Test_list]
 
 let _ = run_test_tt_main bool_Test

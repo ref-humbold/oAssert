@@ -1,4 +1,4 @@
-(* Tests: Int assertions. *)
+(* Tests: Int assertions - comparison. *)
 open OUnit2
 open OAssert
 open Int_params
@@ -434,14 +434,14 @@ let not_is_less_than_or_equal_to_Test_list =
 (* int_test_comparison *)
 
 let int_test_comparison =
-  test_list
-    [ is_equal_to_Test_list;
-      not_is_equal_to_Test_list;
-      is_greater_than_Test_list;
-      not_is_greater_than_Test_list;
-      is_greater_than_or_equal_to_Test_list;
-      not_is_greater_than_or_equal_to_Test_list;
-      is_less_than_Test_list;
-      not_is_less_than_Test_list;
-      is_less_than_or_equal_to_Test_list;
-      not_is_less_than_or_equal_to_Test_list ]
+  __MODULE__
+  >::: [ is_equal_to_Test_list;
+         not_is_equal_to_Test_list;
+         is_greater_than_Test_list;
+         not_is_greater_than_Test_list;
+         is_greater_than_or_equal_to_Test_list;
+         not_is_greater_than_or_equal_to_Test_list;
+         is_less_than_Test_list;
+         not_is_less_than_Test_list;
+         is_less_than_or_equal_to_Test_list;
+         not_is_less_than_or_equal_to_Test_list ]
