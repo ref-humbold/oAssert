@@ -1,4 +1,4 @@
-(* Tests: List length assertions. *)
+(* Tests: List assertions - length. *)
 open OUnit2
 open OAssert
 open List_params
@@ -401,8 +401,8 @@ let not_is_length_less_than_Test_list =
       not_is_length_less_than__when_actual_longer__then_passed;
       not_is_length_less_than__when_actual_equal__then_passed ]
 
-(* list_length_Test *)
-let list_length_Test =
+(* list_test_length *)
+let list_test_length =
   __MODULE__
   >::: [ is_length_zero_Test_list;
          not_is_length_zero_Test_list;
@@ -412,5 +412,3 @@ let list_length_Test =
          not_is_length_greater_than_Test_list;
          is_length_less_than_Test_list;
          not_is_length_less_than_Test_list ]
-
-let _ = run_test_tt_main list_length_Test

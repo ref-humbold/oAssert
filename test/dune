@@ -6,7 +6,6 @@
   exceptions_test
   float_test
   int_test
-  list_length_test
   list_test
   option_test
   string_length_test
