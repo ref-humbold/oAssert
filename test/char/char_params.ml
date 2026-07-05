@@ -91,3 +91,16 @@ let params_symbols =
     ':';
     '?';
     '~' ]
+
+let params_all =
+  params_uppercase_letters @ params_lowercase_letters @ params_digits @ params_symbols
+  @ params_whitespace
+
+(* fst < snd *)
+let params_char_pairs =
+  let rec pairing lst =
+    match lst with
+    | x :: y :: lst' -> (x, y) :: pairing lst'
+    | _ -> []
+  in
+  pairing @@ List.sort compare params_all

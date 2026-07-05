@@ -34,6 +34,7 @@ let params_positive =
 
 let params_negative = List.map (fun x -> -x) params_positive
 
+(* fst < snd *)
 let params_number_pairs =
   let rec pairing lst =
     match lst with
